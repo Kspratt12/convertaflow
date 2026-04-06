@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import createGlobe from "cobe";
 
@@ -18,15 +18,14 @@ function TikTokIcon() {
   return <svg viewBox="0 0 24 24" className="h-4 w-4" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 0010.86 4.48v-7.13a8.16 8.16 0 005.58 2.2V11.3a4.85 4.85 0 01-3.77-1.84V6.69h3.77z"/></svg>;
 }
 
-/* ─── HQ locations with REAL lat/lng ─── */
+/* ─── HQ data ─── */
 const hqLocations = [
-  { id: "google",    label: "Google HQ",      city: "Mountain View, CA",   color: "#4285F4", lat: 37.4220, lng: -122.0841, Icon: GoogleIcon },
+  { id: "google",    label: "Google HQ",      city: "Mountain View, CA",   color: "#34A853", lat: 37.4220, lng: -122.0841, Icon: GoogleIcon },
   { id: "facebook",  label: "Meta HQ",        city: "Menlo Park, CA",      color: "#1877F2", lat: 37.4530, lng: -122.1817, Icon: FacebookIcon },
   { id: "instagram", label: "Instagram HQ",   city: "San Francisco, CA",   color: "#E4405F", lat: 37.7749, lng: -122.4194, Icon: InstagramIcon },
-  { id: "tiktok",    label: "TikTok US HQ",   city: "Culver City, CA",     color: "#69C9D0", lat: 34.0211, lng: -118.3965, Icon: TikTokIcon },
+  { id: "tiktok",    label: "TikTok US HQ",   city: "Culver City, CA",     color: "#7c3aed", lat: 34.0211, lng: -118.3965, Icon: TikTokIcon },
 ];
 
-/* ─── Icon positions — separate for desktop vs mobile ─── */
 const desktopIconPositions = [
   { id: "google",    top: "5%",  left: "68%", delay: 0 },
   { id: "facebook",  top: "30%", left: "82%", delay: 1 },
@@ -41,9 +40,9 @@ const mobileIconPositions = [
   { id: "tiktok",    top: "80%", left: "40%", delay: 3 },
 ];
 
-/* ─── Project lat/lng to pixel on the globe ─── */
+/* ─── Projection ─── */
 function latLngToPixel(
-  lat: number, lng: number, phi: number, theta: number, size: number
+  lat: number, lng: number, phi: number, theta: number, size: number, scale: number
 ): { x: number; y: number; visible: boolean } {
   const latRad = (lat * Math.PI) / 180;
   const lngRad = (lng * Math.PI) / 180;
@@ -51,8 +50,11 @@ function latLngToPixel(
   const cy = -Math.sin(latRad) * Math.cos(theta) + Math.cos(latRad) * Math.cos(lngRad + phi) * Math.sin(theta);
   const cz = Math.sin(latRad) * Math.sin(theta) + Math.cos(latRad) * Math.cos(lngRad + phi) * Math.cos(theta);
   const r = size / 2;
-  return { x: r + cx * r * 0.92, y: r - cy * r * 0.92, visible: cz > 0 };
+  return { x: r + cx * r * scale, y: r - cy * r * scale, visible: cz > 0 };
 }
+
+/* Auto-cycle interval: switch HQ every 4 seconds */
+const CYCLE_MS = 4000;
 
 export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -60,44 +62,33 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
   const arrowSvgRef = useRef<SVGSVGElement>(null);
   const labelRef = useRef<HTMLDivElement>(null);
   const arrowElsRef = useRef<{
-    path: SVGPathElement; arrow: SVGPolygonElement;
-    dot: SVGCircleElement;
+    path: SVGPathElement; arrow: SVGPolygonElement; dot: SVGCircleElement;
     stop1: SVGStopElement; stop2: SVGStopElement;
-    name: Element; city: Element;
-    card: HTMLElement; caret: HTMLElement;
+    name: Element; city: Element; card: HTMLElement; caret: HTMLElement;
   } | null>(null);
   const phiRef = useRef(3.5);
   const theta = 0.3;
-  const [activeHQ, setActiveHQ] = useState<string | null>(null);
-  // Ref is updated IMMEDIATELY in click handler, not via useEffect
-  const activeHQRef = useRef<string | null>(null);
+  const activeIdxRef = useRef(0); // cycles 0-3 through hqLocations
   const rafRef = useRef<number>(0);
 
-  const canvasSize = mobile ? 240 : 400;
+  const GLOBE_SCALE = mobile ? 0.82 : 0.85;
+  const canvasSize = mobile ? 260 : 400;
   const containerW = mobile ? 280 : 400;
   const containerH = mobile ? 280 : 400;
   const globeOffsetX = (containerW - canvasSize) / 2;
   const globeOffsetY = (containerH - canvasSize) / 2;
   const iconPositions = mobile ? mobileIconPositions : desktopIconPositions;
 
-  // Direct DOM update — zero delay, no React re-renders
   const updateArrowDOM = useCallback(() => {
-    const id = activeHQRef.current;
     const svg = arrowSvgRef.current;
     const label = labelRef.current;
     if (!svg || !label) return;
 
-    if (!id) {
-      svg.style.opacity = "0";
-      label.style.opacity = "0";
-      return;
-    }
+    const idx = activeIdxRef.current;
+    const loc = hqLocations[idx];
+    const iconPos = (mobile ? mobileIconPositions : desktopIconPositions)[idx];
 
-    const loc = hqLocations.find((h) => h.id === id);
-    const iconPos = (mobile ? mobileIconPositions : desktopIconPositions).find((p) => p.id === id);
-    if (!loc || !iconPos) return;
-
-    const pos = latLngToPixel(loc.lat, loc.lng, phiRef.current, theta, canvasSize);
+    const pos = latLngToPixel(loc.lat, loc.lng, phiRef.current, theta, canvasSize, GLOBE_SCALE);
 
     if (!pos.visible) {
       svg.style.opacity = "0";
@@ -118,13 +109,12 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
     const cpy = midY + dx * 0.25;
 
     const angle = Math.atan2(my - cpy, mx - cpx);
-    const aLen = mobile ? 6 : 8;
+    const aLen = mobile ? 5 : 8;
     const a1x = mx - aLen * Math.cos(angle - 0.4);
     const a1y = my - aLen * Math.sin(angle - 0.4);
     const a2x = mx - aLen * Math.cos(angle + 0.4);
     const a2y = my - aLen * Math.sin(angle + 0.4);
 
-    // Cache DOM refs on first call
     if (!arrowElsRef.current) {
       const p = svg.querySelector("[data-arrow-path]") as SVGPathElement;
       const a = svg.querySelector("[data-arrow-head]") as SVGPolygonElement;
@@ -156,24 +146,16 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
 
     label.style.opacity = "1";
     label.style.left = `${mx - (mobile ? 40 : 50)}px`;
-    label.style.top = `${my - (mobile ? 45 : 55)}px`;
+    label.style.top = `${my - (mobile ? 42 : 55)}px`;
     els.name.textContent = loc.label;
     els.city.textContent = loc.city;
     els.card.style.boxShadow = `0 4px 16px ${loc.color}30`;
     els.caret.style.borderTopColor = `${loc.color}60`;
-  }, [canvasSize, containerW, containerH, globeOffsetX, globeOffsetY, mobile]);
-
-  // Click handler — update ref immediately, trigger instant arrow update
-  const handleIconClick = useCallback((id: string) => {
-    const newId = activeHQRef.current === id ? null : id;
-    activeHQRef.current = newId;
-    setActiveHQ(newId); // for icon highlight re-render only
-    updateArrowDOM();   // instant — no waiting for next RAF frame
-  }, [updateArrowDOM]);
+  }, [canvasSize, containerW, containerH, globeOffsetX, globeOffsetY, mobile, GLOBE_SCALE]);
 
   useEffect(() => {
     if (!canvasRef.current) return;
-    const dpr = typeof window !== "undefined" ? Math.min(window.devicePixelRatio, mobile ? 1.5 : 2) : 2;
+    const dpr = mobile ? 1 : Math.min(typeof window !== "undefined" ? window.devicePixelRatio : 2, 2);
 
     const globe = createGlobe(canvasRef.current, {
       devicePixelRatio: dpr,
@@ -183,8 +165,8 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
       theta,
       dark: 1,
       diffuse: 1.2,
-      mapSamples: mobile ? 8000 : 16000,
-      mapBrightness: 6,
+      mapSamples: mobile ? 4000 : 16000,
+      mapBrightness: mobile ? 4 : 6,
       baseColor: [0.15, 0.1, 0.35],
       markerColor: [0.486, 0.227, 0.929],
       glowColor: [0.2, 0.1, 0.5],
@@ -204,9 +186,15 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
     }
     rafRef.current = requestAnimationFrame(animate);
 
+    // Auto-cycle through HQs
+    const cycleTimer = setInterval(() => {
+      activeIdxRef.current = (activeIdxRef.current + 1) % hqLocations.length;
+    }, CYCLE_MS);
+
     return () => {
       active = false;
       cancelAnimationFrame(rafRef.current);
+      clearInterval(cycleTimer);
       globe.destroy();
     };
   }, [mobile, canvasSize, updateArrowDOM]);
@@ -218,91 +206,70 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
         mobile ? "w-[280px] h-[280px]" : "w-[400px] h-[400px]"
       }`}
     >
-      {/* Glow */}
-      <div className={`absolute inset-[5%] rounded-full bg-[#7c3aed]/15 ${mobile ? "blur-[20px]" : "blur-[50px]"}`} />
-      <div className={`absolute inset-[10%] rounded-full bg-[#3b82f6]/10 ${mobile ? "blur-[15px]" : "blur-[40px]"}`} />
+      {/* Glow — desktop only for GPU savings */}
+      {!mobile && (
+        <>
+          <div className="absolute inset-[5%] rounded-full bg-[#7c3aed]/15 blur-[50px]" />
+          <div className="absolute inset-[10%] rounded-full bg-[#3b82f6]/10 blur-[40px]" />
+        </>
+      )}
 
-      {/* Globe canvas */}
-      <canvas
-        ref={canvasRef}
-        style={{ width: canvasSize, height: canvasSize }}
-      />
+      <canvas ref={canvasRef} style={{ width: canvasSize, height: canvasSize }} />
 
-      {/* Arrow SVG — instant show/hide, no CSS transition */}
+      {/* Arrow + label — auto-cycling, always visible */}
       <svg
         ref={arrowSvgRef}
         className="absolute inset-0 w-full h-full pointer-events-none z-10"
         style={{ opacity: 0 }}
       >
         <defs>
-          <linearGradient id={`arrow-grad-${mobile ? "m" : "d"}`} x1="0%" y1="0%" x2="100%" y2="100%">
+          <linearGradient id={`ag-${mobile ? "m" : "d"}`} x1="0%" y1="0%" x2="100%" y2="100%">
             <stop data-arrow-stop1 offset="0%" stopColor="#fff" stopOpacity="0.9" />
             <stop data-arrow-stop2 offset="100%" stopColor="#fff" stopOpacity="0.4" />
           </linearGradient>
         </defs>
         <path
-          data-arrow-path
-          d="M 0 0 Q 0 0, 0 0"
-          stroke={`url(#arrow-grad-${mobile ? "m" : "d"})`}
-          strokeWidth={mobile ? 1.5 : 2}
-          fill="none"
-          strokeLinecap="round"
-          strokeDasharray="5 3"
+          data-arrow-path d="M 0 0 Q 0 0, 0 0"
+          stroke={`url(#ag-${mobile ? "m" : "d"})`}
+          strokeWidth={mobile ? 1.5 : 2} fill="none"
+          strokeLinecap="round" strokeDasharray="5 3"
         />
         <polygon data-arrow-head points="0,0 0,0 0,0" fill="#fff" opacity="0.9" />
-        {/* Single pulsing dot — NOT two dots */}
         <circle data-arrow-dot cx="0" cy="0" r={mobile ? 3 : 4} fill="#fff" opacity="0.85">
           <animate attributeName="r" values={mobile ? "3;5;3" : "4;6;4"} dur="1.2s" repeatCount="indefinite" />
           <animate attributeName="opacity" values="0.85;0.4;0.85" dur="1.2s" repeatCount="indefinite" />
         </circle>
       </svg>
 
-      {/* HQ label — instant show/hide */}
-      <div
-        ref={labelRef}
-        className="absolute z-30 pointer-events-none"
-        style={{ opacity: 0 }}
-      >
-        <div
-          data-label-card
-          className="rounded-lg border border-white/[0.12] bg-[#0e0e2a]/95 backdrop-blur-sm px-2.5 py-1.5 shadow-xl whitespace-nowrap"
-        >
+      <div ref={labelRef} className="absolute z-30 pointer-events-none" style={{ opacity: 0 }}>
+        <div data-label-card className="rounded-lg border border-white/[0.12] bg-[#0e0e2a]/95 backdrop-blur-sm px-2.5 py-1.5 shadow-xl whitespace-nowrap">
           <p data-label-name className={`font-bold text-white/90 ${mobile ? "text-[9px]" : "text-[10px]"}`} />
           <p data-label-city className={`text-white/50 ${mobile ? "text-[8px]" : "text-[9px]"}`} />
         </div>
-        <div
-          data-label-caret
-          className="w-0 h-0 border-l-[5px] border-r-[5px] border-t-[5px] border-l-transparent border-r-transparent"
-          style={{ borderTopColor: "#ffffff60", marginLeft: mobile ? 34 : 44 }}
-        />
+        <div data-label-caret className="w-0 h-0 border-l-[5px] border-r-[5px] border-t-[5px] border-l-transparent border-r-transparent"
+          style={{ borderTopColor: "#ffffff60", marginLeft: mobile ? 34 : 44 }} />
       </div>
 
-      {/* Social icons */}
+      {/* Social icons — decorative, no click handler needed */}
       {iconPositions.map(({ id, top, left, delay }) => {
         const loc = hqLocations.find((h) => h.id === id)!;
         const IconComp = loc.Icon;
         return (
-          <motion.button
-            key={id}
-            className="absolute z-20 cursor-pointer"
-            style={{ top, left }}
-            animate={{ y: [0, -3, 0] }}
-            transition={{ duration: 3.5 + delay, repeat: Infinity, ease: "easeInOut", delay }}
-            onClick={() => handleIconClick(id)}
-          >
-            <div
-              className={`flex items-center justify-center rounded-xl border transition-all duration-200 ${
-                mobile ? "h-7 w-7" : "h-9 w-9"
-              } ${
-                activeHQ === id
-                  ? "border-white/30 bg-[#0e0e2a] scale-110"
-                  : "border-white/[0.1] bg-[#0e0e2a]/90 hover:border-white/20 hover:scale-105"
-              }`}
-              style={{ boxShadow: activeHQ === id ? `0 4px 20px ${loc.color}40` : `0 3px 12px ${loc.color}20` }}
+          <div key={id} className="absolute z-20" style={{ top, left }}>
+            <motion.div
+              animate={{ y: [0, -3, 0] }}
+              transition={{ duration: 3.5 + delay, repeat: Infinity, ease: "easeInOut", delay }}
             >
-              <IconComp />
-            </div>
-          </motion.button>
+              <div
+                className={`flex items-center justify-center rounded-xl border border-white/[0.1] bg-[#0e0e2a]/90 ${
+                  mobile ? "h-7 w-7" : "h-9 w-9"
+                }`}
+                style={{ boxShadow: `0 3px 12px ${loc.color}20` }}
+              >
+                <IconComp />
+              </div>
+            </motion.div>
+          </div>
         );
       })}
     </div>

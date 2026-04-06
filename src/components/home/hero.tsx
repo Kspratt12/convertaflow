@@ -7,18 +7,20 @@ import { ArrowRight, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HeroGlobe } from "@/components/home/hero-globe";
 
-/* ─── Starfield ─── */
+/* ─── Starfield — pure CSS twinkle, no JS animation overhead ─── */
 function Starfield() {
   const stars = useMemo(() => {
     const s: { key: number; x: number; y: number; size: number; opacity: number; twinkle: boolean; dur: number; del: number }[] = [];
-    for (let i = 0; i < 120; i++) {
+    // 60 stars on mobile is plenty, 120 on desktop
+    const count = typeof window !== "undefined" && window.innerWidth < 768 ? 60 : 120;
+    for (let i = 0; i < count; i++) {
       s.push({
         key: i,
         x: Math.random() * 100,
         y: Math.random() * 100,
         size: 0.5 + Math.random() * 1.5,
         opacity: 0.15 + Math.random() * 0.5,
-        twinkle: Math.random() > 0.6,
+        twinkle: Math.random() > 0.65,
         dur: 3 + Math.random() * 5,
         del: Math.random() * 4,
       });
@@ -28,23 +30,27 @@ function Starfield() {
 
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden">
-      {stars.map((s) =>
-        s.twinkle ? (
-          <motion.div
-            key={s.key}
-            className="absolute rounded-full bg-white"
-            style={{ width: s.size, height: s.size, left: `${s.x}%`, top: `${s.y}%` }}
-            animate={{ opacity: [s.opacity * 0.3, s.opacity, s.opacity * 0.3] }}
-            transition={{ duration: s.dur, repeat: Infinity, delay: s.del, ease: "easeInOut" }}
-          />
-        ) : (
-          <div
-            key={s.key}
-            className="absolute rounded-full bg-white"
-            style={{ width: s.size, height: s.size, left: `${s.x}%`, top: `${s.y}%`, opacity: s.opacity }}
-          />
-        )
-      )}
+      <style>{`@keyframes twinkle{0%,100%{opacity:var(--tw-lo)}50%{opacity:var(--tw-hi)}}`}</style>
+      {stars.map((s) => (
+        <div
+          key={s.key}
+          className="absolute rounded-full bg-white"
+          style={{
+            width: s.size,
+            height: s.size,
+            left: `${s.x}%`,
+            top: `${s.y}%`,
+            opacity: s.opacity,
+            ...(s.twinkle
+              ? {
+                  ["--tw-lo" as string]: s.opacity * 0.3,
+                  ["--tw-hi" as string]: s.opacity,
+                  animation: `twinkle ${s.dur}s ${s.del}s ease-in-out infinite`,
+                }
+              : {}),
+          }}
+        />
+      ))}
     </div>
   );
 }
