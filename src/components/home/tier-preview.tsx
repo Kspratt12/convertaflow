@@ -10,6 +10,106 @@ import { cn } from "@/lib/utils";
 
 const tierIcons = { starter: Globe, growth: Star, scale: Rocket };
 
+function SystemUpgrades() {
+  const upgrades = [
+    {
+      title: "System Upgrade",
+      subtitle: "Plug into your existing website",
+      price: "$1,997",
+      priceNote: "one-time setup",
+      monthly: "$199/mo",
+      monthlyNote: "system access",
+      features: [
+        "Lead capture integration",
+        "Booking & calendar connection",
+        "Automated email responses",
+        "Review request system",
+        "Dashboard access",
+        "Basic analytics",
+      ],
+      cta: "Upgrade My System",
+    },
+    {
+      title: "Full Growth Engine",
+      subtitle: "All systems, no website rebuild",
+      price: "$3,497",
+      priceNote: "one-time setup",
+      monthly: "$399/mo",
+      monthlyNote: "full system access",
+      features: [
+        "Everything in System Upgrade",
+        "Social media automation",
+        "Instagram & ManyChat workflows",
+        "Advanced conversion analytics",
+        "Multi-channel lead attribution",
+        "Dedicated strategy support",
+      ],
+      cta: "Get the Full Engine",
+    },
+  ];
+
+  return (
+    <div className="relative mx-auto max-w-7xl px-4 mt-10 sm:mt-14 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-2xl text-center mb-5 sm:mb-6">
+        <p className="text-[11px] font-semibold uppercase tracking-widest text-white/30">Already have a website?</p>
+        <h3 className="mt-1.5 text-lg sm:text-xl font-bold tracking-tight text-white/80">
+          Add our systems without rebuilding
+        </h3>
+        <p className="mt-1.5 text-[12px] sm:text-[13px] text-white/40 max-w-md mx-auto">
+          We plug directly into your current site and turn it into a lead and automation engine.
+        </p>
+      </div>
+
+      <div className="mx-auto grid max-w-2xl gap-3 sm:grid-cols-2">
+        {upgrades.map((u) => (
+          <div
+            key={u.title}
+            className="flex flex-col rounded-xl border border-white/[0.06] bg-white/[0.02] p-4 sm:p-5"
+          >
+            <h4 className="text-[14px] sm:text-[15px] font-bold text-white">{u.title}</h4>
+            <p className="text-[11px] text-[#8b5cf6] font-medium">{u.subtitle}</p>
+
+            <div className="mt-3">
+              <div className="flex items-baseline gap-1">
+                <span className="text-xl sm:text-2xl font-extrabold tracking-tight text-white">{u.price}</span>
+                <span className="text-[11px] text-white/35">{u.priceNote}</span>
+              </div>
+              <div className="mt-0.5 flex items-baseline gap-1">
+                <span className="text-[13px] sm:text-[14px] font-bold text-white/70">{u.monthly}</span>
+                <span className="text-[11px] text-white/35">{u.monthlyNote}</span>
+              </div>
+            </div>
+
+            <ul className="mt-3 space-y-1.5 border-t border-white/[0.05] pt-3 flex-1">
+              {u.features.map((f) => (
+                <li key={f} className="flex items-center gap-2 text-[11px] sm:text-[12px] text-white/60">
+                  <Check className="h-3 w-3 shrink-0 text-[#06b6d4]" />
+                  {f}
+                </li>
+              ))}
+            </ul>
+
+            <Button
+              className="mt-3 gap-1.5 bg-white/[0.05] border border-white/[0.08] text-white/80 hover:bg-white/[0.08] text-[12px] sm:text-[13px]"
+              size="sm"
+              asChild
+            >
+              <Link href="/contact">
+                {u.cta}
+                <ArrowRight className="h-3 w-3" />
+              </Link>
+            </Button>
+          </div>
+        ))}
+      </div>
+
+      <p className="mt-2.5 text-center text-[10px] text-white/20">
+        Most clients choose a full rebuild for better performance.
+      </p>
+    </div>
+  );
+}
+
 export function TierPreview() {
   const tiers = Object.values(TIERS);
 
@@ -130,6 +230,8 @@ export function TierPreview() {
             );
           })}
         </div>
+
+        <SystemUpgrades />
       </div>
     </section>
   );
