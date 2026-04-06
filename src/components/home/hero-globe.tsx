@@ -193,7 +193,7 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
         </>
       )}
 
-      <canvas ref={canvasRef} style={{ width: cSize, height: cSize }} />
+      <canvas ref={canvasRef} style={{ width: cSize, height: cSize, pointerEvents: "none", touchAction: "auto" }} />
 
       <svg ref={svgRef} className="absolute inset-0 w-full h-full pointer-events-none z-10">
         {hqs.map((hq, i) => (
