@@ -9,18 +9,17 @@ import { HeroGlobe } from "@/components/home/hero-globe";
 
 /* ─── Starfield — pure CSS twinkle, no JS animation overhead ─── */
 function Starfield() {
+  // Always generate 80 stars (works on SSR + hydration, no window check)
   const stars = useMemo(() => {
     const s: { key: number; x: number; y: number; size: number; opacity: number; twinkle: boolean; dur: number; del: number }[] = [];
-    // 60 stars on mobile is plenty, 120 on desktop
-    const count = typeof window !== "undefined" && window.innerWidth < 768 ? 60 : 120;
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < 80; i++) {
       s.push({
         key: i,
         x: Math.random() * 100,
         y: Math.random() * 100,
         size: 0.5 + Math.random() * 1.5,
         opacity: 0.15 + Math.random() * 0.5,
-        twinkle: Math.random() > 0.65,
+        twinkle: Math.random() > 0.7,
         dur: 3 + Math.random() * 5,
         del: Math.random() * 4,
       });
@@ -58,12 +57,14 @@ function Starfield() {
 export function HeroSection() {
   return (
     <section className="relative overflow-hidden bg-[#060613] text-white">
-      {/* Deep space nebula glow */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-[10%] left-[15%] h-[300px] w-[300px] sm:h-[500px] sm:w-[500px] rounded-full bg-[#6c3aed]/[0.08] blur-[80px] sm:blur-[140px]" />
-        <div className="absolute top-[20%] right-[10%] h-[250px] w-[250px] sm:h-[400px] sm:w-[400px] rounded-full bg-[#2563eb]/[0.06] blur-[80px] sm:blur-[130px]" />
-        <div className="absolute bottom-[10%] left-[40%] h-[200px] w-[200px] sm:h-[350px] sm:w-[350px] rounded-full bg-[#06b6d4]/[0.05] blur-[80px] sm:blur-[130px]" />
+      {/* Deep space nebula glow — minimal blur on mobile */}
+      <div className="pointer-events-none absolute inset-0 hidden sm:block">
+        <div className="absolute top-[10%] left-[15%] h-[500px] w-[500px] rounded-full bg-[#6c3aed]/[0.08] blur-[140px]" />
+        <div className="absolute top-[20%] right-[10%] h-[400px] w-[400px] rounded-full bg-[#2563eb]/[0.06] blur-[130px]" />
+        <div className="absolute bottom-[10%] left-[40%] h-[350px] w-[350px] rounded-full bg-[#06b6d4]/[0.05] blur-[130px]" />
       </div>
+      {/* Mobile: single simple gradient instead of 3 blurred elements */}
+      <div className="pointer-events-none absolute inset-0 sm:hidden bg-gradient-to-b from-[#6c3aed]/[0.06] via-transparent to-[#06b6d4]/[0.04]" />
 
       <Starfield />
 

@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useCallback } from "react";
-import { motion } from "framer-motion";
 import createGlobe from "cobe";
 
 /* ─── Social Icons ─── */
@@ -40,20 +39,41 @@ const mobileIconPositions = [
   { id: "tiktok",    top: "80%", left: "40%", delay: 3 },
 ];
 
-/* ─── Projection ─── */
+/*
+ * Projection — matches cobe's EXACT internal math (from cobe source: function O + U).
+ *
+ * Cobe converts [lat,lng] → 3D via:
+ *   U = [cos(lat)*cos(lng), sin(lat), -cos(lat)*sin(lng)]
+ * Then projects with rotation (phi, theta) to screen:
+ *   c = cos(phi)*x + sin(phi)*z  →  screenX = (c + 1) / 2
+ *   s = sin(phi)*sin(theta)*x + cos(theta)*y - cos(phi)*sin(theta)*z  →  screenY = (-s + 1) / 2
+ * Markers are at radius 0.85 (globe radius 0.8 + elevation 0.05).
+ */
 function latLngToPixel(
-  lat: number, lng: number, phi: number, theta: number, size: number, scale: number
+  lat: number, lng: number, phi: number, theta: number, size: number
 ): { x: number; y: number; visible: boolean } {
   const latRad = (lat * Math.PI) / 180;
   const lngRad = (lng * Math.PI) / 180;
-  const cx = Math.cos(latRad) * Math.sin(lngRad + phi);
-  const cy = -Math.sin(latRad) * Math.cos(theta) + Math.cos(latRad) * Math.cos(lngRad + phi) * Math.sin(theta);
-  const cz = Math.sin(latRad) * Math.sin(theta) + Math.cos(latRad) * Math.cos(lngRad + phi) * Math.cos(theta);
-  const r = size / 2;
-  return { x: r + cx * r * scale, y: r - cy * r * scale, visible: cz > 0 };
+  const R = 0.85; // cobe marker radius = ee(0.8) + markerElevation(0.05)
+
+  const cosLat = Math.cos(latRad);
+  const sinLat = Math.sin(latRad);
+  const cosPhiLng = Math.cos(phi + lngRad);
+  const sinPhiLng = Math.sin(phi + lngRad);
+  const cosTheta = Math.cos(theta);
+  const sinTheta = Math.sin(theta);
+
+  const c = cosLat * cosPhiLng * R;
+  const s = (sinTheta * cosLat * sinPhiLng + cosTheta * sinLat) * R;
+
+  const half = size / 2;
+  return {
+    x: half * (1 + c),
+    y: half * (1 - s),
+    visible: -cosTheta * cosLat * sinPhiLng + sinTheta * sinLat >= 0,
+  };
 }
 
-/* Auto-cycle interval: switch HQ every 4 seconds */
 const CYCLE_MS = 4000;
 
 export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
@@ -68,10 +88,9 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
   } | null>(null);
   const phiRef = useRef(3.5);
   const theta = 0.3;
-  const activeIdxRef = useRef(0); // cycles 0-3 through hqLocations
+  const activeIdxRef = useRef(0);
   const rafRef = useRef<number>(0);
 
-  const GLOBE_SCALE = mobile ? 0.82 : 0.85;
   const canvasSize = mobile ? 260 : 400;
   const containerW = mobile ? 280 : 400;
   const containerH = mobile ? 280 : 400;
@@ -88,7 +107,7 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
     const loc = hqLocations[idx];
     const iconPos = (mobile ? mobileIconPositions : desktopIconPositions)[idx];
 
-    const pos = latLngToPixel(loc.lat, loc.lng, phiRef.current, theta, canvasSize, GLOBE_SCALE);
+    const pos = latLngToPixel(loc.lat, loc.lng, phiRef.current, theta, canvasSize);
 
     if (!pos.visible) {
       svg.style.opacity = "0";
@@ -151,7 +170,7 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
     els.city.textContent = loc.city;
     els.card.style.boxShadow = `0 4px 16px ${loc.color}30`;
     els.caret.style.borderTopColor = `${loc.color}60`;
-  }, [canvasSize, containerW, containerH, globeOffsetX, globeOffsetY, mobile, GLOBE_SCALE]);
+  }, [canvasSize, containerW, containerH, globeOffsetX, globeOffsetY, mobile]);
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -177,16 +196,23 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
     });
 
     let active = true;
+    let frame = 0;
     function animate() {
       if (!active) return;
+      frame++;
       phiRef.current += 0.004;
       globe.update({ phi: phiRef.current });
-      updateArrowDOM();
+
+      // Desktop: update arrow every frame
+      // Mobile: update arrow every 3rd frame to save CPU
+      if (!mobile || frame % 3 === 0) {
+        updateArrowDOM();
+      }
+
       rafRef.current = requestAnimationFrame(animate);
     }
     rafRef.current = requestAnimationFrame(animate);
 
-    // Auto-cycle through HQs
     const cycleTimer = setInterval(() => {
       activeIdxRef.current = (activeIdxRef.current + 1) % hqLocations.length;
     }, CYCLE_MS);
@@ -206,7 +232,10 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
         mobile ? "w-[280px] h-[280px]" : "w-[400px] h-[400px]"
       }`}
     >
-      {/* Glow — desktop only for GPU savings */}
+      {/* CSS keyframes for icon bobbing — zero JS overhead */}
+      <style>{`@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}`}</style>
+
+      {/* Glow — desktop only */}
       {!mobile && (
         <>
           <div className="absolute inset-[5%] rounded-full bg-[#7c3aed]/15 blur-[50px]" />
@@ -216,7 +245,7 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
 
       <canvas ref={canvasRef} style={{ width: canvasSize, height: canvasSize }} />
 
-      {/* Arrow + label — auto-cycling, always visible */}
+      {/* Arrow + label */}
       <svg
         ref={arrowSvgRef}
         className="absolute inset-0 w-full h-full pointer-events-none z-10"
@@ -242,7 +271,7 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
       </svg>
 
       <div ref={labelRef} className="absolute z-30 pointer-events-none" style={{ opacity: 0 }}>
-        <div data-label-card className="rounded-lg border border-white/[0.12] bg-[#0e0e2a]/95 backdrop-blur-sm px-2.5 py-1.5 shadow-xl whitespace-nowrap">
+        <div data-label-card className={`rounded-lg border border-white/[0.12] bg-[#0e0e2a]/95 px-2.5 py-1.5 shadow-xl whitespace-nowrap ${mobile ? "" : "backdrop-blur-sm"}`}>
           <p data-label-name className={`font-bold text-white/90 ${mobile ? "text-[9px]" : "text-[10px]"}`} />
           <p data-label-city className={`text-white/50 ${mobile ? "text-[8px]" : "text-[9px]"}`} />
         </div>
@@ -250,25 +279,24 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
           style={{ borderTopColor: "#ffffff60", marginLeft: mobile ? 34 : 44 }} />
       </div>
 
-      {/* Social icons — decorative, no click handler needed */}
+      {/* Social icons — CSS animation only, zero JS */}
       {iconPositions.map(({ id, top, left, delay }) => {
         const loc = hqLocations.find((h) => h.id === id)!;
         const IconComp = loc.Icon;
         return (
-          <div key={id} className="absolute z-20" style={{ top, left }}>
-            <motion.div
-              animate={{ y: [0, -3, 0] }}
-              transition={{ duration: 3.5 + delay, repeat: Infinity, ease: "easeInOut", delay }}
+          <div
+            key={id}
+            className="absolute z-20"
+            style={{ top, left, animation: `bob ${3.5 + delay}s ${delay}s ease-in-out infinite` }}
+          >
+            <div
+              className={`flex items-center justify-center rounded-xl border border-white/[0.1] bg-[#0e0e2a]/90 ${
+                mobile ? "h-7 w-7" : "h-9 w-9"
+              }`}
+              style={{ boxShadow: `0 3px 12px ${loc.color}20` }}
             >
-              <div
-                className={`flex items-center justify-center rounded-xl border border-white/[0.1] bg-[#0e0e2a]/90 ${
-                  mobile ? "h-7 w-7" : "h-9 w-9"
-                }`}
-                style={{ boxShadow: `0 3px 12px ${loc.color}20` }}
-              >
-                <IconComp />
-              </div>
-            </motion.div>
+              <IconComp />
+            </div>
           </div>
         );
       })}
