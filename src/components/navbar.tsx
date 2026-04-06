@@ -15,7 +15,16 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 10);
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 10);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -25,7 +34,7 @@ export function Navbar() {
       className={cn(
         "sticky top-0 z-50 w-full transition-all duration-300",
         scrolled
-          ? "bg-gradient-to-r from-[#110722]/95 via-[#0e0e38]/95 to-[#081848]/95 backdrop-blur-xl shadow-lg shadow-black/30"
+          ? "bg-[#0c0620]/98 backdrop-blur-md shadow-lg shadow-black/20"
           : "bg-gradient-to-r from-[#1a0a3e] via-[#12124a] to-[#0a1e5e]"
       )}
     >
@@ -94,7 +103,7 @@ export function Navbar() {
       </div>
 
       {open && (
-        <div className="border-t border-white/[0.06] bg-[#0e0826]/98 backdrop-blur-xl px-4 pb-5 md:hidden">
+        <div className="border-t border-white/[0.06] bg-[#0c0620] px-4 pb-5 md:hidden">
           <nav className="flex flex-col gap-0.5 pt-3">
             {NAV_LINKS.map((link) => (
               <Link

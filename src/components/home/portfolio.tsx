@@ -33,7 +33,7 @@ export function Portfolio() {
   return (
     <section className="relative overflow-hidden bg-[#060613] py-12 text-white sm:py-16 border-t border-white/[0.04]">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-[30%] right-[20%] h-[350px] w-[350px] rounded-full bg-[#7c3aed]/[0.05] blur-[130px]" />
+        <div className="absolute top-[30%] right-[20%] h-[180px] w-[180px] sm:h-[350px] sm:w-[350px] rounded-full bg-[#7c3aed]/[0.05] blur-[40px] sm:blur-[100px]" />
       </div>
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

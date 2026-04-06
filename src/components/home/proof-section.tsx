@@ -35,8 +35,8 @@ export function ProofSection() {
   return (
     <section className="relative overflow-hidden bg-[#060613] py-12 text-white sm:py-16">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-[30%] left-[20%] h-[400px] w-[400px] rounded-full bg-[#06b6d4]/[0.06] blur-[140px]" />
-        <div className="absolute bottom-[20%] right-[20%] h-[350px] w-[350px] rounded-full bg-[#7c3aed]/[0.06] blur-[140px]" />
+        <div className="absolute top-[30%] left-[20%] h-[200px] w-[200px] sm:h-[400px] sm:w-[400px] rounded-full bg-[#06b6d4]/[0.06] blur-[40px] sm:blur-[100px]" />
+        <div className="absolute bottom-[20%] right-[20%] h-[180px] w-[180px] sm:h-[350px] sm:w-[350px] rounded-full bg-[#7c3aed]/[0.06] blur-[40px] sm:blur-[100px]" />
       </div>
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

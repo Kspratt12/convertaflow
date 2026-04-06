@@ -25,128 +25,126 @@ function TikTokIcon() {
   return <svg viewBox="0 0 24 24" className="h-4 w-4" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 0010.86 4.48v-7.13a8.16 8.16 0 005.58 2.2V11.3a4.85 4.85 0 01-3.77-1.84V6.69h3.77z"/></svg>;
 }
 
-/** HQ locations */
 const hqLocations = [
-  { id: "google", label: "Google HQ", city: "Mountain View, CA", lat: 37.4, lng: -122.1, color: "#4285F4" },
-  { id: "facebook", label: "Meta HQ", city: "Menlo Park, CA", lat: 37.5, lng: -122.2, color: "#1877F2" },
-  { id: "instagram", label: "Instagram HQ", city: "San Francisco, CA", lat: 37.8, lng: -122.4, color: "#E4405F" },
-  { id: "tiktok", label: "TikTok US HQ", city: "Culver City, CA", lat: 34.0, lng: -118.4, color: "#69C9D0" },
+  { id: "google", label: "Google HQ", city: "Mountain View, CA", color: "#4285F4" },
+  { id: "facebook", label: "Meta HQ", city: "Menlo Park, CA", color: "#1877F2" },
+  { id: "instagram", label: "Instagram HQ", city: "San Francisco, CA", color: "#E4405F" },
+  { id: "tiktok", label: "TikTok US HQ", city: "Culver City, CA", color: "#69C9D0" },
 ];
 
-/** Mercator projection: lat/lng → x/y on a 100x100 SVG */
-function project(lat: number, lng: number): { x: number; y: number } {
-  // Center on Atlantic (lng 0), show -180 to 180
-  const x = ((lng + 180) / 360) * 100;
-  // Mercator-ish y: simple linear for globe look
-  const y = ((90 - lat) / 180) * 100;
-  return { x, y };
+/**
+ * Orthographic projection — maps lat/lng onto a sphere (circle).
+ * Only shows the front-facing hemisphere (centered on lng=0).
+ * Dots on the back side are hidden.
+ */
+function projectToSphere(lat: number, lng: number, centerLng: number = -30): { x: number; y: number; visible: boolean } {
+  const latRad = (lat * Math.PI) / 180;
+  const lngRad = ((lng - centerLng) * Math.PI) / 180;
+
+  const x = Math.cos(latRad) * Math.sin(lngRad);
+  const y = -Math.sin(latRad);
+  const z = Math.cos(latRad) * Math.cos(lngRad);
+
+  return {
+    x: 50 + x * 45,
+    y: 50 + y * 45,
+    visible: z > 0,
+  };
 }
 
 const socialIcons = [
-  { Icon: GoogleIcon, hqId: "google", color: "#4285F4", top: "2%", left: "75%", delay: 0 },
-  { Icon: FacebookIcon, hqId: "facebook", color: "#1877F2", top: "30%", left: "96%", delay: 1 },
-  { Icon: InstagramIcon, hqId: "instagram", color: "#E4405F", top: "72%", left: "88%", delay: 2 },
-  { Icon: TikTokIcon, hqId: "tiktok", color: "#69C9D0", top: "90%", left: "55%", delay: 3 },
+  { Icon: GoogleIcon, hqId: "google", color: "#4285F4", top: "5%", left: "72%", delay: 0 },
+  { Icon: FacebookIcon, hqId: "facebook", color: "#1877F2", top: "32%", left: "92%", delay: 1 },
+  { Icon: InstagramIcon, hqId: "instagram", color: "#E4405F", top: "70%", left: "85%", delay: 2 },
+  { Icon: TikTokIcon, hqId: "tiktok", color: "#69C9D0", top: "88%", left: "50%", delay: 3 },
 ];
 
 export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
   const [activeHQ, setActiveHQ] = useState<string | null>(null);
   const activeLocation = hqLocations.find((h) => h.id === activeHQ);
 
-  // Project all continent dots once
+  // Project all continent dots with proper sphere projection
   const dots = useMemo(() => {
-    return allContinentCoords.map(([lat, lng]) => {
-      const p = project(lat, lng);
-      return { x: p.x, y: p.y };
-    });
+    return allContinentCoords
+      .map(([lat, lng]) => projectToSphere(lat, lng))
+      .filter((d) => d.visible);
   }, []);
 
-  const sphereSize = mobile ? "w-full h-full" : "w-[220px] h-[220px] sm:w-[260px] sm:h-[260px]";
-  const containerSize = mobile ? "relative flex items-center justify-center w-full h-full" : "relative flex items-center justify-center w-[340px] h-[340px] sm:w-[400px] sm:h-[400px]";
-
   return (
-    <div className={containerSize}>
-      {/* Outer glow */}
-      <div className={`absolute inset-[-15%] rounded-full bg-[#7c3aed]/15 ${mobile ? "blur-[30px]" : "blur-[60px]"}`} />
-      <div className={`absolute inset-[-8%] rounded-full bg-[#3b82f6]/10 ${mobile ? "blur-[25px]" : "blur-[50px]"}`} />
+    <div className={mobile
+      ? "relative flex items-center justify-center w-full h-full overflow-hidden"
+      : "relative flex items-center justify-center w-[340px] h-[340px] sm:w-[400px] sm:h-[400px] overflow-hidden"
+    }>
+      {/* Outer glow — contained within parent */}
+      <div className={`absolute inset-[5%] rounded-full bg-[#7c3aed]/15 ${mobile ? "blur-[25px]" : "blur-[50px]"}`} />
+      <div className={`absolute inset-[10%] rounded-full bg-[#3b82f6]/10 ${mobile ? "blur-[20px]" : "blur-[40px]"}`} />
 
       {/* Globe sphere */}
-      <motion.div
-        className={`relative ${sphereSize} rounded-full overflow-hidden`}
-        animate={{ rotate: 360 }}
-        transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
-      >
+      <div className={`relative ${mobile ? "w-[85%] h-[85%]" : "w-[220px] h-[220px] sm:w-[260px] sm:h-[260px]"} rounded-full overflow-hidden`}>
         {/* Base */}
         <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#1a0a4e] via-[#0f1b5e] to-[#0a2a6e]" />
         <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#7c3aed]/15 via-transparent to-[#06b6d4]/10" />
 
-        {/* Real world map dots */}
-        <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice">
+        {/* Latitude grid lines */}
+        {[-60, -30, 0, 30, 60].map((lat) => {
+          const yPos = 50 - (lat / 90) * 45;
+          const width = Math.cos((lat * Math.PI) / 180) * 90;
+          return (
+            <div
+              key={`lat-${lat}`}
+              className="absolute border-t border-white/[0.04]"
+              style={{
+                top: `${yPos}%`,
+                left: `${50 - width / 2}%`,
+                width: `${width}%`,
+              }}
+            />
+          );
+        })}
+
+        {/* Real world map dots — orthographic projection */}
+        <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full">
           {dots.map((dot, i) => (
             <circle
               key={i}
               cx={dot.x}
               cy={dot.y}
-              r={mobile ? 0.5 : 0.45}
+              r={mobile ? 0.6 : 0.5}
               fill="#a78bfa"
-              opacity={0.5}
+              opacity={0.55}
             />
           ))}
         </svg>
 
         {/* Glass highlight */}
         <div className="absolute inset-0 rounded-full bg-gradient-to-t from-transparent via-transparent to-white/[0.06]" />
-        <div className="absolute top-[8%] left-[15%] w-[35%] h-[25%] rounded-full bg-white/[0.03] blur-xl" />
+        <div className="absolute top-[8%] left-[18%] w-[30%] h-[20%] rounded-full bg-white/[0.03] blur-lg" />
 
         {/* Edge glow */}
-        <div className="absolute inset-0 rounded-full shadow-[inset_0_0_30px_rgba(139,92,246,0.25),inset_0_0_60px_rgba(59,130,246,0.1)]" />
-      </motion.div>
+        <div className="absolute inset-0 rounded-full shadow-[inset_0_0_25px_rgba(139,92,246,0.2),inset_0_0_50px_rgba(59,130,246,0.08)]" />
+      </div>
 
       {/* Connection arcs — desktop only */}
       {!mobile && (
         <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 400 400" fill="none">
-          <motion.path d="M 130 180 Q 200 100, 280 170" stroke="url(#arc1)" strokeWidth="1.5" strokeLinecap="round" fill="none"
+          <motion.path d="M 130 180 Q 200 100, 280 170" stroke="url(#garc1)" strokeWidth="1.5" strokeLinecap="round" fill="none"
             animate={{ pathLength: [0, 1, 1, 0], opacity: [0, 0.5, 0.5, 0] }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} />
-          <motion.path d="M 150 240 Q 210 130, 285 210" stroke="url(#arc2)" strokeWidth="1" strokeLinecap="round" fill="none"
+          <motion.path d="M 150 240 Q 210 130, 285 210" stroke="url(#garc2)" strokeWidth="1" strokeLinecap="round" fill="none"
             animate={{ pathLength: [0, 1, 1, 0], opacity: [0, 0.35, 0.35, 0] }}
             transition={{ duration: 5, repeat: Infinity, delay: 1.5, ease: "easeInOut" }} />
-          <motion.path d="M 140 200 Q 250 110, 300 230" stroke="url(#arc3)" strokeWidth="1" strokeLinecap="round" fill="none"
-            animate={{ pathLength: [0, 1, 1, 0], opacity: [0, 0.4, 0.4, 0] }}
-            transition={{ duration: 4.5, repeat: Infinity, delay: 3, ease: "easeInOut" }} />
           <defs>
-            <linearGradient id="arc1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stopColor="#7c3aed" stopOpacity="0"/><stop offset="50%" stopColor="#8b5cf6"/><stop offset="100%" stopColor="#06b6d4" stopOpacity="0"/></linearGradient>
-            <linearGradient id="arc2" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stopColor="#3b82f6" stopOpacity="0"/><stop offset="50%" stopColor="#60a5fa"/><stop offset="100%" stopColor="#7c3aed" stopOpacity="0"/></linearGradient>
-            <linearGradient id="arc3" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stopColor="#06b6d4" stopOpacity="0"/><stop offset="50%" stopColor="#22d3ee"/><stop offset="100%" stopColor="#8b5cf6" stopOpacity="0"/></linearGradient>
+            <linearGradient id="garc1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stopColor="#7c3aed" stopOpacity="0"/><stop offset="50%" stopColor="#8b5cf6"/><stop offset="100%" stopColor="#06b6d4" stopOpacity="0"/></linearGradient>
+            <linearGradient id="garc2" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stopColor="#3b82f6" stopOpacity="0"/><stop offset="50%" stopColor="#60a5fa"/><stop offset="100%" stopColor="#7c3aed" stopOpacity="0"/></linearGradient>
           </defs>
         </svg>
       )}
 
-      {/* Pulsing data points — fewer on mobile */}
-      {(mobile ? [
-        { top: "35%", left: "40%", delay: 0, color: "#06b6d4" },
-        { top: "48%", left: "55%", delay: 1.5, color: "#8b5cf6" },
-        { top: "42%", left: "60%", delay: 3, color: "#3b82f6" },
-      ] : [
-        { top: "32%", left: "38%", delay: 0, color: "#06b6d4" },
-        { top: "45%", left: "58%", delay: 1.2, color: "#8b5cf6" },
-        { top: "55%", left: "42%", delay: 2.5, color: "#3b82f6" },
-        { top: "38%", left: "52%", delay: 0.6, color: "#06b6d4" },
-        { top: "50%", left: "35%", delay: 3.2, color: "#8b5cf6" },
-      ]).map((dot, i) => (
-        <motion.div key={i} className="absolute pointer-events-none" style={{ top: dot.top, left: dot.left }}
-          animate={{ opacity: [0, 1, 1, 0], scale: [0.5, 1, 1.3, 0.5] }}
-          transition={{ duration: 3, repeat: Infinity, delay: dot.delay, ease: "easeInOut" }}>
-          <div className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: dot.color, boxShadow: `0 0 6px ${dot.color}80` }} />
-        </motion.div>
-      ))}
-
       {/* Orbital rings — desktop only */}
       {!mobile && (
         <>
-          <div className="absolute inset-[-8px] sm:inset-[-12px] rounded-full border border-[#7c3aed]/12 pointer-events-none" style={{ transform: "rotateX(72deg) rotateZ(-15deg)" }} />
-          <div className="absolute inset-[-28px] sm:inset-[-38px] rounded-full border border-[#06b6d4]/8 pointer-events-none" style={{ transform: "rotateX(76deg) rotateZ(35deg)" }} />
-          <div className="absolute inset-[-48px] sm:inset-[-62px] rounded-full border border-white/[0.03] pointer-events-none" style={{ transform: "rotateX(80deg) rotateZ(-5deg)" }} />
+          <div className="absolute inset-[-6px] sm:inset-[-10px] rounded-full border border-[#7c3aed]/10 pointer-events-none" style={{ transform: "rotateX(72deg) rotateZ(-15deg)" }} />
+          <div className="absolute inset-[-22px] sm:inset-[-30px] rounded-full border border-[#06b6d4]/8 pointer-events-none" style={{ transform: "rotateX(76deg) rotateZ(35deg)" }} />
         </>
       )}
 
@@ -154,8 +152,8 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
       <AnimatePresence>
         {activeLocation && !mobile && (
           <motion.div className="absolute z-30 pointer-events-none top-[20%] left-[25%]"
-            initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }} transition={{ duration: 0.2 }}>
-            <div className="rounded-xl border border-white/[0.1] bg-[#0e0e2a]/95 px-3.5 py-2.5 backdrop-blur-xl shadow-xl" style={{ boxShadow: `0 8px 30px ${activeLocation.color}25` }}>
+            initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} transition={{ duration: 0.15 }}>
+            <div className="rounded-xl border border-white/[0.1] bg-[#0e0e2a]/95 px-3.5 py-2.5 shadow-xl" style={{ boxShadow: `0 6px 24px ${activeLocation.color}20` }}>
               <p className="text-[11px] font-bold text-white/90">{activeLocation.label}</p>
               <p className="text-[10px] text-white/50">{activeLocation.city}</p>
             </div>
@@ -166,12 +164,12 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
       {/* Social icons — desktop only */}
       {!mobile && socialIcons.map(({ Icon, hqId, color, top, left, delay }) => (
         <motion.button key={hqId} className="absolute z-20 cursor-pointer" style={{ top, left }}
-          animate={{ y: [0, -6, 0], opacity: [0.7, 1, 0.7] }}
-          transition={{ duration: 3 + delay, repeat: Infinity, ease: "easeInOut", delay }}
+          animate={{ y: [0, -5, 0] }}
+          transition={{ duration: 3.5 + delay, repeat: Infinity, ease: "easeInOut", delay }}
           onClick={() => setActiveHQ(activeHQ === hqId ? null : hqId)}>
-          <div className={`flex h-9 w-9 items-center justify-center rounded-xl border backdrop-blur-xl transition-all duration-200 ${
+          <div className={`flex h-9 w-9 items-center justify-center rounded-xl border transition-all duration-200 ${
             activeHQ === hqId ? "border-white/30 bg-[#0e0e2a] scale-110" : "border-white/[0.1] bg-[#0e0e2a]/90 hover:border-white/20 hover:scale-105"
-          }`} style={{ boxShadow: activeHQ === hqId ? `0 4px 25px ${color}40` : `0 4px 20px ${color}20` }}>
+          }`} style={{ boxShadow: `0 4px 16px ${color}20` }}>
             <Icon />
           </div>
         </motion.button>
