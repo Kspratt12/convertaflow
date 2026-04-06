@@ -45,6 +45,11 @@ export async function PATCH(request: NextRequest) {
       "website_url",
       "industry",
       "google_review_url",
+      "logo_url",
+      "brand_color",
+      "tagline",
+      "address",
+      "timezone",
     ];
 
     // Only allow whitelisted fields

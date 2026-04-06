@@ -1,4 +1,6 @@
 export type TierId = "starter" | "growth" | "scale";
+export type UserRole = "owner" | "admin";
+export type PlanStatus = "active" | "trial" | "past_due" | "canceled";
 
 export interface BusinessProfile {
   id: string;
@@ -9,7 +11,20 @@ export interface BusinessProfile {
   website_url: string | null;
   industry: string | null;
   plan_tier: TierId;
+  plan_status: PlanStatus;
+  plan_started_at: string | null;
   google_review_url: string | null;
+  slug: string | null;
+  role: UserRole;
+  // Branding
+  logo_url: string | null;
+  brand_color: string;
+  tagline: string | null;
+  address: string | null;
+  timezone: string;
+  // Billing
+  stripe_customer_id: string | null;
+  // Timestamps
   created_at: string;
   updated_at: string;
 }
@@ -23,6 +38,8 @@ export interface Lead {
   source: string;
   status: "New" | "Contacted" | "Converted" | "Lost";
   message: string | null;
+  assigned_to: string | null;
+  notes: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -73,10 +90,20 @@ export interface ActivityLog {
 
 export interface ContactSubmission {
   id: string;
+  business_id: string | null;
   name: string;
   email: string;
   business_type: string | null;
   interest: string | null;
   message: string | null;
   created_at: string;
+}
+
+/** Session context passed through the dashboard */
+export interface DashboardSession {
+  user: {
+    id: string;
+    email: string;
+  };
+  profile: BusinessProfile;
 }

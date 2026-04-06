@@ -22,7 +22,7 @@ const pains = [
     icon: AlertTriangle,
     title: "Leads leave without a trace",
     description:
-      "No lead capture, no follow-up, no second chance. Every day without a system is revenue walking out the door.",
+      "No capture forms, no follow-up, no second chance. Every day without a system is revenue walking out the door.",
   },
   {
     icon: Clock,
@@ -50,7 +50,7 @@ export function PainPoints() {
       <SectionHeader
         badge="The Problem"
         title="Most business websites cost their owners money"
-        description="These are the gaps that hold businesses back — and the exact problems Convertaflow was built to solve."
+        description="These gaps hold businesses back. Convertaflow was built to close every one of them."
       />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -73,7 +73,6 @@ export function PainPoints() {
           </motion.div>
         ))}
 
-        {/* Solution card */}
         <motion.div
           className="rounded-2xl border-2 border-primary/30 bg-primary/[0.03] p-6"
           initial={{ opacity: 0, y: 16 }}
@@ -88,7 +87,7 @@ export function PainPoints() {
             Convertaflow fixes all of this
           </h3>
           <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-            One platform: premium website, lead capture, review automation,
+            One platform. Premium website, lead capture, review automation,
             email follow-up, and a dashboard that shows you everything.
           </p>
         </motion.div>

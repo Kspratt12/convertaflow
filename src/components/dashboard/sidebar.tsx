@@ -15,21 +15,33 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SITE } from "@/lib/constants";
+import { useBusiness } from "@/components/dashboard/business-provider";
+import { tierLabel } from "@/lib/tier";
+import type { DashboardFeature } from "@/lib/tier";
+import type { TierId } from "@/lib/types";
 
-const navigation = [
-  { label: "Overview", href: "/dashboard", icon: LayoutDashboard, tier: "starter" as const },
-  { label: "Leads", href: "/dashboard/leads", icon: Users, tier: "starter" as const },
-  { label: "Reviews", href: "/dashboard/reviews", icon: Star, tier: "growth" as const },
-  { label: "Email Activity", href: "/dashboard/email", icon: Mail, tier: "growth" as const },
-  { label: "Social", href: "/dashboard/social", icon: Share2, tier: "scale" as const },
-  { label: "Settings", href: "/dashboard/settings", icon: Settings, tier: "starter" as const },
+const navigation: {
+  label: string;
+  href: string;
+  icon: typeof LayoutDashboard;
+  feature: DashboardFeature;
+  requiresTier: TierId;
+}[] = [
+  { label: "Overview", href: "/dashboard", icon: LayoutDashboard, feature: "overview", requiresTier: "starter" },
+  { label: "Leads", href: "/dashboard/leads", icon: Users, feature: "leads", requiresTier: "starter" },
+  { label: "Reviews", href: "/dashboard/reviews", icon: Star, feature: "reviews", requiresTier: "growth" },
+  { label: "Email Activity", href: "/dashboard/email", icon: Mail, feature: "email", requiresTier: "growth" },
+  { label: "Social", href: "/dashboard/social", icon: Share2, feature: "social", requiresTier: "scale" },
+  { label: "Settings", href: "/dashboard/settings", icon: Settings, feature: "settings", requiresTier: "starter" },
 ];
-
-const CURRENT_TIER = "growth";
-const tierLevel = { starter: 0, growth: 1, scale: 2 };
 
 export function DashboardSidebar() {
   const pathname = usePathname();
+  const { can, tier, businessName, hasMinTier } = useBusiness();
+
+  // Find next upgrade tier
+  const nextTier: TierId | null =
+    tier === "starter" ? "growth" : tier === "growth" ? "scale" : null;
 
   return (
     <aside className="hidden w-60 shrink-0 border-r border-border/50 bg-card lg:flex lg:flex-col">
@@ -41,7 +53,10 @@ export function DashboardSidebar() {
           height={32}
           className="h-8 w-8 object-contain"
         />
-        <span className="text-[15px] font-bold tracking-tight">{SITE.name}</span>
+        <div className="min-w-0">
+          <p className="truncate text-[13px] font-bold tracking-tight">{businessName}</p>
+          <p className="text-[11px] text-muted-foreground/60">{tierLabel(tier)}</p>
+        </div>
       </div>
 
       <nav className="flex-1 space-y-0.5 px-3 py-4">
@@ -50,7 +65,7 @@ export function DashboardSidebar() {
         </p>
         {navigation.map((item) => {
           const active = pathname === item.href;
-          const locked = tierLevel[item.tier] > tierLevel[CURRENT_TIER];
+          const locked = !can(item.feature);
 
           return (
             <Link
@@ -73,21 +88,25 @@ export function DashboardSidebar() {
         })}
       </nav>
 
-      <div className="border-t border-border/50 p-4">
-        <div className="rounded-xl bg-gradient-to-br from-primary/[0.06] to-primary/[0.02] border border-primary/10 p-4">
-          <p className="text-[12px] font-semibold text-primary">Reviews + Dashboard</p>
-          <p className="mt-1 text-[11px] leading-relaxed text-muted-foreground">
-            Upgrade to Full Growth Bundle for social tools and advanced analytics.
-          </p>
-          <Link
-            href="/pricing"
-            className="mt-3 inline-flex items-center gap-1 text-[11px] font-semibold text-primary hover:underline"
-          >
-            Upgrade
-            <ArrowUpRight className="h-3 w-3" />
-          </Link>
+      {nextTier && (
+        <div className="border-t border-border/50 p-4">
+          <div className="rounded-xl bg-gradient-to-br from-primary/[0.06] to-primary/[0.02] border border-primary/10 p-4">
+            <p className="text-[12px] font-semibold text-primary">
+              {tierLabel(tier)}
+            </p>
+            <p className="mt-1 text-[11px] leading-relaxed text-muted-foreground">
+              Upgrade to {tierLabel(nextTier)} to unlock more features.
+            </p>
+            <Link
+              href="/pricing"
+              className="mt-3 inline-flex items-center gap-1 text-[11px] font-semibold text-primary hover:underline"
+            >
+              Upgrade
+              <ArrowUpRight className="h-3 w-3" />
+            </Link>
+          </div>
         </div>
-      </div>
+      )}
     </aside>
   );
 }

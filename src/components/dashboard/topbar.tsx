@@ -3,35 +3,36 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-import { Bell, Search, Menu, X } from "lucide-react";
+import { Bell, Search, Menu, X, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { SITE } from "@/lib/constants";
+import { useBusiness } from "@/components/dashboard/business-provider";
 
 export function DashboardTopbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const { userEmail, userInitials, businessName } = useBusiness();
+
+  async function handleSignOut() {
+    await fetch("/api/auth/logout", { method: "POST" });
+    window.location.href = "/login";
+  }
 
   return (
     <>
       <header className="flex h-16 shrink-0 items-center justify-between border-b bg-card px-6">
-        {/* Mobile menu toggle */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className="flex items-center justify-center rounded-md p-2 lg:hidden hover:bg-accent"
         >
-          {mobileMenuOpen ? (
-            <X className="h-5 w-5" />
-          ) : (
-            <Menu className="h-5 w-5" />
-          )}
+          {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
 
-        {/* Search */}
         <div className="hidden max-w-sm flex-1 md:block">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
             <Input placeholder="Search leads, reviews..." className="pl-9" />
           </div>
         </div>
@@ -49,12 +50,13 @@ export function DashboardTopbar() {
             >
               <Avatar className="h-8 w-8">
                 <AvatarFallback className="bg-primary/10 text-primary text-xs font-semibold">
-                  SC
+                  {userInitials}
                 </AvatarFallback>
               </Avatar>
-              <span className="hidden text-sm font-medium sm:inline">
-                Sarah Chen
-              </span>
+              <div className="hidden sm:block text-left">
+                <p className="text-[13px] font-medium leading-tight">{businessName}</p>
+                <p className="text-[11px] text-muted-foreground leading-tight">{userEmail}</p>
+              </div>
             </button>
 
             {profileOpen && (
@@ -74,7 +76,11 @@ export function DashboardTopbar() {
                   Back to website
                 </Link>
                 <div className="my-1 h-px bg-border" />
-                <button className="block w-full rounded-md px-3 py-2 text-left text-sm text-destructive hover:bg-accent">
+                <button
+                  onClick={handleSignOut}
+                  className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm text-destructive hover:bg-accent"
+                >
+                  <LogOut className="h-3.5 w-3.5" />
                   Sign out
                 </button>
               </div>
@@ -83,7 +89,6 @@ export function DashboardTopbar() {
         </div>
       </header>
 
-      {/* Mobile sidebar */}
       {mobileMenuOpen && (
         <div className="border-b bg-card px-4 pb-4 lg:hidden">
           <div className="flex items-center gap-2 py-3">
@@ -94,23 +99,17 @@ export function DashboardTopbar() {
               height={28}
               className="h-7 w-7 object-contain"
             />
-            <span className="text-sm font-bold">{SITE.name}</span>
+            <span className="text-sm font-bold">{businessName}</span>
           </div>
           <nav className="space-y-1">
-            {[
-              { label: "Overview", href: "/dashboard" },
-              { label: "Leads", href: "/dashboard/leads" },
-              { label: "Reviews", href: "/dashboard/reviews" },
-              { label: "Email Activity", href: "/dashboard/email" },
-              { label: "Settings", href: "/dashboard/settings" },
-            ].map((item) => (
+            {["Overview", "Leads", "Reviews", "Email Activity", "Settings"].map((item) => (
               <Link
-                key={item.href}
-                href={item.href}
+                key={item}
+                href={`/dashboard${item === "Overview" ? "" : `/${item.toLowerCase().replace(" activity", "").replace(" ", "-")}`}`}
                 onClick={() => setMobileMenuOpen(false)}
                 className="block rounded-md px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-foreground"
               >
-                {item.label}
+                {item}
               </Link>
             ))}
           </nav>

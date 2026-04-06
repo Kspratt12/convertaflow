@@ -1,11 +1,11 @@
 import { createClient } from "@/lib/supabase/server";
-import type { BusinessProfile } from "@/lib/types";
+import type { BusinessProfile, DashboardSession } from "@/lib/types";
 
 /**
  * Get the authenticated user and their business profile.
  * Returns null if not authenticated.
  */
-export async function getSession() {
+export async function getSession(): Promise<DashboardSession | null> {
   const supabase = await createClient();
 
   const {
@@ -20,19 +20,39 @@ export async function getSession() {
     .eq("user_id", user.id)
     .single();
 
+  if (!profile) return null;
+
   return {
-    user,
-    profile: profile as BusinessProfile | null,
+    user: {
+      id: user.id,
+      email: user.email ?? "",
+    },
+    profile: profile as BusinessProfile,
   };
 }
 
 /**
- * Get session or throw — use in layouts/pages that require auth.
+ * Get session or redirect — use in server components/layouts that require auth.
  */
-export async function requireSession() {
+export async function requireSession(): Promise<DashboardSession> {
   const session = await getSession();
   if (!session) {
+    // This will be caught by error boundary or middleware redirect
     throw new Error("Unauthorized");
   }
   return session;
+}
+
+/**
+ * Check if user is a platform admin.
+ */
+export function isAdmin(session: DashboardSession): boolean {
+  return session.profile.role === "admin";
+}
+
+/**
+ * Check if the business plan is in good standing.
+ */
+export function isPlanActive(session: DashboardSession): boolean {
+  return session.profile.plan_status === "active" || session.profile.plan_status === "trial";
 }
