@@ -38,7 +38,7 @@ const mobileIcons = [
   { top: "80%", left: "40%", delay: 3 },
 ];
 
-/* Cobe's exact projection (reverse-engineered from source) */
+/* Cobe's exact projection (from source) */
 function project(lat: number, lng: number, phi: number, theta: number, size: number) {
   const lr = (lat * Math.PI) / 180;
   const lr2 = (lng * Math.PI) / 180;
@@ -56,9 +56,11 @@ function project(lat: number, lng: number, phi: number, theta: number, size: num
 
 export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const phiRef = useRef(3.5);
   const rafRef = useRef(0);
+  const visibleRef = useRef(true); // IntersectionObserver tracks this
   const theta = 0.3;
 
   const cSize = mobile ? 260 : 400;
@@ -68,7 +70,6 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
   const oY = (cH - cSize) / 2;
   const icons = mobile ? mobileIcons : desktopIcons;
 
-  /* Update all 4 arrows every frame via direct DOM — zero React overhead */
   const updateAllArrows = useCallback(() => {
     const svg = svgRef.current;
     if (!svg) return;
@@ -88,14 +89,13 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
         continue;
       }
 
-      // Arrow starts from CENTER of icon (icon is 28px mobile, 36px desktop)
+      // Arrow from CENTER of icon
       const iconSize = mobile ? 28 : 36;
       const ix = (parseFloat(icon.left) / 100) * cW + iconSize / 2;
       const iy = (parseFloat(icon.top) / 100) * cH + iconSize / 2;
       const mx = p.x + oX;
       const my = p.y + oY;
 
-      // Gentle curve
       const dist = Math.sqrt((mx - ix) ** 2 + (my - iy) ** 2);
       const curve = Math.min(dist * 0.12, mobile ? 15 : 25);
       const dx = mx - ix, dy = my - iy;
@@ -114,7 +114,9 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
   }, [cSize, cW, cH, oX, oY, icons, mobile]);
 
   useEffect(() => {
-    if (!canvasRef.current) return;
+    const container = containerRef.current;
+    if (!canvasRef.current || !container) return;
+
     const dpr = mobile ? 1 : Math.min(window.devicePixelRatio ?? 2, 2);
 
     const globe = createGlobe(canvasRef.current, {
@@ -136,24 +138,53 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
       })),
     });
 
+    if (mobile) {
+      /*
+       * MOBILE: Render ONE frame then stop. No animation loop.
+       * WebGL + requestAnimationFrame fights the scroll compositor
+       * on mobile devices, causing jank. A static globe with static
+       * arrows is buttery smooth and still looks premium.
+       */
+      // Let cobe render the initial frame, then draw arrows once
+      setTimeout(() => {
+        updateAllArrows();
+      }, 100);
+
+      return () => { globe.destroy(); };
+    }
+
+    /* DESKTOP: Full animation with IntersectionObserver pause */
+    const observer = new IntersectionObserver(
+      ([entry]) => { visibleRef.current = entry.isIntersecting; },
+      { threshold: 0.1 }
+    );
+    observer.observe(container);
+
     let active = true;
-    let f = 0;
     function animate() {
       if (!active) return;
-      f++;
+      rafRef.current = requestAnimationFrame(animate);
+      if (!visibleRef.current) return;
       phiRef.current += 0.004;
       globe.update({ phi: phiRef.current });
-      // Mobile: every 2nd frame. Desktop: every frame.
-      if (!mobile || f % 2 === 0) updateAllArrows();
-      rafRef.current = requestAnimationFrame(animate);
+      updateAllArrows();
     }
     rafRef.current = requestAnimationFrame(animate);
 
-    return () => { active = false; cancelAnimationFrame(rafRef.current); globe.destroy(); };
+    return () => {
+      active = false;
+      cancelAnimationFrame(rafRef.current);
+      observer.disconnect();
+      globe.destroy();
+    };
   }, [mobile, cSize, updateAllArrows]);
 
   return (
-    <div className={`relative flex items-center justify-center ${mobile ? "w-[280px] h-[280px]" : "w-[400px] h-[400px]"}`}>
+    <div
+      ref={containerRef}
+      className={`relative flex items-center justify-center ${mobile ? "w-[280px] h-[280px]" : "w-[400px] h-[400px]"}`}
+      style={{ willChange: "transform" }} /* Own compositor layer — scroll doesn't repaint globe */
+    >
       <style>{`@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}`}</style>
 
       {!mobile && (
@@ -163,9 +194,8 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
         </>
       )}
 
-      <canvas ref={canvasRef} style={{ width: cSize, height: cSize }} />
+      <canvas ref={canvasRef} style={{ width: cSize, height: cSize, willChange: "transform" }} />
 
-      {/* All 4 arrows — always present, hide/show based on visibility */}
       <svg ref={svgRef} className="absolute inset-0 w-full h-full pointer-events-none z-10">
         {hqs.map((hq, i) => (
           <g key={hq.id}>
@@ -179,18 +209,11 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
               strokeDasharray="5 3"
               opacity="0"
             />
-            <circle
-              data-d={i}
-              cx="0" cy="0"
-              r={mobile ? 3 : 4}
-              fill={hq.color}
-              opacity="0"
-            />
+            <circle data-d={i} cx="0" cy="0" r={mobile ? 3 : 4} fill={hq.color} opacity="0" />
           </g>
         ))}
       </svg>
 
-      {/* Social icons */}
       {icons.map((pos, i) => {
         const hq = hqs[i];
         const Ic = hq.Icon;
