@@ -75,7 +75,7 @@ export function Portfolio() {
                   className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
                 />
                 {/* Bottom gradient fade into card */}
-                <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[#0a0a1f] to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 h-6 sm:h-10 bg-gradient-to-t from-[#0a0a1f] to-transparent" />
               </div>
 
               {/* Info section */}

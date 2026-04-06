@@ -10,27 +10,27 @@ const steps = [
     step: "01",
     icon: Rocket,
     title: "Launch",
-    subtitle: "Build your premium presence",
+    subtitle: "Your luxury website, live in days",
     description:
-      "We design and build a high-end website that makes your business look established from day one. Conversion-optimized with lead capture built in.",
+      "We design and build a custom website for your brand in 5–14 business days. Lead capture, booking, and SEO baked in from the start.",
     color: "from-[#7c3aed] to-[#6c3aed]",
   },
   {
     step: "02",
     icon: BarChart3,
     title: "Track",
-    subtitle: "Capture leads and build trust",
+    subtitle: "Systems that work while you sleep",
     description:
-      "Your dashboard starts working immediately. See every lead, send review requests, and get instant notifications so you never miss an opportunity.",
+      "Automated review requests, instant lead notifications, and a dashboard showing exactly who's reaching out and what's converting.",
     color: "from-[#3b82f6] to-[#2563eb]",
   },
   {
     step: "03",
     icon: TrendingUp,
     title: "Scale",
-    subtitle: "Grow with data and systems",
+    subtitle: "Data-driven decisions, real growth",
     description:
-      "Advanced analytics, social integration, and automation workflows turn your business into a growth engine that runs even when you're not watching.",
+      "Advanced analytics, social automation, and ManyChat workflows turn your online presence into a growth engine with clear ROI.",
     color: "from-[#06b6d4] to-[#0891b2]",
   },
 ];

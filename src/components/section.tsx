@@ -32,21 +32,21 @@ export function SectionHeader({
   return (
     <div
       className={cn(
-        "mb-8 sm:mb-12",
+        "mb-8 sm:mb-10",
         align === "center" && "mx-auto max-w-2xl text-center",
         className
       )}
     >
       {badge && (
-        <span className="mb-5 inline-block rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-primary">
+        <span className="mb-4 inline-block rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-1.5 text-[11px] font-semibold uppercase tracking-widest text-white/50 sm:mb-5">
           {badge}
         </span>
       )}
-      <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
+      <h2 className="text-2xl font-bold tracking-tight sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
         {title}
       </h2>
       {description && (
-        <p className="mt-4 text-[17px] leading-relaxed text-muted-foreground sm:mt-5">
+        <p className="mt-3 text-[14px] leading-relaxed text-white/50 sm:mt-4 sm:text-[16px]">
           {description}
         </p>
       )}

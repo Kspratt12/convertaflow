@@ -29,8 +29,11 @@ export function Navbar() {
           : "bg-gradient-to-r from-[#1a0a3e] via-[#12124a] to-[#0a1e5e]"
       )}
     >
-      {/* Glossy shine overlay */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/[0.07] to-transparent h-[60%]" />
+      {/* Glossy shine overlay — fades on scroll */}
+      <div className={cn(
+        "pointer-events-none absolute inset-0 bg-gradient-to-b from-white/[0.07] to-transparent h-[60%] transition-opacity duration-300",
+        scrolled ? "opacity-30" : "opacity-100"
+      )} />
 
       <div className="relative mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2.5">

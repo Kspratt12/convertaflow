@@ -44,7 +44,7 @@ export default function PricingPage() {
 
   return (
     <>
-      <section className="relative overflow-hidden bg-[#060613] py-10 text-white sm:py-16">
+      <section className="relative overflow-hidden bg-[#060613] py-12 text-white sm:py-16">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute top-[20%] left-[20%] h-[300px] w-[300px] sm:h-[400px] sm:w-[400px] rounded-full bg-[#7c3aed]/[0.07] blur-[60px] sm:blur-[120px]" />
           <div className="absolute bottom-[10%] right-[20%] h-[250px] w-[250px] sm:h-[350px] sm:w-[350px] rounded-full bg-[#3b82f6]/[0.05] blur-[60px] sm:blur-[120px]" />

@@ -47,8 +47,8 @@ export function PainPoints() {
   return (
     <section className="relative overflow-hidden bg-[#060613] py-12 text-white sm:py-16">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-[20%] right-[20%] h-[350px] w-[350px] rounded-full bg-red-500/[0.04] blur-[130px]" />
-        <div className="absolute bottom-[20%] left-[15%] h-[300px] w-[300px] rounded-full bg-[#7c3aed]/[0.05] blur-[130px]" />
+        <div className="absolute top-[20%] right-[20%] h-[250px] w-[250px] sm:h-[350px] sm:w-[350px] rounded-full bg-red-500/[0.04] blur-[60px] sm:blur-[120px]" />
+        <div className="absolute bottom-[20%] left-[15%] h-[200px] w-[200px] sm:h-[300px] sm:w-[300px] rounded-full bg-[#7c3aed]/[0.05] blur-[60px] sm:blur-[120px]" />
       </div>
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -97,11 +97,11 @@ export function PainPoints() {
               <Sparkles className="h-[18px] w-[18px] text-white" />
             </div>
             <h3 className="text-[14px] font-semibold leading-snug sm:text-[15px]">
-              Convertaflow fixes all of this
+              That&apos;s why we built Convertaflow
             </h3>
             <p className="mt-1.5 text-[13px] leading-relaxed text-white/80 sm:mt-2">
-              One platform. Premium website, lead capture, review automation,
-              email follow-up, and a dashboard that shows you everything.
+              Luxury website. Lead capture. Review system. Booking integration.
+              Email follow-up. Delivered in days with a dedicated team behind it.
             </p>
           </motion.div>
         </div>

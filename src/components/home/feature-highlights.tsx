@@ -59,8 +59,8 @@ export function FeatureHighlights() {
   return (
     <section className="relative overflow-hidden bg-[#060613] py-12 text-white sm:py-16">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-[20%] left-[15%] h-[400px] w-[400px] rounded-full bg-[#7c3aed]/[0.10] blur-[130px]" />
-        <div className="absolute bottom-[20%] right-[15%] h-[350px] w-[350px] rounded-full bg-[#3b82f6]/[0.08] blur-[130px]" />
+        <div className="absolute top-[20%] left-[15%] h-[250px] w-[250px] sm:h-[400px] sm:w-[400px] rounded-full bg-[#7c3aed]/[0.10] blur-[60px] sm:blur-[120px]" />
+        <div className="absolute bottom-[20%] right-[15%] h-[200px] w-[200px] sm:h-[350px] sm:w-[350px] rounded-full bg-[#3b82f6]/[0.08] blur-[60px] sm:blur-[120px]" />
       </div>
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

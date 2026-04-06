@@ -41,7 +41,7 @@ export function FinalCTA() {
       </div>
 
       <div className="relative mx-auto max-w-2xl px-4 text-center sm:px-6">
-        <motion.h2 className="text-xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight" initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}>
+        <motion.h2 className="text-2xl sm:text-4xl lg:text-[2.75rem] font-extrabold tracking-tight" initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}>
           Ready to look established{" "}
           <span className="bg-gradient-to-r from-[#8b5cf6] via-[#3b82f6] to-[#06b6d4] bg-clip-text text-transparent">
             and start growing?
