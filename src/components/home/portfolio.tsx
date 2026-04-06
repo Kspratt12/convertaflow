@@ -62,8 +62,8 @@ export function Portfolio() {
               className="group relative overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.03] transition-all duration-300 hover:border-white/[0.15] hover:shadow-2xl hover:shadow-purple-500/[0.08]"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.4, delay: i * 0.1 }}
+              viewport={{ once: true, margin: "20px" }}
+              transition={{ duration: 0.3, delay: i * 0.05 }}
             >
               {/* Screenshot area */}
               <div className="relative overflow-hidden bg-white">

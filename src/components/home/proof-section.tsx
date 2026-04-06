@@ -60,8 +60,8 @@ export function ProofSection() {
               className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 text-center"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.3, delay: i * 0.06 }}
+              viewport={{ once: true, margin: "20px" }}
+              transition={{ duration: 0.3, delay: i * 0.03 }}
             >
               <metric.icon className="mx-auto h-5 w-5 text-[#06b6d4]/60" />
               <div className="mt-2 text-3xl font-extrabold tracking-tight bg-gradient-to-r from-[#8b5cf6] to-[#06b6d4] bg-clip-text text-transparent">
@@ -80,8 +80,8 @@ export function ProofSection() {
               className="flex flex-col rounded-2xl border border-white/[0.06] bg-white/[0.03] p-6"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.3, delay: i * 0.08 }}
+              viewport={{ once: true, margin: "20px" }}
+              transition={{ duration: 0.3, delay: i * 0.04 }}
             >
               <div className="flex gap-0.5">
                 {Array.from({ length: 5 }).map((_, j) => (

@@ -47,8 +47,8 @@ export function TierPreview() {
                 )}
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.35, delay: i * 0.08 }}
+                viewport={{ once: true, margin: "20px" }}
+                transition={{ duration: 0.3, delay: i * 0.04 }}
               >
                 {tier.highlighted && (
                   <Badge className="absolute -top-2.5 left-5 text-[11px] font-semibold tracking-wide bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] text-white border-0">

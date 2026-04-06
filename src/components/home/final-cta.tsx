@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 export function FinalCTA() {
   const particles = useMemo(
     () =>
-      Array.from({ length: 10 }).map((_, i) => ({
+      Array.from({ length: 5 }).map((_, i) => ({
         key: i,
         w: 1 + Math.random() * 1.5,
         x: Math.random() * 100,

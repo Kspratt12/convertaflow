@@ -55,8 +55,8 @@ export function HowItWorksPreview() {
               className="group relative overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.35, delay: i * 0.1 }}
+              viewport={{ once: true, margin: "20px" }}
+              transition={{ duration: 0.3, delay: i * 0.04 }}
             >
               <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${step.color}`} />
 

@@ -72,8 +72,8 @@ export function PainPoints() {
               className="group rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 transition-all duration-200 hover:bg-white/[0.05] sm:p-6"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.35, delay: i * 0.06 }}
+              viewport={{ once: true, margin: "20px" }}
+              transition={{ duration: 0.3, delay: i * 0.03 }}
             >
               <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg bg-red-500/[0.1] sm:mb-4">
                 <pain.icon className="h-[18px] w-[18px] text-red-400" />
@@ -90,8 +90,8 @@ export function PainPoints() {
             className="rounded-2xl bg-gradient-to-br from-[#7c3aed] to-[#3b82f6] p-5 text-white shadow-lg shadow-purple-500/15 sm:p-6"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.35, delay: 0.3 }}
+            viewport={{ once: true, margin: "20px" }}
+            transition={{ duration: 0.3, delay: 0.15 }}
           >
             <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg bg-white/20 sm:mb-4">
               <Sparkles className="h-[18px] w-[18px] text-white" />
