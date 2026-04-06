@@ -140,17 +140,26 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
 
     if (mobile) {
       /*
-       * MOBILE: Render ONE frame then stop. No animation loop.
-       * WebGL + requestAnimationFrame fights the scroll compositor
-       * on mobile devices, causing jank. A static globe with static
-       * arrows is buttery smooth and still looks premium.
+       * MOBILE: Run animation for 2 seconds to let cobe's world map
+       * texture load (it's a base64 PNG decoded async via Image()),
+       * then freeze. This gives a fully rendered globe with continents
+       * visible, then stops all GPU work for smooth scrolling.
        */
-      // Let cobe render the initial frame, then draw arrows once
-      setTimeout(() => {
+      let mobileActive = true;
+      let startTime = 0;
+      function mobileAnimate(ts: number) {
+        if (!mobileActive) return;
+        if (!startTime) startTime = ts;
+        globe.update({ phi: phiRef.current });
         updateAllArrows();
-      }, 100);
+        // Run for 2 seconds then freeze
+        if (ts - startTime < 2000) {
+          requestAnimationFrame(mobileAnimate);
+        }
+      }
+      requestAnimationFrame(mobileAnimate);
 
-      return () => { globe.destroy(); };
+      return () => { mobileActive = false; globe.destroy(); };
     }
 
     /* DESKTOP: Full animation with IntersectionObserver pause */
