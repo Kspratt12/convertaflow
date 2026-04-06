@@ -1,7 +1,78 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { TrendingUp, Clock, Star, Globe } from "lucide-react";
+
+/* ─── Count-up hook — triggers when element scrolls into view ─── */
+function useCountUp(end: number, duration: number = 1.5) {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
+  const started = useRef(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !started.current) {
+          started.current = true;
+          const startTime = performance.now();
+          function tick(now: number) {
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / (duration * 1000), 1);
+            // Ease out cubic
+            const eased = 1 - Math.pow(1 - progress, 3);
+            setCount(Math.round(eased * end));
+            if (progress < 1) requestAnimationFrame(tick);
+          }
+          requestAnimationFrame(tick);
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [end, duration]);
+
+  return { ref, count };
+}
+
+/* ─── Animated metric display ─── */
+function AnimatedMetric({ value, label, icon: Icon, delay }: {
+  value: string; label: string; icon: typeof TrendingUp; delay: number;
+}) {
+  // Parse the number and affixes from value like "3.2x", "84%", "< 5", "100%"
+  const prefix = value.match(/^[^0-9]*/)?.[0] || "";
+  const suffix = value.match(/[^0-9.]*$/)?.[0] || "";
+  const numStr = value.replace(prefix, "").replace(suffix, "");
+  const num = parseFloat(numStr) || 0;
+  const hasDecimal = numStr.includes(".");
+  const decimalPlaces = hasDecimal ? (numStr.split(".")[1]?.length || 0) : 0;
+
+  const { ref, count } = useCountUp(hasDecimal ? num * Math.pow(10, decimalPlaces) : num, 1.8);
+  const displayNum = hasDecimal
+    ? (count / Math.pow(10, decimalPlaces)).toFixed(decimalPlaces)
+    : count;
+
+  return (
+    <motion.div
+      ref={ref}
+      className="motion-fade rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 text-center"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, margin: "20px" }}
+      transition={{ duration: 0.3, delay }}
+    >
+      <Icon className="mx-auto h-5 w-5 text-[#06b6d4]/60" />
+      <div className="mt-2 text-3xl font-extrabold tracking-tight bg-gradient-to-r from-[#8b5cf6] to-[#06b6d4] bg-clip-text text-transparent">
+        {prefix}{displayNum}{suffix}
+      </div>
+      <div className="mt-1 text-[13px] font-medium text-white/60">{label}</div>
+    </motion.div>
+  );
+}
 
 const metrics = [
   { icon: TrendingUp, value: "3.2x", label: "More qualified leads" },
@@ -52,23 +123,16 @@ export function ProofSection() {
           </h2>
         </div>
 
-        {/* Metrics row */}
+        {/* Metrics row — count-up animation */}
         <div className="mb-12 grid grid-cols-2 gap-3 lg:grid-cols-4">
           {metrics.map((metric, i) => (
-            <motion.div
+            <AnimatedMetric
               key={metric.label}
-              className="motion-fade rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 text-center"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true, margin: "20px" }}
-              transition={{ duration: 0.3, delay: i * 0.03 }}
-            >
-              <metric.icon className="mx-auto h-5 w-5 text-[#06b6d4]/60" />
-              <div className="mt-2 text-3xl font-extrabold tracking-tight bg-gradient-to-r from-[#8b5cf6] to-[#06b6d4] bg-clip-text text-transparent">
-                {metric.value}
-              </div>
-              <div className="mt-1 text-[13px] font-medium text-white/60">{metric.label}</div>
-            </motion.div>
+              value={metric.value}
+              label={metric.label}
+              icon={metric.icon}
+              delay={i * 0.03}
+            />
           ))}
         </div>
 
