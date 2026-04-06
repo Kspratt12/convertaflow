@@ -115,11 +115,12 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
 
   useEffect(() => {
     const container = containerRef.current;
-    if (!canvasRef.current || !container) return;
+    const canvas = canvasRef.current;
+    if (!canvas || !container) return;
 
     const dpr = Math.min(window.devicePixelRatio ?? 2, 2);
 
-    const globe = createGlobe(canvasRef.current, {
+    const globe = createGlobe(canvas, {
       devicePixelRatio: dpr,
       width: cSize * dpr,
       height: cSize * dpr,
@@ -138,7 +139,48 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
       })),
     });
 
-    /* Pause when off-screen — saves GPU on both mobile and desktop */
+    if (mobile) {
+      /*
+       * MOBILE: Spin for 3 seconds at full quality to show a beautiful
+       * rotating globe, then snapshot the canvas to a static image and
+       * DESTROY the WebGL context completely. After that: zero GPU,
+       * zero animation frames, buttery smooth scroll forever.
+       */
+      let mobileActive = true;
+      let start = 0;
+      function mobileLoop(ts: number) {
+        if (!mobileActive) return;
+        if (!start) start = ts;
+        phiRef.current += 0.003;
+        globe.update({ phi: phiRef.current });
+        updateAllArrows();
+
+        if (ts - start < 3000) {
+          requestAnimationFrame(mobileLoop);
+        } else {
+          // Snapshot: convert WebGL canvas to static image
+          try {
+            const c = canvasRef.current;
+            if (c) {
+              const dataUrl = c.toDataURL("image/png");
+              const img = document.createElement("img");
+              img.src = dataUrl;
+              img.style.cssText = `width:${cSize}px;height:${cSize}px;pointer-events:none;touch-action:auto;`;
+              c.replaceWith(img);
+            }
+          } catch (_) {
+            // toDataURL can fail on some devices — leave canvas as-is
+          }
+          globe.destroy();
+        }
+      }
+      requestAnimationFrame(mobileLoop);
+
+      const c = canvas; // capture for cleanup
+      return () => { mobileActive = false; try { globe.destroy(); } catch(_) {} };
+    }
+
+    /* DESKTOP: Full animation with IntersectionObserver pause */
     const observer = new IntersectionObserver(
       ([entry]) => { visibleRef.current = entry.isIntersecting; },
       { threshold: 0.1 }
@@ -146,12 +188,11 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
     observer.observe(container);
 
     let active = true;
-    const speed = mobile ? 0.003 : 0.004;
     function animate() {
       if (!active) return;
       rafRef.current = requestAnimationFrame(animate);
       if (!visibleRef.current) return;
-      phiRef.current += speed;
+      phiRef.current += 0.004;
       globe.update({ phi: phiRef.current });
       updateAllArrows();
     }
