@@ -29,11 +29,11 @@ export function Footer() {
         <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
           <Link href="/" className="flex items-center gap-2">
             <Image
-              src="/logo.svg"
+              src="/convertaflow-logo.png"
               alt={SITE.name}
               width={28}
               height={28}
-              className="h-7 w-7 object-contain"
+              className="h-7 w-7 object-contain mix-blend-screen"
             />
             <span className="text-[13px] font-bold tracking-tight">
               <span className="text-white/90">Converta</span>

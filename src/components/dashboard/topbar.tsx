@@ -93,7 +93,7 @@ export function DashboardTopbar() {
         <div className="border-b bg-card px-4 pb-4 lg:hidden">
           <div className="flex items-center gap-2 py-3">
             <Image
-              src="/logo.svg"
+              src="/convertaflow-logo.png"
               alt={SITE.name}
               width={28}
               height={28}

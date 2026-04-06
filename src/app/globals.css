@@ -192,6 +192,19 @@ html, body, #__next {
 }
 
 /* =============================================
+   MOBILE — kill framer-motion fade-in animations
+   Cards start at opacity:0 and the intersection
+   observer fights the scroll compositor, causing
+   visible blinks. Force them visible on mobile.
+   ============================================= */
+
+@media (max-width: 1023px) {
+  .motion-fade {
+    opacity: 1 !important;
+  }
+}
+
+/* =============================================
    ACCESSIBILITY — respect reduced motion
    ============================================= */
 

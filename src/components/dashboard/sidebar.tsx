@@ -48,7 +48,7 @@ export function DashboardSidebar() {
     <aside className="hidden w-60 shrink-0 border-r border-border/50 bg-card lg:flex lg:flex-col">
       <div className="flex h-16 items-center gap-2.5 border-b border-border/50 px-5">
         <Image
-          src="/logo.svg"
+          src="/convertaflow-logo.png"
           alt={SITE.name}
           width={32}
           height={32}

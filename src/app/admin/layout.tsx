@@ -28,7 +28,7 @@ export default async function AdminLayout({
       {/* Admin sidebar */}
       <aside className="hidden w-56 shrink-0 border-r border-white/[0.06] bg-white/[0.02] lg:flex lg:flex-col">
         <div className="flex h-14 items-center gap-2.5 border-b border-white/[0.06] px-5">
-          <Image src="/logo.svg" alt={SITE.name} width={24} height={24} className="h-6 w-6 object-contain" />
+          <Image src="/convertaflow-logo.png" alt={SITE.name} width={24} height={24} className="h-6 w-6 object-contain" />
           <span className="text-[13px] font-bold tracking-tight">Admin</span>
         </div>
         <nav className="flex-1 space-y-0.5 px-3 py-4">

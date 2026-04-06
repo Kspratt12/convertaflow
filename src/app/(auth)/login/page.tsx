@@ -43,7 +43,7 @@ export default function LoginPage() {
     <div className="w-full max-w-sm text-white">
       <div className="mb-8 text-center">
         <Link href="/" className="inline-flex items-center gap-2.5">
-          <Image src="/logo.svg" alt={SITE.name} width={44} height={44} className="h-11 w-11 object-contain" />
+          <Image src="/convertaflow-logo.png" alt={SITE.name} width={44} height={44} className="h-11 w-11 object-contain" />
           <span className="text-lg font-bold tracking-tight">{SITE.name}</span>
         </Link>
         <h1 className="mt-8 text-2xl font-bold tracking-tight">Welcome back</h1>
