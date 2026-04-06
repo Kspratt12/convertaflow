@@ -32,7 +32,7 @@ export function FinalCTA() {
 
       <div className="relative mx-auto max-w-2xl px-4 text-center sm:px-6">
         <motion.h2
-          className="text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl"
+          className="text-2xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl"
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -45,7 +45,7 @@ export function FinalCTA() {
         </motion.h2>
 
         <motion.p
-          className="mx-auto mt-5 max-w-md text-[17px] leading-relaxed text-white/50"
+          className="mx-auto mt-4 max-w-md text-[15px] leading-relaxed text-white/50 sm:text-[16px]"
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -56,7 +56,7 @@ export function FinalCTA() {
         </motion.p>
 
         <motion.div
-          className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center"
+          className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-center"
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -64,7 +64,7 @@ export function FinalCTA() {
         >
           <Button
             size="lg"
-            className="h-12 bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] px-7 text-[15px] font-semibold text-white hover:opacity-90 border-0 shadow-lg shadow-[#7c3aed]/20"
+            className="h-11 sm:h-12 bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] px-6 sm:px-7 text-[14px] sm:text-[15px] font-semibold text-white hover:opacity-90 border-0 shadow-lg shadow-[#7c3aed]/20 w-full sm:w-auto"
             asChild
           >
             <Link href="/pricing">
@@ -75,14 +75,14 @@ export function FinalCTA() {
           <Button
             size="lg"
             variant="outline"
-            className="h-12 border-white/[0.08] bg-white/[0.03] px-7 text-[15px] text-white/80 hover:bg-white/[0.06] hover:text-white"
+            className="h-11 sm:h-12 border-white/[0.08] bg-white/[0.03] px-6 sm:px-7 text-[14px] sm:text-[15px] text-white/80 hover:bg-white/[0.06] hover:text-white w-full sm:w-auto"
             asChild
           >
             <Link href="/contact">Talk to Our Team</Link>
           </Button>
         </motion.div>
 
-        <p className="mt-8 text-[13px] text-white/30">
+        <p className="mt-6 text-[12px] text-white/30 sm:text-[13px]">
           No contracts. No commitment. See if Convertaflow is right for you.
         </p>
       </div>

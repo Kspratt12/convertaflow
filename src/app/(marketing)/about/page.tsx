@@ -15,89 +15,99 @@ const values = [
     icon: Target,
     title: "Results over aesthetics",
     description:
-      "A beautiful website means nothing if it doesn't convert. Every decision we make is grounded in what actually drives business results — more leads, more trust, more growth.",
+      "A beautiful website means nothing if it doesn't convert. Every decision we make is grounded in what actually drives business results.",
   },
   {
     icon: Heart,
     title: "Built for real businesses",
     description:
-      "We don't build for tech startups or enterprise companies. We build for the service businesses, local practices, and growing companies that need a strong online presence without the complexity.",
+      "We don't build for tech startups or enterprise. We build for service businesses and growing companies that need a strong online presence.",
   },
   {
     icon: Lightbulb,
     title: "Simple systems, powerful outcomes",
     description:
-      "Business owners don't need another complicated tool. They need systems that work quietly in the background — capturing leads, building trust, and surfacing the data that matters.",
+      "Business owners don't need another complicated tool. They need systems that work quietly in the background, capturing leads and building trust.",
   },
 ];
 
 export default function AboutPage() {
   return (
     <>
-      <Section>
-        <SectionHeader
-          badge="About"
-          title="We build growth systems for businesses that are ready to scale"
-          description="Convertaflow exists because too many good businesses lose customers to a bad online presence. We fix that."
-        />
-
-        <div className="mx-auto max-w-3xl">
-          <div className="prose prose-lg text-muted-foreground">
-            <p className="text-base leading-relaxed">
-              Most businesses don&apos;t have a marketing team. They don&apos;t have a
-              full-time designer or a CRM specialist or someone watching their
-              Google reviews every day. What they have is great work, happy
-              customers, and a website that doesn&apos;t reflect any of it.
-            </p>
-            <p className="mt-4 text-base leading-relaxed">
-              Convertaflow was built to close that gap. We combine premium web
-              design with automated lead capture, review collection, email
-              follow-up, and simple business dashboards — all in one platform.
-              Not a collection of disconnected tools. One system, designed to
-              work together.
-            </p>
-            <p className="mt-4 text-base leading-relaxed">
-              We believe every business deserves to look professional online, to
-              never miss a lead, and to know exactly what&apos;s driving their growth.
-              That&apos;s what we build.
-            </p>
-          </div>
+      <section className="relative overflow-hidden bg-[#060613] py-12 text-white sm:py-16">
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute top-[20%] left-[20%] h-[400px] w-[400px] rounded-full bg-[#7c3aed]/[0.07] blur-[130px]" />
         </div>
-      </Section>
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-3xl">
+            <div className="mb-8 text-center sm:mb-10">
+              <span className="mb-5 inline-block rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-white/50">
+                About
+              </span>
+              <h1 className="text-2xl font-bold tracking-tight sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
+                We build growth systems for businesses{" "}
+                <span className="bg-gradient-to-r from-[#8b5cf6] via-[#3b82f6] to-[#06b6d4] bg-clip-text text-transparent">
+                  ready to scale
+                </span>
+              </h1>
+            </div>
 
-      <Section className="bg-muted/30">
-        <SectionHeader
-          title="What we believe"
-          description="The principles behind everything we build."
-        />
-        <div className="grid gap-8 md:grid-cols-3">
-          {values.map((value) => (
-            <div key={value.title} className="rounded-xl border bg-card p-6">
-              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                <value.icon className="h-5 w-5 text-primary" />
-              </div>
-              <h3 className="text-lg font-semibold">{value.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                {value.description}
+            <div className="space-y-4 text-[15px] leading-[1.8] text-white/50 sm:text-[16px]">
+              <p>
+                Most businesses don&apos;t have a marketing team. They don&apos;t have a
+                full-time designer or a CRM specialist. What they have is great work, happy
+                customers, and a website that doesn&apos;t reflect any of it.
+              </p>
+              <p>
+                Convertaflow was built to close that gap. We combine premium web
+                design with automated lead capture, review collection, email
+                follow-up, and simple business dashboards. Not a collection of
+                disconnected tools. One system, designed to work together.
+              </p>
+              <p>
+                We believe every business deserves to look professional online, to
+                never miss a lead, and to know exactly what&apos;s driving growth.
+                That&apos;s what we build.
               </p>
             </div>
-          ))}
+          </div>
         </div>
-      </Section>
+      </section>
+
+      <section className="relative overflow-hidden bg-[#060613] py-12 text-white sm:py-16 border-t border-white/[0.04]">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto mb-8 max-w-2xl text-center sm:mb-10">
+            <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">What we believe</h2>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-3 sm:gap-5">
+            {values.map((value) => (
+              <div key={value.title} className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-6">
+                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-white/[0.06]">
+                  <value.icon className="h-5 w-5 text-white/70" />
+                </div>
+                <h3 className="text-[15px] font-semibold text-white/90">{value.title}</h3>
+                <p className="mt-2 text-[14px] leading-relaxed text-white/45">
+                  {value.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <Section>
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+        <div className="mx-auto max-w-xl text-center">
+          <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
             Ready to work with a team that gets it?
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground">
+          <p className="mt-3 text-[15px] text-muted-foreground">
             We&apos;re selective about who we work with because we want every client
-            to get real results. Let&apos;s see if we&apos;re a good fit.
+            to get real results.
           </p>
-          <Button size="lg" className="mt-8" asChild>
+          <Button size="lg" className="mt-6 gap-1.5" asChild>
             <Link href="/contact">
               Get in Touch
-              <ArrowRight className="ml-2 h-4 w-4" />
+              <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </Button>
         </div>
