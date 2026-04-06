@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="fg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a855f7"/>
+      <stop offset="50%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="12" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <!-- C letter — circuit/tech style matching the logo -->
+  <g filter="url(#glow)">
+    <!-- Main C stroke -->
+    <path d="M 340 140 C 300 100, 200 80, 150 140 C 100 200, 100 310, 150 370 C 200 430, 300 410, 340 370"
+      stroke="url(#fg)" stroke-width="36" stroke-linecap="round" fill="none"/>
+    <!-- Circuit lines extending from C ends -->
+    <line x1="340" y1="140" x2="400" y2="140" stroke="url(#fg)" stroke-width="18" stroke-linecap="round" opacity="0.7"/>
+    <line x1="340" y1="370" x2="400" y2="370" stroke="url(#fg)" stroke-width="18" stroke-linecap="round" opacity="0.7"/>
+    <!-- Circuit dots -->
+    <circle cx="150" cy="256" r="10" fill="#a855f7"/>
+    <circle cx="340" cy="140" r="8" fill="#c084fc"/>
+    <circle cx="340" cy="370" r="8" fill="#c084fc"/>
+  </g>
+</svg>
