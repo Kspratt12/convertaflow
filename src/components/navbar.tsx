@@ -54,7 +54,10 @@ export function Navbar() {
             className="h-10 w-10 sm:h-11 sm:w-11 object-contain"
             priority
           />
-          <span className="text-[17px] sm:text-lg font-bold tracking-tight text-white">{SITE.name}</span>
+          <span className="text-[17px] sm:text-lg font-bold tracking-tight">
+            <span className="text-white">Converta</span>
+            <span className="bg-gradient-to-r from-[#8b5cf6] via-[#3b82f6] to-[#06b6d4] bg-clip-text text-transparent">flow</span>
+          </span>
         </Link>
 
         <nav className="hidden items-center gap-0.5 md:flex">

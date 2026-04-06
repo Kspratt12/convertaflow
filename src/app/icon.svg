@@ -1,32 +1,22 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
   <defs>
-    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#7c3aed"/>
       <stop offset="50%" stop-color="#3b82f6"/>
       <stop offset="100%" stop-color="#06b6d4"/>
     </linearGradient>
-    <linearGradient id="g2" x1="0%" y1="100%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#7c3aed"/>
-      <stop offset="100%" stop-color="#3b82f6"/>
-    </linearGradient>
-    <linearGradient id="g3" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.15"/>
-      <stop offset="100%" stop-color="#06b6d4" stop-opacity="0.08"/>
+    <linearGradient id="lg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#06b6d4" stop-opacity="0.06"/>
     </linearGradient>
   </defs>
-  <!-- Rounded square background with glow -->
-  <rect x="12" y="12" width="176" height="176" rx="42" fill="url(#g3)"/>
-  <rect x="12" y="12" width="176" height="176" rx="42" stroke="url(#g1)" stroke-width="3" fill="none" opacity="0.35"/>
-  <!-- Rising bar chart — bolder, wider bars -->
-  <rect x="40" y="124" width="24" height="40" rx="5" fill="url(#g2)" opacity="0.55"/>
-  <rect x="72" y="96" width="24" height="68" rx="5" fill="url(#g2)" opacity="0.7"/>
-  <rect x="104" y="68" width="24" height="96" rx="5" fill="url(#g2)" opacity="0.85"/>
-  <rect x="136" y="42" width="24" height="122" rx="5" fill="url(#g1)"/>
-  <!-- Upward flow curve — thicker -->
-  <path d="M 50 118 Q 82 76, 116 60 Q 136 50, 154 36" stroke="url(#g1)" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+  <!-- Background -->
+  <rect x="8" y="8" width="184" height="184" rx="44" fill="url(#lg2)"/>
+  <rect x="8" y="8" width="184" height="184" rx="44" stroke="url(#lg1)" stroke-width="2.5" fill="none" opacity="0.3"/>
+  <!-- Flow waves -->
+  <path d="M 44 72 Q 72 56, 100 72 Q 128 88, 156 72" stroke="url(#lg1)" stroke-width="8" stroke-linecap="round" fill="none" opacity="0.5"/>
+  <path d="M 44 100 Q 72 84, 100 100 Q 128 116, 156 100" stroke="url(#lg1)" stroke-width="8" stroke-linecap="round" fill="none" opacity="0.75"/>
+  <path d="M 44 128 Q 72 112, 100 128 Q 128 144, 156 128" stroke="url(#lg1)" stroke-width="8" stroke-linecap="round" fill="none"/>
   <!-- Arrow tip -->
-  <path d="M 146 33 L 157 33 L 157 44" stroke="url(#g1)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-  <!-- Dot accents — larger -->
-  <circle cx="50" cy="118" r="5.5" fill="#7c3aed"/>
-  <circle cx="157" cy="33" r="5.5" fill="#06b6d4"/>
+  <path d="M 148 92 L 164 100 L 148 108" stroke="#06b6d4" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
 </svg>

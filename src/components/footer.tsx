@@ -35,7 +35,10 @@ export function Footer() {
               height={28}
               className="h-7 w-7 object-contain"
             />
-            <span className="text-[13px] font-bold tracking-tight text-white/90">{SITE.name}</span>
+            <span className="text-[13px] font-bold tracking-tight">
+              <span className="text-white/90">Converta</span>
+              <span className="bg-gradient-to-r from-[#8b5cf6] via-[#3b82f6] to-[#06b6d4] bg-clip-text text-transparent">flow</span>
+            </span>
           </Link>
 
           <div className="flex flex-wrap gap-10 sm:gap-14">
