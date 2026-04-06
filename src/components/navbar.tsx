@@ -25,7 +25,7 @@ export function Navbar() {
       className={cn(
         "sticky top-0 z-50 w-full transition-all duration-300",
         scrolled
-          ? "bg-[#0e0826]/95 backdrop-blur-xl shadow-lg shadow-purple-950/20 border-b border-white/[0.06]"
+          ? "bg-[#0e0826]/95 backdrop-blur-xl shadow-lg shadow-purple-950/20"
           : "bg-gradient-to-r from-[#1a0a3e] via-[#12124a] to-[#0a1e5e]"
       )}
     >
@@ -37,12 +37,12 @@ export function Navbar() {
           <Image
             src="/logo.svg"
             alt={SITE.name}
-            width={36}
-            height={36}
-            className="h-9 w-9 object-contain"
+            width={44}
+            height={44}
+            className="h-10 w-10 sm:h-11 sm:w-11 object-contain"
             priority
           />
-          <span className="text-lg font-bold tracking-tight text-white">{SITE.name}</span>
+          <span className="text-[17px] sm:text-lg font-bold tracking-tight text-white">{SITE.name}</span>
         </Link>
 
         <nav className="hidden items-center gap-0.5 md:flex">

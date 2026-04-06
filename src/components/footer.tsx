@@ -14,60 +14,63 @@ const footerLinks = {
     { label: "Contact", href: "/contact" },
   ],
   Legal: [
-    { label: "Privacy Policy", href: "#" },
-    { label: "Terms of Service", href: "#" },
+    { label: "Privacy", href: "#" },
+    { label: "Terms", href: "#" },
   ],
 };
 
 export function Footer() {
   return (
-    <footer className="border-t border-border/50 bg-muted/15">
-      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="sm:col-span-2 lg:col-span-1">
-            <Link href="/" className="flex items-center gap-2.5">
+    <footer className="border-t border-border/40">
+      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+        <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
+          {/* Brand */}
+          <div className="max-w-[220px]">
+            <Link href="/" className="flex items-center gap-2">
               <Image
                 src="/logo.svg"
                 alt={SITE.name}
-                width={28}
-                height={28}
-                className="h-7 w-7 object-contain"
+                width={32}
+                height={32}
+                className="h-8 w-8 object-contain"
               />
-              <span className="text-[15px] font-bold tracking-tight">{SITE.name}</span>
+              <span className="text-[14px] font-bold tracking-tight">{SITE.name}</span>
             </Link>
-            <p className="mt-4 max-w-xs text-[13px] leading-relaxed text-muted-foreground">
-              Premium websites and growth systems that help businesses look
-              established, capture leads, and scale.
+            <p className="mt-3 text-[12px] leading-relaxed text-muted-foreground/70">
+              Premium websites and growth systems for businesses.
             </p>
           </div>
 
-          {Object.entries(footerLinks).map(([category, links]) => (
-            <div key={category}>
-              <h3 className="text-[12px] font-semibold uppercase tracking-wider text-muted-foreground/70">
-                {category}
-              </h3>
-              <ul className="mt-3 space-y-2.5">
-                {links.map((link) => (
-                  <li key={link.label}>
-                    <Link
-                      href={link.href}
-                      className="text-[13px] text-muted-foreground transition-colors hover:text-foreground"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          {/* Link columns */}
+          <div className="flex flex-wrap gap-12 sm:gap-16">
+            {Object.entries(footerLinks).map(([category, links]) => (
+              <div key={category}>
+                <h3 className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/50">
+                  {category}
+                </h3>
+                <ul className="mt-2.5 space-y-1.5">
+                  {links.map((link) => (
+                    <li key={link.label}>
+                      <Link
+                        href={link.href}
+                        className="text-[13px] text-muted-foreground/70 transition-colors hover:text-foreground"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-border/40 pt-6 sm:flex-row">
-          <p className="text-[12px] text-muted-foreground/60">
-            &copy; {new Date().getFullYear()} {SITE.name}. All rights reserved.
+        <div className="mt-8 flex items-center justify-between border-t border-border/30 pt-5">
+          <p className="text-[11px] text-muted-foreground/50">
+            &copy; {new Date().getFullYear()} {SITE.name}
           </p>
-          <p className="text-[12px] text-muted-foreground/60">
-            Built for businesses that want to grow.
+          <p className="text-[11px] text-muted-foreground/50">
+            Built for growth.
           </p>
         </div>
       </div>

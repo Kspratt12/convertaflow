@@ -37,9 +37,9 @@ export function DashboardSidebar() {
         <Image
           src="/logo.svg"
           alt={SITE.name}
-          width={26}
-          height={26}
-          className="h-[26px] w-[26px] object-contain"
+          width={32}
+          height={32}
+          className="h-8 w-8 object-contain"
         />
         <span className="text-[15px] font-bold tracking-tight">{SITE.name}</span>
       </div>

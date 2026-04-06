@@ -50,9 +50,9 @@ export default function LoginPage() {
           <Image
             src="/logo.svg"
             alt={SITE.name}
-            width={36}
-            height={36}
-            className="h-9 w-9 object-contain"
+            width={44}
+            height={44}
+            className="h-11 w-11 object-contain"
           />
           <span className="text-lg font-bold tracking-tight">{SITE.name}</span>
         </Link>
