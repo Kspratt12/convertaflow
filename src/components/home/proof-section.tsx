@@ -58,8 +58,8 @@ export function ProofSection() {
             <motion.div
               key={metric.label}
               className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 text-center"
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.3, delay: i * 0.06 }}
             >
@@ -78,8 +78,8 @@ export function ProofSection() {
             <motion.div
               key={t.name}
               className="flex flex-col rounded-2xl border border-white/[0.06] bg-white/[0.03] p-6"
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.3, delay: i * 0.08 }}
             >

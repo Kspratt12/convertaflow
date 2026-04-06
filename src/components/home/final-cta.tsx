@@ -41,19 +41,19 @@ export function FinalCTA() {
       </div>
 
       <div className="relative mx-auto max-w-2xl px-4 text-center sm:px-6">
-        <motion.h2 className="text-2xl sm:text-4xl lg:text-[2.75rem] font-extrabold tracking-tight" initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}>
+        <motion.h2 className="text-2xl sm:text-4xl lg:text-[2.75rem] font-extrabold tracking-tight" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.4 }}>
           Ready to look established{" "}
           <span className="bg-gradient-to-r from-[#8b5cf6] via-[#3b82f6] to-[#06b6d4] bg-clip-text text-transparent">
             and start growing?
           </span>
         </motion.h2>
 
-        <motion.p className="mx-auto mt-3 max-w-md text-[14px] leading-relaxed text-white/50 sm:text-[15px]" initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: 0.06 }}>
+        <motion.p className="mx-auto mt-3 max-w-md text-[14px] leading-relaxed text-white/50 sm:text-[15px]" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: 0.06 }}>
           Luxury website. Automated systems. Delivered in days.
           Let&apos;s build something your customers will remember.
         </motion.p>
 
-        <motion.div className="mt-6 flex flex-col items-stretch gap-2.5 sm:flex-row sm:items-center sm:justify-center" initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: 0.12 }}>
+        <motion.div className="mt-6 flex flex-col items-stretch gap-2.5 sm:flex-row sm:items-center sm:justify-center" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: 0.12 }}>
           <Button size="lg" className="h-11 sm:h-12 bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] px-6 sm:px-7 text-[14px] sm:text-[15px] font-semibold text-white hover:opacity-90 border-0 shadow-lg shadow-[#7c3aed]/20 w-full sm:w-auto" asChild>
             <Link href="/pricing">View Plans & Pricing <ArrowRight className="ml-2 h-4 w-4" /></Link>
           </Button>

@@ -70,8 +70,8 @@ export function PainPoints() {
             <motion.div
               key={pain.title}
               className="group rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 transition-all duration-200 hover:bg-white/[0.05] sm:p-6"
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.35, delay: i * 0.06 }}
             >
@@ -88,8 +88,8 @@ export function PainPoints() {
           {/* Solution card */}
           <motion.div
             className="rounded-2xl bg-gradient-to-br from-[#7c3aed] to-[#3b82f6] p-5 text-white shadow-lg shadow-purple-500/15 sm:p-6"
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true, margin: "-40px" }}
             transition={{ duration: 0.35, delay: 0.3 }}
           >

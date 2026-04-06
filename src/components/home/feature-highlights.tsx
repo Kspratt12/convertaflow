@@ -85,8 +85,8 @@ export function FeatureHighlights() {
             <motion.div
               key={feature.title}
               className="group rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6 transition-all duration-200 hover:border-white/[0.15] hover:bg-white/[0.06] hover:shadow-lg hover:shadow-purple-500/[0.05]"
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.3, delay: i * 0.04 }}
             >

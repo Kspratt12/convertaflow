@@ -147,24 +147,33 @@
   }
 }
 
-/* === MOBILE FIX: Prevent white flash and overscroll === */
-html, body {
-  background-color: #060613;
-  overscroll-behavior: none;
-}
+/* ======================================
+   MOBILE STABILITY — ROOT CAUSE FIXES
+   ====================================== */
 
-/* Fix iOS Safari overscroll bounce showing white */
+/* Dark background on html/body prevents ANY white flash */
 html {
-  -webkit-overflow-scrolling: touch;
+  background-color: #060613;
   overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 body {
+  background-color: #060613;
   overflow-x: hidden;
-  position: relative;
+  overscroll-behavior-y: none;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* === Marquee animation (GPU-accelerated) === */
+/* Kill ALL horizontal overflow at every level */
+#__next, main, [data-slot] {
+  overflow-x: hidden;
+}
+
+/* ======================================
+   MARQUEE (GPU-accelerated, no reflow)
+   ====================================== */
+
 @keyframes marquee {
   from { transform: translate3d(0, 0, 0); }
   to { transform: translate3d(-50%, 0, 0); }
@@ -173,11 +182,34 @@ body {
 .animate-marquee {
   animation: marquee 30s linear infinite;
   will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
-/* === Reduce motion for accessibility === */
+/* ======================================
+   REDUCED MOTION — accessibility + perf
+   ====================================== */
+
 @media (prefers-reduced-motion: reduce) {
-  .animate-marquee {
-    animation: none;
+  .animate-marquee,
+  .animate-pulse,
+  .animate-ping {
+    animation: none !important;
+  }
+}
+
+/* ======================================
+   MOBILE PERFORMANCE — disable heavy effects
+   ====================================== */
+
+@media (max-width: 768px) {
+  /* Reduce blur radius on mobile for GPU perf */
+  .blur-\[120px\], .blur-\[130px\], .blur-\[140px\] {
+    filter: blur(50px) !important;
+  }
+
+  /* Disable pulse animation on mobile */
+  .animate-pulse {
+    animation: none !important;
   }
 }

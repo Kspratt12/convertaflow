@@ -73,7 +73,7 @@ export function HeroSection() {
 
             {/* Mobile globe */}
             <motion.div
-              className="flex justify-center my-4 lg:hidden"
+              className="flex justify-center my-4 lg:hidden overflow-hidden"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.15 }}
