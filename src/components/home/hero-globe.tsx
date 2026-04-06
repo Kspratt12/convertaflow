@@ -184,10 +184,9 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
       ref={containerRef}
       className={`relative flex items-center justify-center ${mobile ? "w-[280px] h-[280px]" : "w-[400px] h-[400px]"}`}
     >
-      <style>{`@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}`}</style>
-
       {!mobile && (
         <>
+          <style dangerouslySetInnerHTML={{ __html: `@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}` }} />
           <div className="absolute inset-[5%] rounded-full bg-[#7c3aed]/15 blur-[50px]" />
           <div className="absolute inset-[10%] rounded-full bg-[#3b82f6]/10 blur-[40px]" />
         </>

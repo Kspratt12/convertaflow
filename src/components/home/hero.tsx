@@ -28,8 +28,6 @@ function Starfield() {
 
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden">
-      {/* Twinkle only on desktop — mobile gets static stars */}
-      <style className="hidden sm:block">{`@keyframes twinkle{0%,100%{opacity:var(--tw-lo)}50%{opacity:var(--tw-hi)}}`}</style>
       {stars.map((s) => (
         <div
           key={s.key}
