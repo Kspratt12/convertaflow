@@ -127,7 +127,7 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
       theta,
       dark: 1,
       diffuse: 1.2,
-      mapSamples: mobile ? 12000 : 16000,
+      mapSamples: 16000,
       mapBrightness: 6,
       baseColor: [0.15, 0.1, 0.35],
       markerColor: [0.486, 0.227, 0.929],
@@ -138,31 +138,7 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
       })),
     });
 
-    if (mobile) {
-      /*
-       * MOBILE: Run animation for 2 seconds to let cobe's world map
-       * texture load (it's a base64 PNG decoded async via Image()),
-       * then freeze. This gives a fully rendered globe with continents
-       * visible, then stops all GPU work for smooth scrolling.
-       */
-      let mobileActive = true;
-      let startTime = 0;
-      function mobileAnimate(ts: number) {
-        if (!mobileActive) return;
-        if (!startTime) startTime = ts;
-        globe.update({ phi: phiRef.current });
-        updateAllArrows();
-        // Run for 2 seconds then freeze
-        if (ts - startTime < 2000) {
-          requestAnimationFrame(mobileAnimate);
-        }
-      }
-      requestAnimationFrame(mobileAnimate);
-
-      return () => { mobileActive = false; globe.destroy(); };
-    }
-
-    /* DESKTOP: Full animation with IntersectionObserver pause */
+    /* Pause when off-screen — saves GPU on both mobile and desktop */
     const observer = new IntersectionObserver(
       ([entry]) => { visibleRef.current = entry.isIntersecting; },
       { threshold: 0.1 }
@@ -170,11 +146,12 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
     observer.observe(container);
 
     let active = true;
+    const speed = mobile ? 0.003 : 0.004;
     function animate() {
       if (!active) return;
       rafRef.current = requestAnimationFrame(animate);
       if (!visibleRef.current) return;
-      phiRef.current += 0.004;
+      phiRef.current += speed;
       globe.update({ phi: phiRef.current });
       updateAllArrows();
     }
