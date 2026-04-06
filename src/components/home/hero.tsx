@@ -59,6 +59,30 @@ export function HeroSection() {
 
       <Starfield />
 
+      {/* Shooting stars */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div
+          className="absolute w-[80px] h-[1px] rounded-full"
+          style={{
+            top: "18%",
+            left: "5%",
+            background: "linear-gradient(90deg, transparent, #8b5cf6, #06b6d4, transparent)",
+            boxShadow: "0 0 6px 1px rgba(139,92,246,0.4)",
+            animation: "shooting-star 6s 2s ease-out infinite",
+          }}
+        />
+        <div
+          className="absolute w-[60px] h-[1px] rounded-full"
+          style={{
+            top: "35%",
+            left: "60%",
+            background: "linear-gradient(90deg, transparent, #3b82f6, #06b6d4, transparent)",
+            boxShadow: "0 0 4px 1px rgba(59,130,246,0.3)",
+            animation: "shooting-star 8s 5s ease-out infinite",
+          }}
+        />
+      </div>
+
       <div className="relative mx-auto max-w-7xl px-4 pb-8 pt-8 sm:px-6 sm:pb-16 sm:pt-16 lg:px-8">
         <div className="lg:grid lg:grid-cols-2 lg:items-center lg:gap-8">
           <div className="text-center lg:text-left">
