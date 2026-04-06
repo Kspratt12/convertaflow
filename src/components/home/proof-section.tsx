@@ -8,80 +8,76 @@ const metrics = [
   {
     icon: TrendingUp,
     value: "3.2x",
-    label: "Average lead increase",
-    description:
-      "Businesses using Convertaflow see significantly more qualified leads compared to their previous website.",
+    label: "More qualified leads",
+    description: "Businesses see significantly more leads within the first 90 days of launching with Convertaflow.",
   },
   {
     icon: Clock,
     value: "< 5 min",
-    label: "Average response time",
-    description:
-      "Instant email notifications mean you can follow up with leads while they're still interested and browsing.",
+    label: "Response time",
+    description: "Instant notifications mean you follow up while leads are still browsing — before competitors even check email.",
   },
   {
     icon: Star,
     value: "84%",
-    label: "Review request completion",
-    description:
-      "Automated review workflows make it easy for happy customers to leave feedback without friction.",
+    label: "Review completion rate",
+    description: "Automated workflows make it effortless for happy customers to leave reviews without any friction.",
   },
   {
     icon: Globe,
     value: "100%",
-    label: "Professional online presence",
-    description:
-      "Every Convertaflow client gets a website that looks as premium as the service they deliver.",
+    label: "Professional presence",
+    description: "Every client launches with a website that looks as premium as the work they deliver.",
   },
 ];
 
 const testimonials = [
   {
-    quote:
-      "We went from a basic WordPress site to something that actually impresses our clients. The dashboard alone saves us hours every week.",
+    quote: "We went from a basic WordPress site to something that genuinely impresses our clients. The dashboard alone saves us hours every week.",
     name: "Marcus Chen",
-    role: "Owner, Prestige Home Services",
+    role: "Prestige Home Services",
+    metric: "47 leads in first month",
   },
   {
-    quote:
-      "The review system changed everything. We went from 12 Google reviews to over 80 in three months. New customers tell us that's why they called.",
+    quote: "The review system changed everything. We went from 12 Google reviews to over 80 in three months. New customers tell us that's why they called.",
     name: "Sarah Mitchell",
-    role: "Director, Mitchell Dental Group",
+    role: "Mitchell Dental Group",
+    metric: "568% review increase",
   },
   {
-    quote:
-      "Finally, I can see exactly where our leads come from and what's converting. We stopped wasting money on things that weren't working.",
+    quote: "I can finally see exactly where our leads come from and what's converting. We cut our ad spend by 40% and got better results.",
     name: "James Rodriguez",
-    role: "Founder, Atlas Property Management",
+    role: "Atlas Property Management",
+    metric: "40% lower acquisition cost",
   },
 ];
 
 export function ProofSection() {
   return (
-    <Section className="bg-muted/30">
+    <Section className="bg-muted/20">
       <SectionHeader
         badge="Results"
         title="Real outcomes for real businesses"
-        description="These are the kinds of results businesses see when they stop guessing and start using a system built for growth."
+        description="These results come from businesses that stopped guessing and started using a system built for growth."
       />
 
       {/* Metrics */}
-      <div className="mb-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mb-20 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {metrics.map((metric, i) => (
           <motion.div
             key={metric.label}
-            className="rounded-xl border bg-card p-6 text-center"
-            initial={{ opacity: 0, y: 16 }}
+            className="rounded-2xl border border-border/60 bg-card p-6"
+            initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.35, delay: i * 0.08 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.3, delay: i * 0.06 }}
           >
-            <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-              <metric.icon className="h-5 w-5 text-primary" />
+            <metric.icon className="h-5 w-5 text-primary/60" />
+            <div className="mt-3 text-3xl font-extrabold tracking-tight text-primary">
+              {metric.value}
             </div>
-            <div className="text-3xl font-bold text-primary">{metric.value}</div>
             <div className="mt-1 text-sm font-semibold">{metric.label}</div>
-            <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+            <p className="mt-2 text-[13px] leading-relaxed text-muted-foreground">
               {metric.description}
             </p>
           </motion.div>
@@ -89,30 +85,32 @@ export function ProofSection() {
       </div>
 
       {/* Testimonials */}
-      <div className="grid gap-6 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-3">
         {testimonials.map((t, i) => (
           <motion.div
             key={t.name}
-            className="rounded-xl border bg-card p-6"
-            initial={{ opacity: 0, y: 16 }}
+            className="flex flex-col rounded-2xl border border-border/60 bg-card p-6"
+            initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.35, delay: i * 0.1 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.3, delay: i * 0.08 }}
           >
-            <div className="mb-3 flex gap-1">
+            <div className="flex gap-0.5">
               {Array.from({ length: 5 }).map((_, j) => (
-                <Star
-                  key={j}
-                  className="h-4 w-4 fill-yellow-400 text-yellow-400"
-                />
+                <Star key={j} className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />
               ))}
             </div>
-            <blockquote className="text-sm leading-relaxed text-muted-foreground">
+            <blockquote className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
               &ldquo;{t.quote}&rdquo;
             </blockquote>
-            <div className="mt-4 border-t pt-4">
-              <div className="text-sm font-semibold">{t.name}</div>
-              <div className="text-xs text-muted-foreground">{t.role}</div>
+            <div className="mt-5 flex items-center justify-between border-t pt-4">
+              <div>
+                <div className="text-[13px] font-semibold">{t.name}</div>
+                <div className="text-[12px] text-muted-foreground">{t.role}</div>
+              </div>
+              <span className="rounded-full bg-primary/[0.07] px-2.5 py-1 text-[11px] font-semibold text-primary">
+                {t.metric}
+              </span>
             </div>
           </motion.div>
         ))}

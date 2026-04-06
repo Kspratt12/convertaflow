@@ -11,124 +11,83 @@ import { Badge } from "@/components/ui/badge";
 
 export default function SettingsPage() {
   return (
-    <div className="space-y-6">
+    <div className="mx-auto max-w-2xl space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Settings</h1>
-        <p className="text-sm text-muted-foreground">
-          Manage your business profile and account preferences.
+        <h1 className="text-xl font-bold tracking-tight">Settings</h1>
+        <p className="mt-0.5 text-[13px] text-muted-foreground">
+          Manage your business profile and preferences.
         </p>
       </div>
 
-      {/* Business Profile */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Business Profile</CardTitle>
+      <Card className="border-border/50">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-[14px] font-semibold">Business Profile</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="businessName">Business Name</Label>
-              <Input
-                id="businessName"
-                defaultValue="Prestige Home Services"
-              />
+            <div className="space-y-1.5">
+              <Label className="text-[13px]">Business Name</Label>
+              <Input defaultValue="Prestige Home Services" />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="businessEmail">Business Email</Label>
-              <Input
-                id="businessEmail"
-                type="email"
-                defaultValue="contact@prestigehome.com"
-              />
+            <div className="space-y-1.5">
+              <Label className="text-[13px]">Business Email</Label>
+              <Input type="email" defaultValue="contact@prestigehome.com" />
             </div>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="phone">Phone Number</Label>
-              <Input id="phone" defaultValue="(555) 123-4567" />
+            <div className="space-y-1.5">
+              <Label className="text-[13px]">Phone</Label>
+              <Input defaultValue="(555) 123-4567" />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="website">Website URL</Label>
-              <Input
-                id="website"
-                defaultValue="https://prestigehome.convertaflow.com"
-              />
+            <div className="space-y-1.5">
+              <Label className="text-[13px]">Website URL</Label>
+              <Input defaultValue="https://prestigehome.convertaflow.com" />
             </div>
           </div>
-          <Button size="sm">
-            <Save className="mr-2 h-4 w-4" />
+          <Button size="sm" className="gap-1.5">
+            <Save className="h-3.5 w-3.5" />
             Save Changes
           </Button>
         </CardContent>
       </Card>
 
-      {/* Plan */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Current Plan</CardTitle>
+      <Card className="border-border/50">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-[14px] font-semibold">Current Plan</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center justify-between">
+          <div className="flex items-start justify-between gap-4">
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="font-semibold">Reviews + Dashboard</h3>
-                <Badge>Active</Badge>
+                <span className="text-[15px] font-semibold">Reviews + Dashboard</span>
+                <Badge className="text-[11px]">Active</Badge>
               </div>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Premium website, review system, lead tracking, and email
-                notifications.
+              <p className="mt-1 text-[13px] text-muted-foreground">
+                Premium website, review system, lead tracking, and email notifications.
               </p>
             </div>
-            <Button variant="outline" size="sm">
-              Upgrade Plan
-            </Button>
+            <Button variant="outline" size="sm">Upgrade</Button>
           </div>
         </CardContent>
       </Card>
 
-      {/* Notification Preferences */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">
-            Notification Preferences
-          </CardTitle>
+      <Card className="border-border/50">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-[14px] font-semibold">Notifications</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           {[
-            {
-              label: "New lead notifications",
-              description: "Get emailed when a new lead submits a form",
-              defaultChecked: true,
-            },
-            {
-              label: "Review completion alerts",
-              description:
-                "Get notified when a customer completes a review",
-              defaultChecked: true,
-            },
-            {
-              label: "Weekly summary reports",
-              description:
-                "Receive a weekly email summary of your business activity",
-              defaultChecked: false,
-            },
-            {
-              label: "Marketing and product updates",
-              description: "Learn about new features and best practices",
-              defaultChecked: false,
-            },
+            { label: "New lead notifications", description: "Email when a lead submits a form", on: true },
+            { label: "Review completion alerts", description: "Email when a customer completes a review", on: true },
+            { label: "Weekly summary", description: "Weekly email summary of business activity", on: false },
+            { label: "Product updates", description: "New features and best practices", on: false },
           ].map((pref) => (
-            <div
-              key={pref.label}
-              className="flex items-center justify-between"
-            >
+            <div key={pref.label} className="flex items-center justify-between gap-4">
               <div>
-                <p className="text-sm font-medium">{pref.label}</p>
-                <p className="text-xs text-muted-foreground">
-                  {pref.description}
-                </p>
+                <p className="text-[13px] font-medium">{pref.label}</p>
+                <p className="text-[12px] text-muted-foreground">{pref.description}</p>
               </div>
-              <Switch defaultChecked={pref.defaultChecked} />
+              <Switch defaultChecked={pref.on} />
             </div>
           ))}
         </CardContent>
@@ -136,22 +95,17 @@ export default function SettingsPage() {
 
       <Separator />
 
-      {/* Danger Zone */}
-      <Card className="border-destructive/50">
-        <CardHeader>
-          <CardTitle className="text-base text-destructive">
-            Danger Zone
-          </CardTitle>
+      <Card className="border-destructive/30">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-[14px] font-semibold text-destructive">Danger Zone</CardTitle>
         </CardHeader>
-        <CardContent className="flex items-center justify-between">
+        <CardContent className="flex items-center justify-between gap-4">
           <div>
-            <p className="text-sm font-medium">Delete Account</p>
-            <p className="text-xs text-muted-foreground">
-              Permanently delete your account and all associated data.
-            </p>
+            <p className="text-[13px] font-medium">Delete Account</p>
+            <p className="text-[12px] text-muted-foreground">Permanently delete your account and all data.</p>
           </div>
-          <Button variant="outline" size="sm" className="text-destructive">
-            Delete Account
+          <Button variant="outline" size="sm" className="text-destructive border-destructive/30 hover:bg-destructive/5">
+            Delete
           </Button>
         </CardContent>
       </Card>

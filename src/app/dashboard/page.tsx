@@ -15,34 +15,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 const stats = [
-  {
-    label: "New Leads",
-    value: "47",
-    change: "+12%",
-    changeLabel: "vs last month",
-    icon: Users,
-  },
-  {
-    label: "Reviews Collected",
-    value: "23",
-    change: "+8%",
-    changeLabel: "vs last month",
-    icon: Star,
-  },
-  {
-    label: "Emails Sent",
-    value: "156",
-    change: "+24%",
-    changeLabel: "vs last month",
-    icon: Mail,
-  },
-  {
-    label: "Conversion Rate",
-    value: "4.2%",
-    change: "+0.6%",
-    changeLabel: "vs last month",
-    icon: TrendingUp,
-  },
+  { label: "New Leads", value: "47", change: "+12%", icon: Users },
+  { label: "Reviews Collected", value: "23", change: "+8%", icon: Star },
+  { label: "Emails Sent", value: "156", change: "+24%", icon: Mail },
+  { label: "Conversion Rate", value: "4.2%", change: "+0.6%", icon: TrendingUp },
 ];
 
 const recentLeads = [
@@ -65,155 +41,118 @@ const recentActivity = [
 export default function DashboardOverview() {
   return (
     <div className="space-y-6">
-      {/* Welcome */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">
-            Welcome back, Sarah
-          </h1>
-          <p className="text-sm text-muted-foreground">
+          <h1 className="text-xl font-bold tracking-tight">Welcome back, Sarah</h1>
+          <p className="mt-0.5 text-[13px] text-muted-foreground">
             Here&apos;s how your business is performing this month.
           </p>
         </div>
-        <Button size="sm" asChild>
+        <Button size="sm" className="gap-1.5" asChild>
           <Link href="/dashboard/leads">
             View All Leads
-            <ArrowRight className="ml-2 h-4 w-4" />
+            <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </Button>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {/* Stats */}
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => (
-          <Card key={stat.label}>
-            <CardContent className="p-5">
+          <Card key={stat.label} className="border-border/50">
+            <CardContent className="p-4">
               <div className="flex items-center justify-between">
-                <stat.icon className="h-4 w-4 text-muted-foreground" />
-                <span className="flex items-center gap-1 text-xs font-medium text-green-600">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-muted/60">
+                  <stat.icon className="h-3.5 w-3.5 text-muted-foreground" />
+                </div>
+                <span className="flex items-center gap-0.5 text-[12px] font-semibold text-emerald-600">
                   <ArrowUpRight className="h-3 w-3" />
                   {stat.change}
                 </span>
               </div>
-              <div className="mt-3">
-                <p className="text-3xl font-bold tracking-tight">
-                  {stat.value}
-                </p>
-                <p className="mt-1 text-xs text-muted-foreground">
-                  {stat.label}
-                </p>
-              </div>
+              <p className="mt-3 text-2xl font-bold tracking-tight">{stat.value}</p>
+              <p className="mt-0.5 text-[12px] text-muted-foreground">{stat.label}</p>
             </CardContent>
           </Card>
         ))}
       </div>
 
-      {/* Lead Activity Chart */}
-      <Card>
-        <CardHeader className="pb-2">
-          <CardTitle className="text-base">Lead Activity</CardTitle>
+      {/* Chart */}
+      <Card className="border-border/50">
+        <CardHeader className="pb-3">
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-[14px] font-semibold">Lead Activity</CardTitle>
+            <span className="text-[12px] text-muted-foreground">Last 24 days</span>
+          </div>
         </CardHeader>
         <CardContent>
-          <div className="flex items-end gap-2 h-40">
+          <div className="flex items-end gap-[3px] h-36">
             {[25, 40, 35, 55, 45, 65, 50, 70, 60, 80, 68, 85, 72, 90, 78, 95, 82, 88, 76, 92, 85, 98, 90, 95].map(
               (h, i) => (
                 <div
                   key={i}
-                  className="flex-1 rounded-t bg-gradient-to-t from-primary/30 to-primary/60 transition-all hover:to-primary/80"
+                  className="flex-1 rounded-t-sm bg-gradient-to-t from-primary/20 to-primary/50 transition-all hover:to-primary/70"
                   style={{ height: `${h}%` }}
                 />
               )
             )}
           </div>
-          <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
-            <span>4 weeks ago</span>
-            <span>Today</span>
-          </div>
         </CardContent>
       </Card>
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        {/* Recent Leads */}
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-base">Recent Leads</CardTitle>
-            <Button variant="ghost" size="sm" asChild>
-              <Link href="/dashboard/leads">View all</Link>
-            </Button>
+      <div className="grid gap-4 lg:grid-cols-2">
+        {/* Leads */}
+        <Card className="border-border/50">
+          <CardHeader className="flex flex-row items-center justify-between pb-3">
+            <CardTitle className="text-[14px] font-semibold">Recent Leads</CardTitle>
+            <Link href="/dashboard/leads" className="text-[12px] font-medium text-primary hover:underline">
+              View all
+            </Link>
           </CardHeader>
-          <CardContent>
-            <div className="space-y-0">
-              {recentLeads.map((lead) => (
-                <div
-                  key={lead.email}
-                  className="flex items-center justify-between border-b py-3 last:border-0 last:pb-0"
-                >
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-medium">{lead.name}</p>
-                    <p className="truncate text-xs text-muted-foreground">
-                      {lead.email}
-                    </p>
-                  </div>
-                  <div className="ml-4 flex items-center gap-3 shrink-0">
-                    <Badge
-                      variant={
-                        lead.status === "Converted"
-                          ? "default"
-                          : lead.status === "Contacted"
-                          ? "secondary"
-                          : "outline"
-                      }
-                      className="text-xs"
-                    >
-                      {lead.status}
-                    </Badge>
-                    <span className="flex items-center gap-1 text-xs text-muted-foreground whitespace-nowrap">
-                      <Clock className="h-3 w-3" />
-                      {lead.time}
-                    </span>
-                  </div>
+          <CardContent className="pt-0">
+            {recentLeads.map((lead) => (
+              <div key={lead.email} className="flex items-center justify-between py-2.5 border-b border-border/40 last:border-0">
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-[13px] font-medium">{lead.name}</p>
+                  <p className="truncate text-[12px] text-muted-foreground">{lead.email}</p>
                 </div>
-              ))}
-            </div>
+                <div className="ml-3 flex items-center gap-2 shrink-0">
+                  <Badge
+                    variant={lead.status === "Converted" ? "default" : lead.status === "Contacted" ? "secondary" : "outline"}
+                    className="text-[11px] px-2 py-0.5"
+                  >
+                    {lead.status}
+                  </Badge>
+                  <span className="hidden sm:flex items-center gap-1 text-[11px] text-muted-foreground whitespace-nowrap">
+                    <Clock className="h-2.5 w-2.5" />
+                    {lead.time}
+                  </span>
+                </div>
+              </div>
+            ))}
           </CardContent>
         </Card>
 
-        {/* Recent Activity */}
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base">Recent Activity</CardTitle>
+        {/* Activity */}
+        <Card className="border-border/50">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-[14px] font-semibold">Recent Activity</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="space-y-0">
-              {recentActivity.map((activity, i) => (
-                <div
-                  key={i}
-                  className="flex items-start gap-3 border-b py-3 last:border-0 last:pb-0"
-                >
-                  <div
-                    className={`mt-0.5 h-2 w-2 shrink-0 rounded-full ${
-                      activity.type === "lead"
-                        ? "bg-blue-500"
-                        : activity.type === "review"
-                        ? "bg-yellow-500"
-                        : "bg-green-500"
-                    }`}
-                  />
-                  <div className="min-w-0 flex-1">
-                    <p className="text-sm">
-                      <span className="font-medium">{activity.action}</span>
-                      {" — "}
-                      <span className="text-muted-foreground">
-                        {activity.target}
-                      </span>
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      {activity.time}
-                    </p>
-                  </div>
+          <CardContent className="pt-0">
+            {recentActivity.map((activity, i) => (
+              <div key={i} className="flex items-start gap-3 py-2.5 border-b border-border/40 last:border-0">
+                <div className={`mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full ${
+                  activity.type === "lead" ? "bg-blue-500" : activity.type === "review" ? "bg-amber-500" : "bg-emerald-500"
+                }`} />
+                <div className="min-w-0 flex-1">
+                  <p className="text-[13px]">
+                    <span className="font-medium">{activity.action}</span>
+                    <span className="text-muted-foreground"> — {activity.target}</span>
+                  </p>
+                  <p className="text-[11px] text-muted-foreground">{activity.time}</p>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </CardContent>
         </Card>
       </div>

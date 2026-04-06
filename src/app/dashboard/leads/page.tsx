@@ -6,11 +6,12 @@ import {
   Filter,
   Download,
   Clock,
-  Mail,
-  Phone,
   Globe,
+  Users,
+  CheckCircle2,
+  UserPlus,
 } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -33,60 +34,59 @@ const leads = [
   { id: 8, name: "Patricia Nguyen", email: "patricia@nguyenlaw.com", phone: "(555) 890-1234", source: "Google", status: "Contacted", date: "Apr 2, 2026", message: "Looking for full growth bundle info" },
 ];
 
-const sourceIcons: Record<string, typeof Globe> = {
-  Website: Globe,
-  Google: Search,
-  Referral: Phone,
-  Facebook: Mail,
-};
-
 export default function LeadsPage() {
   const [filter, setFilter] = useState("all");
+  const filtered = filter === "all" ? leads : leads.filter((l) => l.status.toLowerCase() === filter);
 
-  const filtered =
-    filter === "all" ? leads : leads.filter((l) => l.status.toLowerCase() === filter);
+  const counts = {
+    total: leads.length,
+    new: leads.filter((l) => l.status === "New").length,
+    contacted: leads.filter((l) => l.status === "Contacted").length,
+    converted: leads.filter((l) => l.status === "Converted").length,
+  };
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div className="space-y-5">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Leads</h1>
-          <p className="text-sm text-muted-foreground">
-            Track and manage all your incoming leads.
+          <h1 className="text-xl font-bold tracking-tight">Leads</h1>
+          <p className="mt-0.5 text-[13px] text-muted-foreground">
+            Track and manage all incoming leads.
           </p>
         </div>
-        <Button variant="outline" size="sm">
-          <Download className="mr-2 h-4 w-4" />
-          Export CSV
+        <Button variant="outline" size="sm" className="gap-1.5">
+          <Download className="h-3.5 w-3.5" />
+          Export
         </Button>
       </div>
 
       {/* Stats */}
-      <div className="grid gap-4 sm:grid-cols-4">
+      <div className="grid gap-3 grid-cols-2 sm:grid-cols-4">
         {[
-          { label: "Total Leads", value: leads.length },
-          { label: "New", value: leads.filter((l) => l.status === "New").length },
-          { label: "Contacted", value: leads.filter((l) => l.status === "Contacted").length },
-          { label: "Converted", value: leads.filter((l) => l.status === "Converted").length },
+          { label: "Total", value: counts.total, icon: Users },
+          { label: "New", value: counts.new, icon: UserPlus },
+          { label: "Contacted", value: counts.contacted, icon: Clock },
+          { label: "Converted", value: counts.converted, icon: CheckCircle2 },
         ].map((s) => (
-          <Card key={s.label}>
+          <Card key={s.label} className="border-border/50">
             <CardContent className="p-4">
-              <p className="text-xs text-muted-foreground">{s.label}</p>
-              <p className="mt-1 text-2xl font-bold">{s.value}</p>
+              <s.icon className="h-3.5 w-3.5 text-muted-foreground/60" />
+              <p className="mt-2 text-2xl font-bold tracking-tight">{s.value}</p>
+              <p className="text-[12px] text-muted-foreground">{s.label}</p>
             </CardContent>
           </Card>
         ))}
       </div>
 
       {/* Filters */}
-      <div className="flex flex-col gap-3 sm:flex-row">
+      <div className="flex flex-col gap-2 sm:flex-row">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
           <Input placeholder="Search leads..." className="pl-9" />
         </div>
         <Select value={filter} onValueChange={(v) => setFilter(v ?? "all")}>
-          <SelectTrigger className="w-full sm:w-40">
-            <Filter className="mr-2 h-4 w-4" />
+          <SelectTrigger className="w-full sm:w-36">
+            <Filter className="mr-1.5 h-3.5 w-3.5" />
             <SelectValue placeholder="Filter" />
           </SelectTrigger>
           <SelectContent>
@@ -98,70 +98,52 @@ export default function LeadsPage() {
         </Select>
       </div>
 
-      {/* Leads Table */}
-      <Card>
+      {/* Table */}
+      <Card className="border-border/50">
         <CardContent className="p-0">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b text-left">
-                  <th className="px-6 py-3 text-xs font-medium text-muted-foreground">Name</th>
-                  <th className="px-6 py-3 text-xs font-medium text-muted-foreground">Source</th>
-                  <th className="px-6 py-3 text-xs font-medium text-muted-foreground">Status</th>
-                  <th className="px-6 py-3 text-xs font-medium text-muted-foreground">Date</th>
-                  <th className="px-6 py-3 text-xs font-medium text-muted-foreground">Message</th>
+                <tr className="border-b border-border/40">
+                  <th className="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60">Name</th>
+                  <th className="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60">Source</th>
+                  <th className="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60">Status</th>
+                  <th className="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60">Date</th>
+                  <th className="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60">Message</th>
                 </tr>
               </thead>
               <tbody>
-                {filtered.map((lead) => {
-                  const SourceIcon = sourceIcons[lead.source] || Globe;
-                  return (
-                    <tr
-                      key={lead.id}
-                      className="border-b transition-colors hover:bg-muted/50 last:border-0"
-                    >
-                      <td className="px-6 py-4">
-                        <div>
-                          <p className="text-sm font-medium">{lead.name}</p>
-                          <p className="text-xs text-muted-foreground">
-                            {lead.email}
-                          </p>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                          <SourceIcon className="h-3.5 w-3.5" />
-                          {lead.source}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <Badge
-                          variant={
-                            lead.status === "Converted"
-                              ? "default"
-                              : lead.status === "Contacted"
-                              ? "secondary"
-                              : "outline"
-                          }
-                          className="text-xs"
-                        >
-                          {lead.status}
-                        </Badge>
-                      </td>
-                      <td className="px-6 py-4">
-                        <span className="flex items-center gap-1 text-xs text-muted-foreground">
-                          <Clock className="h-3 w-3" />
-                          {lead.date}
-                        </span>
-                      </td>
-                      <td className="max-w-xs px-6 py-4">
-                        <p className="truncate text-xs text-muted-foreground">
-                          {lead.message}
-                        </p>
-                      </td>
-                    </tr>
-                  );
-                })}
+                {filtered.map((lead) => (
+                  <tr key={lead.id} className="border-b border-border/30 transition-colors hover:bg-muted/30 last:border-0">
+                    <td className="px-5 py-3.5">
+                      <p className="text-[13px] font-medium">{lead.name}</p>
+                      <p className="text-[12px] text-muted-foreground">{lead.email}</p>
+                    </td>
+                    <td className="px-5 py-3.5">
+                      <div className="flex items-center gap-1.5 text-[13px] text-muted-foreground">
+                        <Globe className="h-3 w-3" />
+                        {lead.source}
+                      </div>
+                    </td>
+                    <td className="px-5 py-3.5">
+                      <Badge
+                        variant={lead.status === "Converted" ? "default" : lead.status === "Contacted" ? "secondary" : "outline"}
+                        className="text-[11px] px-2 py-0.5"
+                      >
+                        {lead.status}
+                      </Badge>
+                    </td>
+                    <td className="px-5 py-3.5">
+                      <span className="flex items-center gap-1 text-[12px] text-muted-foreground">
+                        <Clock className="h-3 w-3" />
+                        {lead.date}
+                      </span>
+                    </td>
+                    <td className="max-w-[200px] px-5 py-3.5">
+                      <p className="truncate text-[12px] text-muted-foreground">{lead.message}</p>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

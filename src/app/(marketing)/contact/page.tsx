@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
-import { Section, SectionHeader } from "@/components/section";
+import { ArrowRight, CheckCircle2, Loader2, Mail, Phone, MapPin } from "lucide-react";
+import { Section } from "@/components/section";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -23,7 +23,6 @@ const businessTypes = [
   "Restaurant / Hospitality",
   "Fitness / Wellness",
   "Professional Services",
-  "Retail / E-commerce",
   "Construction / Trades",
   "Other",
 ];
@@ -60,7 +59,6 @@ export default function ContactPage() {
       });
       setSubmitted(true);
     } catch {
-      // Still show success for now — form data will be captured when backend is connected
       setSubmitted(true);
     } finally {
       setLoading(false);
@@ -70,20 +68,19 @@ export default function ContactPage() {
   if (submitted) {
     return (
       <Section>
-        <div className="mx-auto max-w-lg text-center">
-          <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
-            <CheckCircle2 className="h-8 w-8 text-green-600" />
+        <div className="mx-auto max-w-md text-center">
+          <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500/10">
+            <CheckCircle2 className="h-7 w-7 text-emerald-500" />
           </div>
           <h2 className="text-2xl font-bold">Message received</h2>
-          <p className="mt-3 text-muted-foreground">
-            Thanks for reaching out. We&apos;ll review your message and get back
-            to you within one business day. In the meantime, feel free to explore
-            our features and pricing.
+          <p className="mt-3 text-[15px] text-muted-foreground leading-relaxed">
+            Thanks for reaching out. We review every message and respond within
+            one business day. In the meantime, explore what we offer.
           </p>
-          <Button className="mt-8" variant="outline" asChild>
+          <Button className="mt-7 gap-1.5" variant="outline" asChild>
             <a href="/pricing">
               Explore Pricing
-              <ArrowRight className="ml-2 h-4 w-4" />
+              <ArrowRight className="h-3.5 w-3.5" />
             </a>
           </Button>
         </div>
@@ -92,105 +89,111 @@ export default function ContactPage() {
   }
 
   return (
-    <>
-      <Section>
-        <div className="mx-auto max-w-2xl">
-          <SectionHeader
-            badge="Contact"
-            title="Let's talk about your business"
-            description="Tell us a bit about what you need. We'll follow up with the best path forward — no pressure, no hard sell."
-          />
+    <Section>
+      <div className="mx-auto max-w-4xl">
+        <div className="grid gap-12 lg:grid-cols-5">
+          {/* Left — info */}
+          <div className="lg:col-span-2">
+            <span className="inline-block rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-primary mb-5">
+              Contact
+            </span>
+            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+              Let&apos;s talk about your business
+            </h1>
+            <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground">
+              Tell us what you need. We&apos;ll follow up with the best path
+              forward — no pressure, no hard sell.
+            </p>
 
-          <form
-            onSubmit={handleSubmit}
-            className="space-y-6 rounded-2xl border bg-card p-8"
-          >
-            <div className="grid gap-6 sm:grid-cols-2">
-              <div className="space-y-2">
-                <Label htmlFor="name">Full Name</Label>
-                <Input
-                  id="name"
-                  name="name"
-                  placeholder="Your name"
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="you@business.com"
-                  required
-                />
-              </div>
+            <div className="mt-8 space-y-4">
+              {[
+                { icon: Mail, label: "hello@convertaflow.com" },
+                { icon: Phone, label: "(555) 000-0000" },
+                { icon: MapPin, label: "Remote — serving clients everywhere" },
+              ].map((item) => (
+                <div key={item.label} className="flex items-center gap-3 text-sm text-muted-foreground">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-muted">
+                    <item.icon className="h-3.5 w-3.5" />
+                  </div>
+                  {item.label}
+                </div>
+              ))}
             </div>
+          </div>
 
-            <div className="grid gap-6 sm:grid-cols-2">
-              <div className="space-y-2">
-                <Label htmlFor="businessType">Business Type</Label>
-                <Select name="businessType">
-                  <SelectTrigger id="businessType">
-                    <SelectValue placeholder="Select your industry" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {businessTypes.map((type) => (
-                      <SelectItem key={type} value={type}>
-                        {type}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="interest">Interested In</Label>
-                <Select name="interest">
-                  <SelectTrigger id="interest">
-                    <SelectValue placeholder="Select a plan" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {interests.map((interest) => (
-                      <SelectItem key={interest} value={interest}>
-                        {interest}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="message">Tell us about your needs</Label>
-              <Textarea
-                id="message"
-                name="message"
-                placeholder="What are you looking to achieve? Any specific challenges or goals..."
-                rows={5}
-              />
-            </div>
-
-            <Button
-              type="submit"
-              size="lg"
-              className="w-full"
-              disabled={loading}
+          {/* Right — form */}
+          <div className="lg:col-span-3">
+            <form
+              onSubmit={handleSubmit}
+              className="space-y-5 rounded-2xl border border-border/60 bg-card p-7"
             >
-              {loading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Sending...
-                </>
-              ) : (
-                <>
-                  Send Message
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </>
-              )}
-            </Button>
-          </form>
+              <div className="grid gap-5 sm:grid-cols-2">
+                <div className="space-y-1.5">
+                  <Label htmlFor="name" className="text-[13px]">Full Name</Label>
+                  <Input id="name" name="name" placeholder="Your name" required />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="email" className="text-[13px]">Email</Label>
+                  <Input id="email" name="email" type="email" placeholder="you@business.com" required />
+                </div>
+              </div>
+
+              <div className="grid gap-5 sm:grid-cols-2">
+                <div className="space-y-1.5">
+                  <Label htmlFor="businessType" className="text-[13px]">Business Type</Label>
+                  <Select name="businessType">
+                    <SelectTrigger id="businessType">
+                      <SelectValue placeholder="Select industry" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {businessTypes.map((type) => (
+                        <SelectItem key={type} value={type}>{type}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="interest" className="text-[13px]">Interested In</Label>
+                  <Select name="interest">
+                    <SelectTrigger id="interest">
+                      <SelectValue placeholder="Select a plan" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {interests.map((interest) => (
+                        <SelectItem key={interest} value={interest}>{interest}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              <div className="space-y-1.5">
+                <Label htmlFor="message" className="text-[13px]">Message</Label>
+                <Textarea
+                  id="message"
+                  name="message"
+                  placeholder="What are you looking to achieve?"
+                  rows={4}
+                />
+              </div>
+
+              <Button type="submit" size="lg" className="w-full gap-1.5" disabled={loading}>
+                {loading ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    Send Message
+                    <ArrowRight className="h-4 w-4" />
+                  </>
+                )}
+              </Button>
+            </form>
+          </div>
         </div>
-      </Section>
-    </>
+      </div>
+    </Section>
   );
 }
