@@ -54,7 +54,7 @@ const testimonials = [
 
 export function ProofSection() {
   return (
-    <Section className="bg-muted/20">
+    <Section>
       <SectionHeader
         badge="Results"
         title="Real outcomes for real businesses"

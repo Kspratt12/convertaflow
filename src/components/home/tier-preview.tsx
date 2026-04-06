@@ -64,7 +64,7 @@ const tiers = [
 
 export function TierPreview() {
   return (
-    <Section className="bg-muted/20">
+    <Section>
       <SectionHeader
         badge="Three Tiers"
         title="Choose the level of growth your business needs"

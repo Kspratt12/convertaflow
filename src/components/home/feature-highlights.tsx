@@ -57,7 +57,7 @@ const features = [
 
 export function FeatureHighlights() {
   return (
-    <section className="relative overflow-hidden bg-[#060613] py-16 text-white sm:py-20">
+    <section className="relative overflow-hidden bg-[#060613] py-12 text-white sm:py-16">
       {/* Gradient orbs */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute top-[20%] left-[15%] h-[400px] w-[400px] rounded-full bg-[#7c3aed]/[0.10] blur-[130px]" />
@@ -65,7 +65,7 @@ export function FeatureHighlights() {
       </div>
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto mb-10 max-w-2xl text-center sm:mb-14">
+        <div className="mx-auto mb-8 max-w-2xl text-center sm:mb-12">
           <span className="mb-5 inline-block rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-white/50">
             Platform
           </span>

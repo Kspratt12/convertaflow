@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 
 export function FinalCTA() {
   return (
-    <section className="relative overflow-hidden bg-[#060613] py-16 text-white sm:py-20">
+    <section className="relative overflow-hidden bg-[#060613] py-12 text-white sm:py-16">
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute top-1/2 left-1/3 -translate-y-1/2 h-[400px] w-[400px] rounded-full bg-[#7c3aed]/[0.12] blur-[120px]" />
         <div className="absolute top-1/2 right-1/3 -translate-y-1/2 h-[350px] w-[350px] rounded-full bg-[#3b82f6]/[0.10] blur-[120px]" />
