@@ -45,13 +45,10 @@ const pains = [
 
 export function PainPoints() {
   return (
-    <section className="relative overflow-hidden py-12 sm:py-16">
-      {/* Subtle warm gradient background */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-background via-red-50/30 to-background" />
-
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section className="py-12 sm:py-16">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto mb-10 max-w-2xl text-center">
-          <span className="mb-5 inline-block rounded-full border border-red-200/60 bg-red-50 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-red-600/80">
+          <span className="mb-5 inline-block rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-primary">
             The Problem
           </span>
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
@@ -66,14 +63,14 @@ export function PainPoints() {
           {pains.map((pain, i) => (
             <motion.div
               key={pain.title}
-              className="group rounded-2xl border border-red-100/80 bg-white p-6 shadow-sm transition-all duration-200 hover:shadow-md hover:shadow-red-100/50"
+              className="group rounded-2xl border border-border/60 bg-card p-6 transition-all duration-200 hover:border-border hover:shadow-md"
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.35, delay: i * 0.06 }}
             >
-              <div className="mb-4 flex h-9 w-9 items-center justify-center rounded-lg bg-red-50">
-                <pain.icon className="h-[18px] w-[18px] text-red-500" />
+              <div className="mb-4 flex h-9 w-9 items-center justify-center rounded-lg bg-red-500/[0.08]">
+                <pain.icon className="h-[18px] w-[18px] text-red-500/80" />
               </div>
               <h3 className="text-[15px] font-semibold leading-snug">{pain.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
@@ -84,7 +81,7 @@ export function PainPoints() {
 
           {/* Solution card */}
           <motion.div
-            className="rounded-2xl bg-gradient-to-br from-[#7c3aed] to-[#3b82f6] p-6 text-white shadow-lg shadow-purple-500/20"
+            className="rounded-2xl bg-gradient-to-br from-[#7c3aed] to-[#3b82f6] p-6 text-white shadow-lg shadow-purple-500/15"
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-40px" }}
