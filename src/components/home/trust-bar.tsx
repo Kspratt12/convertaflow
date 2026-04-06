@@ -18,7 +18,7 @@ const trustItems = [
 
 export function TrustBar() {
   return (
-    <section className="bg-[#0a0a1f] py-4 sm:py-5 border-y border-white/[0.04]">
+    <section className="bg-[#060613] py-4 sm:py-5 border-y border-white/[0.04]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between gap-4 overflow-x-auto scrollbar-hide sm:gap-6">
           {trustItems.map((item) => (
