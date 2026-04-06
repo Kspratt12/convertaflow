@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ExternalLink, ArrowRight } from "lucide-react";
 import Link from "next/link";
@@ -9,21 +10,21 @@ const projects = [
   {
     name: "ListingFlare",
     url: "https://www.listingflare.com",
+    image: "/listing-flare.png",
     category: "Real Estate SaaS",
     description:
-      "AI-powered property websites for listing agents. Single-property branded sites with 24/7 chatbot, automated lead capture, and follow-up emails.",
+      "AI-powered property websites for listing agents. Branded single-property sites with 24/7 chatbot, automated lead capture, and follow-up emails.",
     stats: ["AI chatbot integration", "Lead capture system", "Analytics dashboard"],
-    gradient: "from-[#1a1a2e] to-[#16213e]",
     accent: "#3b82f6",
   },
   {
     name: "SupplementSnap",
     url: "https://www.supplementsnap.io",
+    image: "/supplement-flow.png",
     category: "Roofing Software",
     description:
-      "Roofing supplement software that recovers $2,400+ per supplement. AI-generated reports from mobile damage photos, ready for insurance adjusters.",
+      "Roofing supplement software recovering $2,400+ per supplement. AI-generated reports from mobile damage photos, ready for insurance adjusters.",
     stats: ["AI report generation", "Mobile-first capture", "Xactimate export"],
-    gradient: "from-[#1a1a2e] to-[#1e1b3a]",
     accent: "#8b5cf6",
   },
 ];
@@ -64,21 +65,30 @@ export function Portfolio() {
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.4, delay: i * 0.1 }}
             >
-              {/* Browser frame header */}
-              <div className="flex items-center gap-2 border-b border-white/[0.06] bg-white/[0.02] px-4 py-2.5">
-                <div className="flex gap-1.5">
-                  <div className="h-2 w-2 rounded-full bg-white/15" />
-                  <div className="h-2 w-2 rounded-full bg-white/15" />
-                  <div className="h-2 w-2 rounded-full bg-white/15" />
+              {/* Screenshot */}
+              <div className="relative overflow-hidden border-b border-white/[0.06]">
+                <div className="flex items-center gap-2 absolute top-0 left-0 right-0 z-10 bg-gradient-to-b from-black/40 to-transparent px-4 py-2.5">
+                  <div className="flex gap-1.5">
+                    <div className="h-2 w-2 rounded-full bg-white/25" />
+                    <div className="h-2 w-2 rounded-full bg-white/25" />
+                    <div className="h-2 w-2 rounded-full bg-white/25" />
+                  </div>
+                  <div className="ml-2 flex-1 flex items-center gap-2 rounded-lg bg-black/20 backdrop-blur-sm px-3 py-0.5">
+                    <span className="text-[11px] text-white/40">{project.url.replace("https://www.", "")}</span>
+                    <ExternalLink className="h-2.5 w-2.5 text-white/20 ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </div>
                 </div>
-                <div className="ml-2 flex-1 flex items-center gap-2 rounded-lg bg-white/[0.03] px-3 py-1">
-                  <span className="text-[11px] text-white/30">{project.url.replace("https://www.", "")}</span>
-                  <ExternalLink className="h-2.5 w-2.5 text-white/20 ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
-                </div>
+                <Image
+                  src={project.image}
+                  alt={`${project.name} screenshot`}
+                  width={700}
+                  height={400}
+                  className="w-full h-[200px] sm:h-[240px] object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
+                />
               </div>
 
-              {/* Content preview area */}
-              <div className={`bg-gradient-to-br ${project.gradient} p-6 sm:p-8`}>
+              {/* Info */}
+              <div className="p-5 sm:p-6">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1">
                     <span
@@ -87,17 +97,16 @@ export function Portfolio() {
                     >
                       {project.category}
                     </span>
-                    <h3 className="mt-3 text-xl font-bold text-white sm:text-2xl">
+                    <h3 className="mt-2 text-lg font-bold text-white sm:text-xl">
                       {project.name}
                     </h3>
-                    <p className="mt-2 text-[13px] leading-relaxed text-white/50 sm:text-[14px]">
+                    <p className="mt-1.5 text-[13px] leading-relaxed text-white/45 sm:text-[14px]">
                       {project.description}
                     </p>
                   </div>
                 </div>
 
-                {/* Key features */}
-                <div className="mt-5 flex flex-wrap gap-2">
+                <div className="mt-4 flex flex-wrap gap-2">
                   {project.stats.map((stat) => (
                     <span
                       key={stat}
@@ -108,8 +117,7 @@ export function Portfolio() {
                   ))}
                 </div>
 
-                {/* Visit indicator */}
-                <div className="mt-5 flex items-center gap-1.5 text-[12px] font-medium text-white/30 group-hover:text-white/60 transition-colors">
+                <div className="mt-4 flex items-center gap-1.5 text-[12px] font-medium text-white/30 group-hover:text-white/60 transition-colors">
                   Visit live site
                   <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
                 </div>
