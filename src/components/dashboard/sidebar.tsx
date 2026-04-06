@@ -28,9 +28,10 @@ const navigation: {
   requiresTier: TierId;
 }[] = [
   { label: "Overview", href: "/dashboard", icon: LayoutDashboard, feature: "overview", requiresTier: "starter" },
-  { label: "Leads", href: "/dashboard/leads", icon: Users, feature: "leads", requiresTier: "starter" },
+  { label: "Project", href: "/dashboard/project", icon: Users, feature: "project", requiresTier: "starter" },
+  { label: "Leads", href: "/dashboard/leads", icon: Users, feature: "leads", requiresTier: "growth" },
   { label: "Reviews", href: "/dashboard/reviews", icon: Star, feature: "reviews", requiresTier: "growth" },
-  { label: "Email Activity", href: "/dashboard/email", icon: Mail, feature: "email", requiresTier: "growth" },
+  { label: "Email", href: "/dashboard/email", icon: Mail, feature: "email", requiresTier: "growth" },
   { label: "Social", href: "/dashboard/social", icon: Share2, feature: "social", requiresTier: "scale" },
   { label: "Settings", href: "/dashboard/settings", icon: Settings, feature: "settings", requiresTier: "starter" },
 ];

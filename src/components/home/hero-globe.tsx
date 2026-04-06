@@ -127,16 +127,16 @@ function worldDotsToSVG() {
 
 const mappedDots = worldDotsToSVG();
 
-export function HeroGlobe() {
+export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
   const [activeHQ, setActiveHQ] = useState<string | null>(null);
   const activeLocation = hqLocations.find((h) => h.id === activeHQ);
   const activeXY = activeLocation ? latLngToXY(activeLocation.lat, activeLocation.lng) : null;
 
   return (
-    <div className="relative flex items-center justify-center w-[340px] h-[340px] sm:w-[400px] sm:h-[400px]">
+    <div className={mobile ? "relative flex items-center justify-center w-full h-full" : "relative flex items-center justify-center w-[340px] h-[340px] sm:w-[400px] sm:h-[400px]"}>
       {/* Deep outer glow */}
-      <div className="absolute inset-[-20%] rounded-full bg-[#7c3aed]/20 blur-[80px]" />
-      <div className="absolute inset-[-10%] rounded-full bg-[#3b82f6]/15 blur-[60px] animate-pulse" />
+      <div className={`absolute inset-[-20%] rounded-full bg-[#7c3aed]/20 ${mobile ? "blur-[40px]" : "blur-[80px]"}`} />
+      <div className={`absolute inset-[-10%] rounded-full bg-[#3b82f6]/15 animate-pulse ${mobile ? "blur-[30px]" : "blur-[60px]"}`} />
 
       {/* Globe sphere */}
       <motion.div

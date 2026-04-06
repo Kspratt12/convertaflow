@@ -1,8 +1,10 @@
+import type { TierId } from "./types";
+
 export const SITE = {
   name: "Convertaflow",
-  tagline: "Premium websites and growth systems for businesses",
+  tagline: "Luxury websites and growth systems for businesses",
   description:
-    "Convertaflow helps businesses turn website visitors into real leads, reviews, and booked customers through premium web design, automated follow-up, and simple business dashboards.",
+    "Convertaflow helps businesses look established, capture leads, and grow through premium web design, automated systems, and hands-on strategy.",
   url: "https://convertaflow.com",
 } as const;
 
@@ -14,19 +16,38 @@ export const NAV_LINKS = [
   { label: "Contact", href: "/contact" },
 ] as const;
 
-export const TIERS = {
+export interface TierConfig {
+  id: TierId;
+  name: string;
+  shortName: string;
+  price: string;
+  priceNote: string;
+  monthly: string;
+  monthlyNote: string;
+  description: string;
+  audience: string;
+  deliveryDays: string;
+  revisions: number;
+  features: string[];
+  highlighted: boolean;
+}
+
+export const TIERS: Record<TierId, TierConfig> = {
   starter: {
     id: "starter",
-    name: "Premium Website",
+    name: "Luxury Website Design",
+    shortName: "Foundation",
     price: "$2,497",
-    priceNote: "one-time setup",
+    priceNote: "one-time",
     monthly: "$97/mo",
     monthlyNote: "hosting & support",
     description:
-      "A high-end business website that makes you look established and converts visitors into real leads.",
-    audience: "For businesses ready to look professional online",
+      "A high-end custom website designed to make your business look established, capture leads from day one, and leave a lasting impression on every visitor.",
+    audience: "For businesses ready to look world-class online",
+    deliveryDays: "5–7 business days",
+    revisions: 3,
     features: [
-      "Custom premium website design",
+      "Custom luxury website design",
       "Mobile-optimized responsive layout",
       "Lead capture forms and CTAs",
       "SEO-ready page structure",
@@ -39,22 +60,24 @@ export const TIERS = {
   },
   growth: {
     id: "growth",
-    name: "Reviews + Dashboard",
+    name: "Website + Business Systems",
+    shortName: "Growth",
     price: "$3,997",
-    priceNote: "one-time setup",
+    priceNote: "one-time",
     monthly: "$197/mo",
-    monthlyNote: "platform access",
+    monthlyNote: "systems & support",
     description:
-      "Everything in Premium Website plus automated review collection, lead tracking dashboard, and email follow-up that builds trust and keeps you in control.",
-    audience: "For businesses ready to build trust and track results",
+      "Everything in Foundation plus booking integration, automated email notifications, review request system, and a simple dashboard to track leads and activity.",
+    audience: "For businesses ready to capture and convert",
+    deliveryDays: "7–10 business days",
+    revisions: 5,
     features: [
-      "Everything in Premium Website",
-      "Business dashboard with lead tracking",
-      "Google review request workflows",
-      "Automated email notifications via Resend",
-      "Lead source tracking",
-      "Review collection analytics",
-      "Activity timeline for all leads",
+      "Everything in Luxury Website Design",
+      "Booking & calendar integration",
+      "Automated email notifications",
+      "Google review request system",
+      "Lead tracking dashboard",
+      "Activity timeline and analytics",
       "Email follow-up sequences",
       "Priority support",
     ],
@@ -62,28 +85,28 @@ export const TIERS = {
   },
   scale: {
     id: "scale",
-    name: "Full Growth Bundle",
+    name: "Full Growth System",
+    shortName: "Scale",
     price: "$5,997",
-    priceNote: "one-time setup",
+    priceNote: "one-time",
     monthly: "$297/mo",
-    monthlyNote: "full platform",
+    monthlyNote: "full system access",
     description:
-      "The complete business growth system. Everything in Reviews + Dashboard plus advanced analytics, social media integration, automation flows, and a full command center for scaling your business.",
+      "The complete business growth system. Everything in Growth plus social media automation, Instagram/ManyChat workflow support, advanced analytics, and dedicated strategy.",
     audience: "For businesses ready to scale with systems",
+    deliveryDays: "10–14 business days",
+    revisions: 10,
     features: [
-      "Everything in Reviews + Dashboard",
-      "Advanced growth dashboard",
-      "Social media integration and tracking",
+      "Everything in Website + Systems",
+      "Social media automation support",
+      "Instagram & ManyChat workflows",
+      "Advanced conversion analytics",
       "Multi-channel lead attribution",
-      "Advanced automation workflows",
-      "Conversion funnel analytics",
-      "Social post scheduling tools",
+      "Social post scheduling",
       "Custom reporting",
-      "Dedicated account manager",
-      "Quarterly strategy reviews",
+      "Dedicated strategy support",
+      "Quarterly growth reviews",
     ],
     highlighted: false,
   },
-} as const;
-
-// TierId is now in types.ts for cleaner imports
+};
