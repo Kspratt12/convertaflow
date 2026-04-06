@@ -59,32 +59,36 @@ export function HeroSection() {
 
       <Starfield />
 
-      {/* Shooting stars — bright head + fading tail */}
+      {/* Shooting stars */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        {/* Star 1 */}
-        <div
-          className="absolute h-[2px] rounded-full"
-          style={{
-            top: "15%",
-            left: "8%",
-            background: "linear-gradient(270deg, #fff 0%, #a78bfa 15%, #7c3aed 40%, transparent 100%)",
-            boxShadow: "0 0 8px 2px rgba(167,139,250,0.5), 0 0 20px 4px rgba(124,58,237,0.2)",
-            animation: "shooting-star 4s 3s ease-in infinite",
-            opacity: 0,
-          }}
-        />
-        {/* Star 2 */}
-        <div
-          className="absolute h-[1.5px] rounded-full"
-          style={{
-            top: "32%",
-            left: "55%",
-            background: "linear-gradient(270deg, #fff 0%, #93c5fd 15%, #3b82f6 40%, transparent 100%)",
-            boxShadow: "0 0 6px 1px rgba(147,197,253,0.4), 0 0 16px 3px rgba(59,130,246,0.15)",
-            animation: "shooting-star-2 5s 7s ease-in infinite",
-            opacity: 0,
-          }}
-        />
+        {/* Star 1 — fast diagonal streak */}
+        <div className="absolute" style={{ top: "12%", left: "5%", transform: "rotate(35deg)" }}>
+          <div
+            style={{
+              width: 100,
+              height: 1,
+              borderRadius: 1,
+              background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.03) 30%, rgba(255,255,255,0.5) 85%, #fff 100%)",
+              boxShadow: "0 0 3px 0 rgba(255,255,255,0.6)",
+              animation: "shoot 1.8s 4s linear infinite",
+              opacity: 0,
+            }}
+          />
+        </div>
+        {/* Star 2 — slightly different angle + timing */}
+        <div className="absolute" style={{ top: "28%", left: "50%", transform: "rotate(30deg)" }}>
+          <div
+            style={{
+              width: 70,
+              height: 1,
+              borderRadius: 1,
+              background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.02) 30%, rgba(255,255,255,0.4) 85%, #fff 100%)",
+              boxShadow: "0 0 2px 0 rgba(255,255,255,0.5)",
+              animation: "shoot 1.5s 9s linear infinite",
+              opacity: 0,
+            }}
+          />
+        </div>
       </div>
 
       <div className="relative mx-auto max-w-7xl px-4 pb-8 pt-8 sm:px-6 sm:pb-16 sm:pt-16 lg:px-8">
