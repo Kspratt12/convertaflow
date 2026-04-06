@@ -78,7 +78,7 @@ export function HeroSection() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.15 }}
             >
-              <div className="w-[240px] h-[240px] sm:w-[280px] sm:h-[280px]">
+              <div className="w-[280px] h-[280px]">
                 <HeroGlobe mobile />
               </div>
             </motion.div>
@@ -117,7 +117,7 @@ export function HeroSection() {
                 <p className="text-[10px] font-medium tracking-wide text-white/40 uppercase">Conversion</p>
                 <p className="mt-0.5 text-lg font-bold text-emerald-400">4.2%</p>
               </motion.div>
-              <motion.div className="absolute top-[40%] -right-4 rounded-xl border border-white/[0.06] bg-[#0e0e2a]/90 px-3 py-2.5 shadow-lg shadow-yellow-500/10 z-20" animate={{ y: [0, -5, 0] }} transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 3 }}>
+              <motion.div className="absolute top-[38%] -right-24 rounded-xl border border-white/[0.06] bg-[#0e0e2a]/90 px-3 py-2.5 shadow-lg shadow-yellow-500/10 z-20" animate={{ y: [0, -5, 0] }} transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 3 }}>
                 <div className="flex items-center gap-0.5">{[1,2,3,4,5].map((n)=>(<div key={n} className="h-2 w-2 rounded-full bg-yellow-400/70" />))}</div>
                 <p className="mt-1 text-[10px] font-medium text-white/40">23 reviews</p>
               </motion.div>

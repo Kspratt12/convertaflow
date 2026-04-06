@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import createGlobe from "cobe";
 
 /* ─── Social Icons ─── */
@@ -26,242 +26,254 @@ const hqLocations = [
   { id: "tiktok",    label: "TikTok US HQ",   city: "Culver City, CA",     color: "#69C9D0", lat: 34.0211, lng: -118.3965, Icon: TikTokIcon },
 ];
 
-/* ─── Icon layout positions around the globe ─── */
-const iconPositions = [
+/* ─── Icon positions — separate for desktop vs mobile ─── */
+const desktopIconPositions = [
   { id: "google",    top: "5%",  left: "68%", delay: 0 },
   { id: "facebook",  top: "30%", left: "82%", delay: 1 },
   { id: "instagram", top: "62%", left: "78%", delay: 2 },
   { id: "tiktok",    top: "82%", left: "45%", delay: 3 },
 ];
 
-/* ─── Project lat/lng to pixel position on the rendered globe ─── */
+const mobileIconPositions = [
+  { id: "google",    top: "2%",  left: "60%", delay: 0 },
+  { id: "facebook",  top: "25%", left: "80%", delay: 1 },
+  { id: "instagram", top: "58%", left: "76%", delay: 2 },
+  { id: "tiktok",    top: "80%", left: "40%", delay: 3 },
+];
+
+/* ─── Project lat/lng to pixel on the globe ─── */
 function latLngToPixel(
-  lat: number,
-  lng: number,
-  phi: number,
-  theta: number,
-  size: number
+  lat: number, lng: number, phi: number, theta: number, size: number
 ): { x: number; y: number; visible: boolean } {
   const latRad = (lat * Math.PI) / 180;
   const lngRad = (lng * Math.PI) / 180;
-
   const cx = Math.cos(latRad) * Math.sin(lngRad + phi);
   const cy = -Math.sin(latRad) * Math.cos(theta) + Math.cos(latRad) * Math.cos(lngRad + phi) * Math.sin(theta);
   const cz = Math.sin(latRad) * Math.sin(theta) + Math.cos(latRad) * Math.cos(lngRad + phi) * Math.cos(theta);
-
-  const radius = size / 2;
-  return {
-    x: radius + cx * radius * 0.92,
-    y: radius - cy * radius * 0.92,
-    visible: cz > 0,
-  };
+  const r = size / 2;
+  return { x: r + cx * r * 0.92, y: r - cy * r * 0.92, visible: cz > 0 };
 }
 
 export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const phiRef = useRef(3.5); // Start rotated to show Americas
+  const arrowSvgRef = useRef<SVGSVGElement>(null);
+  const labelRef = useRef<HTMLDivElement>(null);
+  const arrowElsRef = useRef<{
+    path: SVGPathElement; arrow: SVGPolygonElement;
+    dot: SVGCircleElement; pulse: SVGCircleElement;
+    stop1: SVGStopElement; stop2: SVGStopElement;
+    name: Element; city: Element;
+    card: HTMLElement; caret: HTMLElement;
+  } | null>(null);
+  const phiRef = useRef(3.5);
   const theta = 0.3;
   const [activeHQ, setActiveHQ] = useState<string | null>(null);
-  const [markerPos, setMarkerPos] = useState<{ x: number; y: number; visible: boolean } | null>(null);
   const activeHQRef = useRef<string | null>(null);
   const rafRef = useRef<number>(0);
-  const globeRef = useRef<{ update: (state: Partial<{ phi: number; theta: number }>) => void; destroy: () => void } | null>(null);
 
-  useEffect(() => {
-    activeHQRef.current = activeHQ;
-  }, [activeHQ]);
+  useEffect(() => { activeHQRef.current = activeHQ; }, [activeHQ]);
 
-  const displaySize = mobile ? 280 : 400;
+  const canvasSize = mobile ? 240 : 400;
+  const containerW = mobile ? 280 : 400;
+  const containerH = mobile ? 280 : 400;
+  const globeOffsetX = (containerW - canvasSize) / 2;
+  const globeOffsetY = (containerH - canvasSize) / 2;
+  const iconPositions = mobile ? mobileIconPositions : desktopIconPositions;
 
-  const updateMarker = useCallback(() => {
+  // Direct DOM update for arrow + label — no React re-renders per frame
+  const updateArrowDOM = useCallback(() => {
     const id = activeHQRef.current;
+    const svg = arrowSvgRef.current;
+    const label = labelRef.current;
+    if (!svg || !label) return;
+
     if (!id) {
-      setMarkerPos(null);
+      svg.style.opacity = "0";
+      label.style.opacity = "0";
       return;
     }
+
     const loc = hqLocations.find((h) => h.id === id);
-    if (!loc) return;
-    const pos = latLngToPixel(loc.lat, loc.lng, phiRef.current, theta, displaySize);
-    setMarkerPos(pos);
-  }, [displaySize]);
+    const iconPos = (mobile ? mobileIconPositions : desktopIconPositions).find((p) => p.id === id);
+    if (!loc || !iconPos) return;
+
+    const pos = latLngToPixel(loc.lat, loc.lng, phiRef.current, theta, canvasSize);
+
+    if (!pos.visible) {
+      svg.style.opacity = "0";
+      label.style.opacity = "0";
+      return;
+    }
+
+    const iconX = (parseFloat(iconPos.left) / 100) * containerW;
+    const iconY = (parseFloat(iconPos.top) / 100) * containerH;
+    const mx = pos.x + globeOffsetX;
+    const my = pos.y + globeOffsetY;
+
+    // Curve
+    const midX = (iconX + mx) / 2;
+    const midY = (iconY + my) / 2;
+    const dx = mx - iconX;
+    const dy = my - iconY;
+    const cpx = midX - dy * 0.25;
+    const cpy = midY + dx * 0.25;
+
+    // Arrowhead
+    const angle = Math.atan2(my - cpy, mx - cpx);
+    const aLen = mobile ? 6 : 8;
+    const a1x = mx - aLen * Math.cos(angle - 0.4);
+    const a1y = my - aLen * Math.sin(angle - 0.4);
+    const a2x = mx - aLen * Math.cos(angle + 0.4);
+    const a2y = my - aLen * Math.sin(angle + 0.4);
+
+    // Cache DOM refs on first call to avoid querySelector every frame
+    if (!arrowElsRef.current) {
+      const p = svg.querySelector("[data-arrow-path]") as SVGPathElement;
+      const a = svg.querySelector("[data-arrow-head]") as SVGPolygonElement;
+      const d = svg.querySelector("[data-arrow-dot]") as SVGCircleElement;
+      const pu = svg.querySelector("[data-arrow-pulse]") as SVGCircleElement;
+      const s1 = svg.querySelector("[data-arrow-stop1]") as SVGStopElement;
+      const s2 = svg.querySelector("[data-arrow-stop2]") as SVGStopElement;
+      const nm = label.querySelector("[data-label-name]")!;
+      const ct = label.querySelector("[data-label-city]")!;
+      const cd = label.querySelector("[data-label-card]") as HTMLElement;
+      const cr = label.querySelector("[data-label-caret]") as HTMLElement;
+      if (p && a && d && pu && s1 && s2 && nm && ct && cd && cr) {
+        arrowElsRef.current = { path: p, arrow: a, dot: d, pulse: pu, stop1: s1, stop2: s2, name: nm, city: ct, card: cd, caret: cr };
+      }
+    }
+
+    const els = arrowElsRef.current;
+    if (!els) return;
+
+    els.path.setAttribute("d", `M ${iconX} ${iconY} Q ${cpx} ${cpy}, ${mx} ${my}`);
+    els.arrow.setAttribute("points", `${mx},${my} ${a1x},${a1y} ${a2x},${a2y}`);
+    els.dot.setAttribute("cx", String(mx)); els.dot.setAttribute("cy", String(my));
+    els.pulse.setAttribute("cx", String(mx)); els.pulse.setAttribute("cy", String(my));
+    els.stop1.setAttribute("stop-color", loc.color);
+    els.stop2.setAttribute("stop-color", loc.color);
+    els.arrow.setAttribute("fill", loc.color);
+    els.dot.setAttribute("fill", loc.color);
+    els.pulse.setAttribute("fill", loc.color);
+
+    svg.style.opacity = "1";
+
+    // Update label
+    label.style.opacity = "1";
+    label.style.left = `${mx - (mobile ? 40 : 50)}px`;
+    label.style.top = `${my - (mobile ? 45 : 55)}px`;
+    els.name.textContent = loc.label;
+    els.city.textContent = loc.city;
+    els.card.style.boxShadow = `0 4px 16px ${loc.color}30`;
+    els.caret.style.borderTopColor = `${loc.color}60`;
+  }, [canvasSize, containerW, containerH, globeOffsetX, globeOffsetY, mobile]);
 
   useEffect(() => {
     if (!canvasRef.current) return;
-
-    const pixelRatio = typeof window !== "undefined" ? window.devicePixelRatio : 2;
+    const dpr = typeof window !== "undefined" ? Math.min(window.devicePixelRatio, mobile ? 1.5 : 2) : 2;
 
     const globe = createGlobe(canvasRef.current, {
-      devicePixelRatio: pixelRatio,
-      width: displaySize * pixelRatio,
-      height: displaySize * pixelRatio,
+      devicePixelRatio: dpr,
+      width: canvasSize * dpr,
+      height: canvasSize * dpr,
       phi: phiRef.current,
       theta,
       dark: 1,
       diffuse: 1.2,
-      mapSamples: 16000,
+      mapSamples: mobile ? 8000 : 16000,
       mapBrightness: 6,
       baseColor: [0.15, 0.1, 0.35],
       markerColor: [0.486, 0.227, 0.929],
       glowColor: [0.2, 0.1, 0.5],
       markers: hqLocations.map((loc) => ({
         location: [loc.lat, loc.lng] as [number, number],
-        size: 0.06,
+        size: mobile ? 0.04 : 0.06,
       })),
     });
 
-    globeRef.current = globe;
-
-    // Animation loop
+    let active = true;
     function animate() {
-      phiRef.current += 0.003;
+      if (!active) return;
+      phiRef.current += 0.004;
       globe.update({ phi: phiRef.current });
-      updateMarker();
+      updateArrowDOM();
       rafRef.current = requestAnimationFrame(animate);
     }
     rafRef.current = requestAnimationFrame(animate);
 
     return () => {
+      active = false;
       cancelAnimationFrame(rafRef.current);
       globe.destroy();
-      globeRef.current = null;
     };
-  }, [mobile, displaySize, updateMarker]);
-
-  const activeLocation = hqLocations.find((h) => h.id === activeHQ);
+  }, [mobile, canvasSize, updateArrowDOM]);
 
   return (
     <div
       ref={containerRef}
-      className={`relative flex items-center justify-center overflow-hidden ${
-        mobile ? "w-full h-full" : "w-[340px] h-[340px] sm:w-[400px] sm:h-[400px]"
+      className={`relative flex items-center justify-center ${
+        mobile ? "w-[280px] h-[280px]" : "w-[340px] h-[340px] sm:w-[400px] sm:h-[400px]"
       }`}
     >
-      {/* Glow effects */}
-      <div className={`absolute inset-[5%] rounded-full bg-[#7c3aed]/15 ${mobile ? "blur-[25px]" : "blur-[50px]"}`} />
-      <div className={`absolute inset-[10%] rounded-full bg-[#3b82f6]/10 ${mobile ? "blur-[20px]" : "blur-[40px]"}`} />
+      {/* Glow */}
+      <div className={`absolute inset-[5%] rounded-full bg-[#7c3aed]/15 ${mobile ? "blur-[20px]" : "blur-[50px]"}`} />
+      <div className={`absolute inset-[10%] rounded-full bg-[#3b82f6]/10 ${mobile ? "blur-[15px]" : "blur-[40px]"}`} />
 
-      {/* Cobe globe */}
+      {/* Globe canvas */}
       <canvas
         ref={canvasRef}
-        style={{
-          width: displaySize,
-          height: displaySize,
-          contain: "layout paint size",
-        }}
+        style={{ width: canvasSize, height: canvasSize, contain: "layout paint size" }}
       />
 
-      {/* Arrow from icon to HQ location on globe */}
-      <AnimatePresence>
-        {activeHQ && markerPos && markerPos.visible && (
-          <motion.svg
-            className="absolute inset-0 w-full h-full pointer-events-none z-10"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            {(() => {
-              const iconPos = iconPositions.find((p) => p.id === activeHQ);
-              const loc = hqLocations.find((h) => h.id === activeHQ);
-              if (!iconPos || !loc) return null;
+      {/* Arrow SVG — updated via DOM, no React re-renders */}
+      <svg
+        ref={arrowSvgRef}
+        className="absolute inset-0 w-full h-full pointer-events-none z-10 transition-opacity duration-200"
+        style={{ opacity: 0 }}
+      >
+        <defs>
+          <linearGradient id="arrow-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop data-arrow-stop1 offset="0%" stopColor="#fff" stopOpacity="0.9" />
+            <stop data-arrow-stop2 offset="100%" stopColor="#fff" stopOpacity="0.4" />
+          </linearGradient>
+        </defs>
+        <path
+          data-arrow-path
+          d="M 0 0 Q 0 0, 0 0"
+          stroke="url(#arrow-grad)"
+          strokeWidth={mobile ? 1.5 : 2}
+          fill="none"
+          strokeLinecap="round"
+          strokeDasharray="5 3"
+        />
+        <polygon data-arrow-head points="0,0 0,0 0,0" fill="#fff" opacity="0.9" />
+        <circle data-arrow-dot cx="0" cy="0" r={mobile ? 2.5 : 3} fill="#fff" opacity="0.8" />
+        <circle data-arrow-pulse cx="0" cy="0" r={mobile ? 4 : 5} fill="#fff" opacity="0.4">
+          <animate attributeName="r" values={mobile ? "3;8;3" : "4;10;4"} dur="1.5s" repeatCount="indefinite" />
+          <animate attributeName="opacity" values="0.6;0;0.6" dur="1.5s" repeatCount="indefinite" />
+        </circle>
+      </svg>
 
-              const containerW = containerRef.current?.getBoundingClientRect().width ?? displaySize;
-              const containerH = containerRef.current?.getBoundingClientRect().height ?? displaySize;
-
-              // Icon position from percentages
-              const iconX = (parseFloat(iconPos.left) / 100) * containerW;
-              const iconY = (parseFloat(iconPos.top) / 100) * containerH;
-
-              // Globe is centered in container
-              const offsetX = (containerW - displaySize) / 2;
-              const offsetY = (containerH - displaySize) / 2;
-              const mx = markerPos.x + offsetX;
-              const my = markerPos.y + offsetY;
-
-              // Curved control point
-              const cpx = (iconX + mx) / 2 + (iconX > mx ? -30 : 30);
-              const cpy = (iconY + my) / 2 - 25;
-
-              // Arrowhead
-              const angle = Math.atan2(my - cpy, mx - cpx);
-              const aLen = 8;
-              const a1x = mx - aLen * Math.cos(angle - 0.4);
-              const a1y = my - aLen * Math.sin(angle - 0.4);
-              const a2x = mx - aLen * Math.cos(angle + 0.4);
-              const a2y = my - aLen * Math.sin(angle + 0.4);
-
-              return (
-                <g>
-                  <defs>
-                    <linearGradient id={`arrow-${activeHQ}`} x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor={loc.color} stopOpacity="0.9" />
-                      <stop offset="100%" stopColor={loc.color} stopOpacity="0.3" />
-                    </linearGradient>
-                  </defs>
-                  <motion.path
-                    d={`M ${iconX} ${iconY} Q ${cpx} ${cpy}, ${mx} ${my}`}
-                    stroke={`url(#arrow-${activeHQ})`}
-                    strokeWidth="2"
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeDasharray="6 3"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 0.5, ease: "easeOut" }}
-                  />
-                  <motion.polygon
-                    points={`${mx},${my} ${a1x},${a1y} ${a2x},${a2y}`}
-                    fill={loc.color}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 0.9 }}
-                    transition={{ delay: 0.3 }}
-                  />
-                  <motion.circle
-                    cx={mx}
-                    cy={my}
-                    r={5}
-                    fill={loc.color}
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: [1, 2, 1], opacity: [0.7, 0, 0.7] }}
-                    transition={{ duration: 1.5, repeat: Infinity, delay: 0.4 }}
-                  />
-                  <circle cx={mx} cy={my} r={3} fill={loc.color} opacity={0.8} />
-                </g>
-              );
-            })()}
-          </motion.svg>
-        )}
-      </AnimatePresence>
-
-      {/* HQ popup label */}
-      <AnimatePresence>
-        {activeLocation && markerPos && markerPos.visible && (
-          <motion.div
-            className="absolute z-30 pointer-events-none"
-            style={{
-              left: markerPos.x + ((containerRef.current?.getBoundingClientRect().width ?? displaySize) - displaySize) / 2 - 50,
-              top: markerPos.y + ((containerRef.current?.getBoundingClientRect().height ?? displaySize) - displaySize) / 2 - 55,
-            }}
-            initial={{ opacity: 0, y: 5 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 5 }}
-            transition={{ duration: 0.2 }}
-          >
-            <div
-              className="rounded-xl border border-white/[0.12] bg-[#0e0e2a]/95 backdrop-blur-sm px-3 py-2 shadow-xl whitespace-nowrap"
-              style={{ boxShadow: `0 6px 20px ${activeLocation.color}30` }}
-            >
-              <p className="text-[10px] font-bold text-white/90">{activeLocation.label}</p>
-              <p className="text-[9px] text-white/50">{activeLocation.city}</p>
-            </div>
-            <div
-              className="w-0 h-0 border-l-[6px] border-r-[6px] border-t-[6px] border-l-transparent border-r-transparent"
-              style={{ borderTopColor: `${activeLocation.color}60`, marginLeft: 44 }}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* HQ label — updated via DOM */}
+      <div
+        ref={labelRef}
+        className="absolute z-30 pointer-events-none transition-opacity duration-200"
+        style={{ opacity: 0 }}
+      >
+        <div
+          data-label-card
+          className="rounded-lg border border-white/[0.12] bg-[#0e0e2a]/95 backdrop-blur-sm px-2.5 py-1.5 shadow-xl whitespace-nowrap"
+        >
+          <p data-label-name className={`font-bold text-white/90 ${mobile ? "text-[9px]" : "text-[10px]"}`} />
+          <p data-label-city className={`text-white/50 ${mobile ? "text-[8px]" : "text-[9px]"}`} />
+        </div>
+        <div
+          data-label-caret
+          className="w-0 h-0 border-l-[5px] border-r-[5px] border-t-[5px] border-l-transparent border-r-transparent"
+          style={{ borderTopColor: "#ffffff60", marginLeft: mobile ? 34 : 44 }}
+        />
+      </div>
 
       {/* Social icons */}
       {iconPositions.map(({ id, top, left, delay }) => {
@@ -272,12 +284,14 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
             key={id}
             className="absolute z-20 cursor-pointer"
             style={{ top, left }}
-            animate={{ y: [0, -4, 0] }}
+            animate={{ y: [0, -3, 0] }}
             transition={{ duration: 3.5 + delay, repeat: Infinity, ease: "easeInOut", delay }}
             onClick={() => setActiveHQ(activeHQ === id ? null : id)}
           >
             <div
-              className={`flex ${mobile ? "h-7 w-7" : "h-9 w-9"} items-center justify-center rounded-xl border transition-all duration-200 ${
+              className={`flex items-center justify-center rounded-xl border transition-all duration-200 ${
+                mobile ? "h-7 w-7" : "h-9 w-9"
+              } ${
                 activeHQ === id
                   ? "border-white/30 bg-[#0e0e2a] scale-110"
                   : "border-white/[0.1] bg-[#0e0e2a]/90 hover:border-white/20 hover:scale-105"
@@ -290,23 +304,6 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
         );
       })}
 
-      {/* Reviews badge — desktop only */}
-      {!mobile && (
-        <motion.div
-          className="absolute z-20 right-[2%] top-[38%]"
-          animate={{ y: [0, -3, 0] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
-        >
-          <div className="rounded-xl border border-white/[0.1] bg-[#0e0e2a]/90 px-3 py-2 shadow-lg">
-            <div className="flex gap-0.5 mb-0.5">
-              {[...Array(5)].map((_, i) => (
-                <div key={i} className="w-2 h-2 rounded-full bg-yellow-400" />
-              ))}
-            </div>
-            <p className="text-[10px] text-white/60 font-medium">23 reviews</p>
-          </div>
-        </motion.div>
-      )}
     </div>
   );
 }
