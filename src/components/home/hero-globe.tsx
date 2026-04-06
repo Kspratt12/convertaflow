@@ -133,10 +133,7 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
       baseColor: [0.15, 0.1, 0.35],
       markerColor: [0.486, 0.227, 0.929],
       glowColor: [0.2, 0.1, 0.5],
-      markers: hqs.map((h) => ({
-        location: [h.lat, h.lng] as [number, number],
-        size: mobile ? 0.04 : 0.06,
-      })),
+      markers: [],
     });
 
     /* Pause when off-screen */
