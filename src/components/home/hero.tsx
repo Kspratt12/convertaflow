@@ -59,26 +59,30 @@ export function HeroSection() {
 
       <Starfield />
 
-      {/* Shooting stars */}
+      {/* Shooting stars — bright head + fading tail */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        {/* Star 1 */}
         <div
-          className="absolute w-[80px] h-[1px] rounded-full"
+          className="absolute h-[2px] rounded-full"
           style={{
-            top: "18%",
-            left: "5%",
-            background: "linear-gradient(90deg, transparent, #8b5cf6, #06b6d4, transparent)",
-            boxShadow: "0 0 6px 1px rgba(139,92,246,0.4)",
-            animation: "shooting-star 6s 2s ease-out infinite",
+            top: "15%",
+            left: "8%",
+            background: "linear-gradient(270deg, #fff 0%, #a78bfa 15%, #7c3aed 40%, transparent 100%)",
+            boxShadow: "0 0 8px 2px rgba(167,139,250,0.5), 0 0 20px 4px rgba(124,58,237,0.2)",
+            animation: "shooting-star 4s 3s ease-in infinite",
+            opacity: 0,
           }}
         />
+        {/* Star 2 */}
         <div
-          className="absolute w-[60px] h-[1px] rounded-full"
+          className="absolute h-[1.5px] rounded-full"
           style={{
-            top: "35%",
-            left: "60%",
-            background: "linear-gradient(90deg, transparent, #3b82f6, #06b6d4, transparent)",
-            boxShadow: "0 0 4px 1px rgba(59,130,246,0.3)",
-            animation: "shooting-star 8s 5s ease-out infinite",
+            top: "32%",
+            left: "55%",
+            background: "linear-gradient(270deg, #fff 0%, #93c5fd 15%, #3b82f6 40%, transparent 100%)",
+            boxShadow: "0 0 6px 1px rgba(147,197,253,0.4), 0 0 16px 3px rgba(59,130,246,0.15)",
+            animation: "shooting-star-2 5s 7s ease-in infinite",
+            opacity: 0,
           }}
         />
       </div>
