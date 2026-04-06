@@ -88,7 +88,7 @@ export function DashboardTopbar() {
         <div className="border-b bg-card px-4 pb-4 lg:hidden">
           <div className="flex items-center gap-2 py-3">
             <Image
-              src="/logo.png"
+              src="/logo.svg"
               alt={SITE.name}
               width={24}
               height={24}

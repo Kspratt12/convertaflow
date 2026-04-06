@@ -86,4 +86,4 @@ export const TIERS = {
   },
 } as const;
 
-export type TierId = keyof typeof TIERS;
+// TierId is now in types.ts for cleaner imports

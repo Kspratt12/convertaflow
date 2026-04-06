@@ -6,35 +6,23 @@ import {
   TrendingUp,
   Eye,
   MousePointerClick,
-  Lock,
 } from "lucide-react";
-import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { TierGate } from "@/components/dashboard/tier-gate";
 
 export default function SocialPage() {
-  // This page demonstrates the "locked" state for Growth tier users
-  // and the full experience for Scale tier users
-
-  const isLocked = false; // Toggle to true for locked preview
+  // TODO: Replace with real tier from session context
+  const isLocked = true;
 
   if (isLocked) {
     return (
-      <div className="flex flex-col items-center justify-center py-20 text-center">
-        <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-muted">
-          <Lock className="h-8 w-8 text-muted-foreground" />
-        </div>
-        <h2 className="text-xl font-bold">Social Integration</h2>
-        <p className="mt-2 max-w-md text-sm text-muted-foreground">
-          Social media tracking and integration is available in the Full Growth
-          Bundle. Upgrade to connect your social profiles and track how social
-          drives business growth.
-        </p>
-        <Button className="mt-6" asChild>
-          <Link href="/pricing">View Upgrade Options</Link>
-        </Button>
-      </div>
+      <TierGate
+        requiredTier="scale"
+        featureName="Social Integration"
+        featureDescription="Connect your social profiles, track clicks and engagement, and understand how social media drives business growth."
+      />
     );
   }
 

@@ -100,7 +100,7 @@ export function HeroSection() {
 
       <FloatingParticles />
 
-      <div className="relative mx-auto max-w-7xl px-4 pb-28 pt-20 sm:px-6 sm:pb-36 sm:pt-28 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-4 pb-20 pt-14 sm:px-6 sm:pb-24 sm:pt-20 lg:px-8">
         <div className="grid items-center gap-16 lg:grid-cols-5">
           <div className="lg:col-span-3 text-center lg:text-left">
             <motion.div
@@ -310,7 +310,7 @@ export function HeroSection() {
         </motion.div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent to-background" />
+      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-b from-transparent to-background" />
     </section>
   );
 }

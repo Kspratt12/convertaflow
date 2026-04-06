@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@/lib/supabase/server";
+import { sendEmail, newLeadEmail, contactConfirmationEmail, isEmailConfigured } from "@/lib/email";
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,25 +14,44 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // TODO: Save to Supabase contact_submissions table
-    // const supabase = await createClient();
-    // await supabase.from("contact_submissions").insert({
-    //   name, email, business_type: businessType, interest, message,
-    // });
+    // Save to Supabase
+    const supabase = await createClient();
+    const { error: dbError } = await supabase
+      .from("contact_submissions")
+      .insert({
+        name,
+        email,
+        business_type: businessType || null,
+        interest: interest || null,
+        message: message || null,
+      });
 
-    // TODO: Send notification email via Resend
-    // await sendEmail({
-    //   to: process.env.NOTIFICATION_EMAIL!,
-    //   ...newLeadEmail(name, email, message),
-    // });
+    if (dbError) {
+      console.error("Failed to save contact submission:", dbError);
+      // Don't fail the request — email notification still valuable
+    }
 
-    // TODO: Send confirmation email to the lead
-    // await sendEmail({
-    //   to: email,
-    //   ...contactConfirmationEmail(name),
-    // });
+    // Send notification email to business owner
+    if (isEmailConfigured() && process.env.NOTIFICATION_EMAIL) {
+      try {
+        await sendEmail({
+          to: process.env.NOTIFICATION_EMAIL,
+          ...newLeadEmail(name, email, message),
+        });
+      } catch (emailErr) {
+        console.error("Notification email failed:", emailErr);
+      }
 
-    console.log("Contact submission:", { name, email, businessType, interest, message });
+      // Send confirmation to the lead
+      try {
+        await sendEmail({
+          to: email,
+          ...contactConfirmationEmail(name),
+        });
+      } catch (emailErr) {
+        console.error("Confirmation email failed:", emailErr);
+      }
+    }
 
     return NextResponse.json({ success: true });
   } catch {
