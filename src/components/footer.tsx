@@ -27,16 +27,16 @@ export function Footer() {
 
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
-          <Link href="/" className="flex items-center gap-2">
+          <Link href="/" className="flex items-center">
             <Image
               src="/convertaflow-logo.png"
               alt={SITE.name}
-              width={28}
-              height={28}
-              className="h-7 w-7 object-contain mix-blend-screen"
+              width={24}
+              height={24}
+              className="h-6 w-6 object-contain mix-blend-screen -mr-0.5"
             />
-            <span className="text-[13px] font-bold tracking-tight">
-              <span className="text-white/90">Converta</span>
+            <span className="text-[14px] font-bold tracking-tight">
+              <span className="text-white/90">onverta</span>
               <span className="bg-gradient-to-r from-[#8b5cf6] via-[#3b82f6] to-[#06b6d4] bg-clip-text text-transparent">flow</span>
             </span>
           </Link>

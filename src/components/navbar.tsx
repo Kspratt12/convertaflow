@@ -45,17 +45,17 @@ export function Navbar() {
       )} />
 
       <div className="relative mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-2.5">
+        <Link href="/" className="flex items-center">
           <Image
             src="/convertaflow-logo.png"
             alt={SITE.name}
-            width={44}
-            height={44}
-            className="h-10 w-10 sm:h-11 sm:w-11 object-contain mix-blend-screen"
+            width={36}
+            height={36}
+            className="h-8 w-8 sm:h-9 sm:w-9 object-contain mix-blend-screen -mr-1"
             priority
           />
-          <span className="text-[17px] sm:text-lg font-bold tracking-tight">
-            <span className="text-white">Converta</span>
+          <span className="text-[19px] sm:text-[21px] font-bold tracking-tight">
+            <span className="text-white">onverta</span>
             <span className="bg-gradient-to-r from-[#8b5cf6] via-[#3b82f6] to-[#06b6d4] bg-clip-text text-transparent">flow</span>
           </span>
         </Link>
