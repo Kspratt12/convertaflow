@@ -75,7 +75,14 @@ export function HeroSection() {
             <h1 className="mt-5 text-[1.85rem] font-extrabold leading-[1.1] tracking-tight sm:mt-7 sm:text-[3rem] lg:text-[3.5rem] xl:text-[4rem]">
               The growth system
               <br />
-              <span className="bg-gradient-to-r from-[#8b5cf6] via-[#3b82f6] to-[#06b6d4] bg-clip-text text-transparent">
+              <span
+                className="bg-clip-text text-transparent"
+                style={{
+                  backgroundImage: "linear-gradient(90deg, #8b5cf6, #3b82f6, #06b6d4, #8b5cf6)",
+                  backgroundSize: "200% 100%",
+                  animation: "text-wave 6s ease-in-out infinite",
+                }}
+              >
                 your business is missing
               </span>
             </h1>
