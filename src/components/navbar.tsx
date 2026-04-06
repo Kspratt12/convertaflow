@@ -35,8 +35,13 @@ export function Navbar() {
         "sticky top-0 z-50 w-full transition-all duration-300",
         scrolled
           ? "bg-[#0c0620]/98 backdrop-blur-md shadow-lg shadow-black/20"
-          : "bg-gradient-to-r from-[#1a0a3e] via-[#12124a] to-[#0a1e5e]"
+          : ""
       )}
+      style={scrolled ? undefined : {
+        background: "linear-gradient(270deg, #1a0a3e, #0d1a4a, #0a2060, #1a0a4e, #12124a)",
+        backgroundSize: "300% 100%",
+        animation: "nav-shimmer 12s ease infinite",
+      }}
     >
       {/* Glossy shine overlay — fades on scroll */}
       <div className={cn(
