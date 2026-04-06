@@ -143,6 +143,67 @@ export default function PricingPage() {
         </div>
       </section>
 
+      {/* System Upgrade — for users who already have a website */}
+      <Section>
+        <div className="mx-auto max-w-2xl text-center mb-6 sm:mb-8">
+          <p className="text-[13px] font-semibold uppercase tracking-widest text-white/30">Already have a website?</p>
+          <h2 className="mt-2 text-xl sm:text-2xl font-bold tracking-tight text-white/90">
+            You don&apos;t need to start over
+          </h2>
+          <p className="mt-2 text-[13px] sm:text-[14px] leading-relaxed text-white/45 max-w-lg mx-auto">
+            We can plug our system into your current site and turn it into a lead and automation engine.
+          </p>
+        </div>
+
+        <div className="mx-auto max-w-lg">
+          <div className="relative flex flex-col rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6">
+            <h3 className="text-base sm:text-lg font-bold text-white">System Upgrade</h3>
+            <p className="mt-0.5 text-[12px] sm:text-[13px] font-medium text-[#8b5cf6]">For businesses with an existing website</p>
+
+            <div className="mt-4 sm:mt-5">
+              <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">$1,997</span>
+              <p className="mt-0.5 text-[12px] sm:text-[13px] text-white/40">One-time setup &amp; integration</p>
+              <div className="mt-1.5 flex items-baseline gap-1.5">
+                <span className="text-base sm:text-lg font-bold text-white/80">$199/mo</span>
+                <span className="text-[12px] sm:text-[13px] text-white/35">system access &amp; support</span>
+              </div>
+              <p className="mt-1 text-[11px] text-white/30">Advanced automation option available at $399/mo</p>
+            </div>
+
+            <ul className="mt-4 space-y-2 border-t border-white/[0.06] pt-4">
+              {[
+                "Lead capture integration",
+                "Booking & calendar connection",
+                "Automated email responses (Resend)",
+                "Review request system",
+                "Dashboard access",
+                "Basic analytics",
+              ].map((feature) => (
+                <li key={feature} className="flex items-start gap-2 text-[12px] sm:text-[13px] text-white/70">
+                  <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#06b6d4]" />
+                  {feature}
+                </li>
+              ))}
+            </ul>
+
+            <Button
+              className="mt-4 gap-1.5 bg-white/[0.06] border border-white/[0.1] text-white hover:bg-white/[0.1]"
+              size="lg"
+              asChild
+            >
+              <Link href="/contact">
+                Upgrade My System
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            </Button>
+          </div>
+
+          <p className="mt-3 text-center text-[11px] text-white/25">
+            Most clients choose a full rebuild for better performance.
+          </p>
+        </div>
+      </Section>
+
       {/* FAQ */}
       <Section>
         <SectionHeader badge="FAQ" title="Questions before you start" />
