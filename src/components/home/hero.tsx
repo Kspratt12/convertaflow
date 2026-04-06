@@ -7,32 +7,44 @@ import { ArrowRight, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HeroGlobe } from "@/components/home/hero-globe";
 
-function FloatingParticles() {
-  const particles = useMemo(
-    () =>
-      Array.from({ length: 16 }).map((_, i) => ({
+/* ─── Starfield ─── */
+function Starfield() {
+  const stars = useMemo(() => {
+    const s: { key: number; x: number; y: number; size: number; opacity: number; twinkle: boolean; dur: number; del: number }[] = [];
+    for (let i = 0; i < 120; i++) {
+      s.push({
         key: i,
-        size: 1 + Math.random() * 2,
         x: Math.random() * 100,
         y: Math.random() * 100,
-        dur: 5 + Math.random() * 8,
-        del: Math.random() * 6,
-        drift: 20 + Math.random() * 30,
-      })),
-    []
-  );
+        size: 0.5 + Math.random() * 1.5,
+        opacity: 0.15 + Math.random() * 0.5,
+        twinkle: Math.random() > 0.6,
+        dur: 3 + Math.random() * 5,
+        del: Math.random() * 4,
+      });
+    }
+    return s;
+  }, []);
 
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden">
-      {particles.map((p) => (
-        <motion.div
-          key={p.key}
-          className="absolute rounded-full bg-white"
-          style={{ width: p.size, height: p.size, left: `${p.x}%`, top: `${p.y}%` }}
-          animate={{ y: [0, -p.drift, 0], opacity: [0.05, 0.3, 0.05] }}
-          transition={{ duration: p.dur, repeat: Infinity, delay: p.del, ease: "easeInOut" }}
-        />
-      ))}
+      {stars.map((s) =>
+        s.twinkle ? (
+          <motion.div
+            key={s.key}
+            className="absolute rounded-full bg-white"
+            style={{ width: s.size, height: s.size, left: `${s.x}%`, top: `${s.y}%` }}
+            animate={{ opacity: [s.opacity * 0.3, s.opacity, s.opacity * 0.3] }}
+            transition={{ duration: s.dur, repeat: Infinity, delay: s.del, ease: "easeInOut" }}
+          />
+        ) : (
+          <div
+            key={s.key}
+            className="absolute rounded-full bg-white"
+            style={{ width: s.size, height: s.size, left: `${s.x}%`, top: `${s.y}%`, opacity: s.opacity }}
+          />
+        )
+      )}
     </div>
   );
 }
@@ -40,15 +52,14 @@ function FloatingParticles() {
 export function HeroSection() {
   return (
     <section className="relative overflow-hidden bg-[#060613] text-white">
-      {/* Gradient orbs — reduced blur on mobile for performance */}
+      {/* Deep space nebula glow */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-[15%] left-[20%] h-[250px] w-[250px] sm:h-[450px] sm:w-[450px] rounded-full bg-[#6c3aed]/[0.12] blur-[60px] sm:blur-[120px]" />
-        <div className="absolute top-[25%] right-[15%] h-[200px] w-[200px] sm:h-[350px] sm:w-[350px] rounded-full bg-[#2563eb]/[0.10] blur-[60px] sm:blur-[110px]" />
-        <div className="absolute bottom-[15%] left-[45%] h-[180px] w-[180px] sm:h-[300px] sm:w-[300px] rounded-full bg-[#06b6d4]/[0.07] blur-[60px] sm:blur-[110px]" />
-        <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: `linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px)`, backgroundSize: "72px 72px" }} />
+        <div className="absolute top-[10%] left-[15%] h-[300px] w-[300px] sm:h-[500px] sm:w-[500px] rounded-full bg-[#6c3aed]/[0.08] blur-[80px] sm:blur-[140px]" />
+        <div className="absolute top-[20%] right-[10%] h-[250px] w-[250px] sm:h-[400px] sm:w-[400px] rounded-full bg-[#2563eb]/[0.06] blur-[80px] sm:blur-[130px]" />
+        <div className="absolute bottom-[10%] left-[40%] h-[200px] w-[200px] sm:h-[350px] sm:w-[350px] rounded-full bg-[#06b6d4]/[0.05] blur-[80px] sm:blur-[130px]" />
       </div>
 
-      <FloatingParticles />
+      <Starfield />
 
       <div className="relative mx-auto max-w-7xl px-4 pb-8 pt-8 sm:px-6 sm:pb-16 sm:pt-16 lg:px-8">
         <div className="lg:grid lg:grid-cols-2 lg:items-center lg:gap-8">
@@ -71,9 +82,9 @@ export function HeroSection() {
               </span>
             </motion.h1>
 
-            {/* Mobile globe */}
+            {/* Mobile globe — no overflow-hidden so cobe glow bleeds naturally */}
             <motion.div
-              className="flex justify-center my-4 lg:hidden overflow-hidden"
+              className="flex justify-center my-4 lg:hidden"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.15 }}

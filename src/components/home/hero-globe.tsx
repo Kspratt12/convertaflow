@@ -213,17 +213,17 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
     <div
       ref={containerRef}
       className={`relative flex items-center justify-center ${
-        mobile ? "w-[280px] h-[280px]" : "w-[340px] h-[340px] sm:w-[400px] sm:h-[400px]"
+        mobile ? "w-[280px] h-[280px]" : "w-[400px] h-[400px]"
       }`}
     >
       {/* Glow */}
       <div className={`absolute inset-[5%] rounded-full bg-[#7c3aed]/15 ${mobile ? "blur-[20px]" : "blur-[50px]"}`} />
       <div className={`absolute inset-[10%] rounded-full bg-[#3b82f6]/10 ${mobile ? "blur-[15px]" : "blur-[40px]"}`} />
 
-      {/* Globe canvas */}
+      {/* Globe canvas — no contain/overflow so cobe's WebGL glow bleeds naturally */}
       <canvas
         ref={canvasRef}
-        style={{ width: canvasSize, height: canvasSize, contain: "layout paint size" }}
+        style={{ width: canvasSize, height: canvasSize }}
       />
 
       {/* Arrow SVG — updated via DOM, no React re-renders */}
