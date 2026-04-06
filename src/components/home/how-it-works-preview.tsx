@@ -52,7 +52,7 @@ export function HowItWorksPreview() {
           {steps.map((step, i) => (
             <motion.div
               key={step.title}
-              className="group relative overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6"
+              className="motion-fade group relative overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true, margin: "20px" }}

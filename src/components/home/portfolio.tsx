@@ -59,7 +59,7 @@ export function Portfolio() {
               href={project.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.03] transition-all duration-300 hover:border-white/[0.15] hover:shadow-2xl hover:shadow-purple-500/[0.08]"
+              className="motion-fade group relative overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.03] transition-all duration-300 hover:border-white/[0.15] hover:shadow-2xl hover:shadow-purple-500/[0.08]"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true, margin: "20px" }}

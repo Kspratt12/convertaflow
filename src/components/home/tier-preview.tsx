@@ -40,7 +40,7 @@ export function TierPreview() {
               <motion.div
                 key={tier.id}
                 className={cn(
-                  "relative flex flex-col rounded-2xl border p-5 sm:p-6",
+                  "motion-fade relative flex flex-col rounded-2xl border p-5 sm:p-6",
                   tier.highlighted
                     ? "border-[#7c3aed]/40 bg-white/[0.06] shadow-xl shadow-purple-500/[0.08] ring-1 ring-[#7c3aed]/20 lg:scale-[1.02]"
                     : "border-white/[0.06] bg-white/[0.03]"
