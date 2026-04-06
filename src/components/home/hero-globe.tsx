@@ -187,7 +187,7 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
   return (
     <div
       ref={containerRef}
-      className={`relative flex items-center justify-center ${mobile ? "w-[280px] h-[280px]" : "w-[400px] h-[400px]"}`}
+      className={`relative flex items-center justify-center ${mobile ? "w-[280px] h-[280px] overflow-hidden" : "w-[400px] h-[400px]"}`}
     >
       {!mobile && (
         <>

@@ -81,7 +81,7 @@ export function HeroSection() {
             </h1>
 
             {/* Mobile globe — no motion wrapper */}
-            <div className="flex justify-center my-4 lg:hidden">
+            <div className="flex justify-center my-4 lg:hidden overflow-hidden relative z-0">
               <div className="w-[280px] h-[280px]">
                 <HeroGlobe mobile />
               </div>
