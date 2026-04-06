@@ -45,35 +45,41 @@ const pains = [
 
 export function PainPoints() {
   return (
-    <section className="py-12 sm:py-16">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto mb-10 max-w-2xl text-center">
-          <span className="mb-5 inline-block rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-primary">
+    <section className="relative overflow-hidden bg-[#060613] py-12 text-white sm:py-16">
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute top-[20%] right-[20%] h-[350px] w-[350px] rounded-full bg-red-500/[0.04] blur-[130px]" />
+        <div className="absolute bottom-[20%] left-[15%] h-[300px] w-[300px] rounded-full bg-[#7c3aed]/[0.05] blur-[130px]" />
+      </div>
+
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto mb-8 max-w-2xl text-center sm:mb-10">
+          <span className="mb-4 inline-block rounded-full border border-red-500/20 bg-red-500/[0.06] px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-red-400/80 sm:mb-5">
             The Problem
           </span>
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
-            Most business websites cost their owners money
+          <h2 className="text-2xl font-bold tracking-tight sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
+            Most business websites{" "}
+            <span className="text-red-400/80">cost their owners money</span>
           </h2>
-          <p className="mt-4 text-[16px] leading-relaxed text-muted-foreground">
+          <p className="mt-3 text-[14px] leading-relaxed text-white/40 sm:mt-4 sm:text-[16px]">
             These gaps hold businesses back. Convertaflow was built to close every one of them.
           </p>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {pains.map((pain, i) => (
             <motion.div
               key={pain.title}
-              className="group rounded-2xl border border-border/60 bg-card p-6 transition-all duration-200 hover:border-border hover:shadow-md"
+              className="group rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 transition-all duration-200 hover:bg-white/[0.05] sm:p-6"
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.35, delay: i * 0.06 }}
             >
-              <div className="mb-4 flex h-9 w-9 items-center justify-center rounded-lg bg-red-500/[0.08]">
-                <pain.icon className="h-[18px] w-[18px] text-red-500/80" />
+              <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg bg-red-500/[0.1] sm:mb-4">
+                <pain.icon className="h-[18px] w-[18px] text-red-400" />
               </div>
-              <h3 className="text-[15px] font-semibold leading-snug">{pain.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              <h3 className="text-[14px] font-semibold leading-snug text-white/90 sm:text-[15px]">{pain.title}</h3>
+              <p className="mt-1.5 text-[13px] leading-relaxed text-white/40 sm:mt-2">
                 {pain.description}
               </p>
             </motion.div>
@@ -81,19 +87,19 @@ export function PainPoints() {
 
           {/* Solution card */}
           <motion.div
-            className="rounded-2xl bg-gradient-to-br from-[#7c3aed] to-[#3b82f6] p-6 text-white shadow-lg shadow-purple-500/15"
+            className="rounded-2xl bg-gradient-to-br from-[#7c3aed] to-[#3b82f6] p-5 text-white shadow-lg shadow-purple-500/15 sm:p-6"
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-40px" }}
             transition={{ duration: 0.35, delay: 0.3 }}
           >
-            <div className="mb-4 flex h-9 w-9 items-center justify-center rounded-lg bg-white/20">
+            <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg bg-white/20 sm:mb-4">
               <Sparkles className="h-[18px] w-[18px] text-white" />
             </div>
-            <h3 className="text-[15px] font-semibold leading-snug">
+            <h3 className="text-[14px] font-semibold leading-snug sm:text-[15px]">
               Convertaflow fixes all of this
             </h3>
-            <p className="mt-2 text-sm leading-relaxed text-white/80">
+            <p className="mt-1.5 text-[13px] leading-relaxed text-white/80 sm:mt-2">
               One platform. Premium website, lead capture, review automation,
               email follow-up, and a dashboard that shows you everything.
             </p>
