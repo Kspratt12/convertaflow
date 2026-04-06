@@ -49,12 +49,12 @@ export function Navbar() {
           <Image
             src="/convertaflow-logo.png"
             alt={SITE.name}
-            width={36}
-            height={36}
-            className="h-8 w-8 sm:h-9 sm:w-9 object-contain mix-blend-screen -mr-1"
+            width={40}
+            height={40}
+            className="h-9 w-9 sm:h-10 sm:w-10 object-contain mix-blend-screen -mr-3 sm:-mr-3.5"
             priority
           />
-          <span className="text-[19px] sm:text-[21px] font-bold tracking-tight">
+          <span className="text-[22px] sm:text-[26px] font-bold tracking-tight">
             <span className="text-white">onverta</span>
             <span className="bg-gradient-to-r from-[#8b5cf6] via-[#3b82f6] to-[#06b6d4] bg-clip-text text-transparent">flow</span>
           </span>
