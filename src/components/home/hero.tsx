@@ -28,36 +28,118 @@ function FloatingParticles() {
   );
 }
 
-function RotatingCube() {
+function GlowingGlobe() {
   return (
-    <div className="relative h-28 w-28 sm:h-32 sm:w-32" style={{ perspective: "600px" }}>
+    <div className="relative flex items-center justify-center w-[280px] h-[280px] sm:w-[320px] sm:h-[320px]">
+      {/* Outer glow */}
+      <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#7c3aed]/30 via-[#3b82f6]/20 to-[#06b6d4]/30 blur-[60px] animate-pulse" />
+
+      {/* Globe body */}
       <motion.div
-        className="relative h-full w-full"
-        style={{ transformStyle: "preserve-3d" }}
-        animate={{ rotateY: 360, rotateX: 12 }}
-        transition={{ duration: 24, repeat: Infinity, ease: "linear" }}
+        className="relative w-[180px] h-[180px] sm:w-[200px] sm:h-[200px] rounded-full"
+        animate={{ rotate: 360 }}
+        transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
       >
-        {[
-          { rot: "translateZ(64px)", grad: "from-[#6c3aed]/40 to-[#3b82f6]/30" },
-          { rot: "rotateY(180deg) translateZ(64px)", grad: "from-[#3b82f6]/30 to-[#06b6d4]/20" },
-          { rot: "rotateY(90deg) translateZ(64px)", grad: "from-[#6c3aed]/30 to-[#8b5cf6]/20" },
-          { rot: "rotateY(-90deg) translateZ(64px)", grad: "from-[#06b6d4]/20 to-[#3b82f6]/30" },
-        ].map((face, i) => (
+        {/* Main sphere gradient */}
+        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#7c3aed]/60 via-[#3b82f6]/40 to-[#06b6d4]/50 shadow-2xl shadow-[#7c3aed]/30" />
+
+        {/* Glass overlay for depth */}
+        <div className="absolute inset-0 rounded-full bg-gradient-to-t from-transparent via-white/[0.05] to-white/[0.12]" />
+
+        {/* Grid lines (latitude) */}
+        {[25, 40, 55, 70].map((top) => (
           <div
-            key={i}
-            className={`absolute inset-0 rounded-xl border border-white/[0.08] bg-gradient-to-br ${face.grad} backdrop-blur-sm`}
-            style={{ transform: face.rot }}
-          >
-            <div className="flex h-full flex-col items-center justify-center gap-1.5 p-4 opacity-60">
-              {i === 0 && (<><div className="h-1.5 w-10 rounded-full bg-white/30" /><div className="h-1.5 w-7 rounded-full bg-[#06b6d4]/40" /><div className="mt-1 h-5 w-11 rounded bg-white/10" /></>)}
-              {i === 1 && (<div className="flex gap-0.5">{[1,2,3,4,5].map((n)=>(<div key={n} className="h-1.5 w-1.5 rounded-full bg-yellow-400/60" />))}</div>)}
-              {i === 2 && (<div className="flex items-end gap-0.5 h-8">{[40,65,45,80,55].map((h,j)=>(<div key={j} className="w-1.5 rounded-t bg-[#06b6d4]/40" style={{height:`${h}%`}} />))}</div>)}
-              {i === 3 && <div className="h-2.5 w-2.5 rounded-full bg-emerald-400/50" />}
-            </div>
-          </div>
+            key={`lat-${top}`}
+            className="absolute left-[10%] right-[10%] border-t border-white/[0.08] rounded-full"
+            style={{ top: `${top}%`, transform: `scaleX(${1 - Math.abs(top - 50) / 60})` }}
+          />
         ))}
-        <div className="absolute inset-0 rounded-xl border border-white/5 bg-[#8b5cf6]/10" style={{ transform: "rotateX(90deg) translateZ(64px)" }} />
-        <div className="absolute inset-0 rounded-xl bg-[#0a0a1a]/40" style={{ transform: "rotateX(-90deg) translateZ(64px)" }} />
+
+        {/* Grid lines (longitude) — vertical ellipses */}
+        {[0, 45, 90, 135].map((deg) => (
+          <div
+            key={`lon-${deg}`}
+            className="absolute inset-[8%] border border-white/[0.06] rounded-full"
+            style={{ transform: `rotateY(${deg}deg) scaleX(0.4)` }}
+          />
+        ))}
+
+        {/* Hot spot / highlight */}
+        <div className="absolute top-[15%] left-[20%] w-[35%] h-[25%] rounded-full bg-white/[0.08] blur-xl" />
+
+        {/* Glowing data points on globe */}
+        {[
+          { top: "28%", left: "30%", delay: 0 },
+          { top: "45%", left: "65%", delay: 1.5 },
+          { top: "62%", left: "40%", delay: 3 },
+          { top: "35%", left: "55%", delay: 0.8 },
+          { top: "55%", left: "25%", delay: 2.2 },
+        ].map((dot, i) => (
+          <motion.div
+            key={i}
+            className="absolute"
+            style={{ top: dot.top, left: dot.left }}
+            animate={{ opacity: [0.3, 1, 0.3], scale: [0.8, 1.2, 0.8] }}
+            transition={{ duration: 2.5, repeat: Infinity, delay: dot.delay, ease: "easeInOut" }}
+          >
+            <div className="h-2 w-2 rounded-full bg-[#06b6d4] shadow-lg shadow-[#06b6d4]/50" />
+            <div className="absolute inset-0 h-2 w-2 rounded-full bg-[#06b6d4]/40 blur-sm" />
+          </motion.div>
+        ))}
+      </motion.div>
+
+      {/* Orbital ring 1 — tilted */}
+      <motion.div
+        className="absolute inset-[-10px] sm:inset-[-15px]"
+        animate={{ rotate: 360 }}
+        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+      >
+        <div
+          className="absolute inset-0 rounded-full border border-[#7c3aed]/20"
+          style={{ transform: "rotateX(70deg) rotateZ(-20deg)" }}
+        />
+        {/* Orbiting dot */}
+        <motion.div
+          className="absolute w-2.5 h-2.5 rounded-full bg-[#7c3aed] shadow-lg shadow-[#7c3aed]/60"
+          animate={{
+            top: ["10%", "50%", "90%", "50%", "10%"],
+            left: ["50%", "95%", "50%", "5%", "50%"],
+          }}
+          transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+        />
+      </motion.div>
+
+      {/* Orbital ring 2 — opposite tilt */}
+      <motion.div
+        className="absolute inset-[-25px] sm:inset-[-35px]"
+        animate={{ rotate: -360 }}
+        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+      >
+        <div
+          className="absolute inset-0 rounded-full border border-[#06b6d4]/15"
+          style={{ transform: "rotateX(75deg) rotateZ(40deg)" }}
+        />
+        {/* Orbiting dot */}
+        <motion.div
+          className="absolute w-2 h-2 rounded-full bg-[#06b6d4] shadow-lg shadow-[#06b6d4]/60"
+          animate={{
+            top: ["50%", "5%", "50%", "95%", "50%"],
+            left: ["5%", "50%", "95%", "50%", "5%"],
+          }}
+          transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+        />
+      </motion.div>
+
+      {/* Orbital ring 3 — wide */}
+      <motion.div
+        className="absolute inset-[-40px] sm:inset-[-55px]"
+        animate={{ rotate: 360 }}
+        transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+      >
+        <div
+          className="absolute inset-0 rounded-full border border-white/[0.05]"
+          style={{ transform: "rotateX(80deg) rotateZ(-10deg)" }}
+        />
       </motion.div>
     </div>
   );
@@ -76,8 +158,8 @@ export function HeroSection() {
       <FloatingParticles />
 
       <div className="relative mx-auto max-w-7xl px-4 pb-16 pt-10 sm:px-6 sm:pb-24 sm:pt-20 lg:px-8">
-        <div className="grid items-center gap-10 lg:gap-16 lg:grid-cols-5">
-          <div className="lg:col-span-3 text-center lg:text-left">
+        <div className="grid items-center gap-10 lg:gap-12 lg:grid-cols-2">
+          <div className="text-center lg:text-left">
             <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }}>
               <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.04] px-3 py-1 text-[12px] sm:text-[13px] font-medium text-white/60 backdrop-blur-sm sm:px-4 sm:py-1.5 sm:gap-2.5">
                 <span className="relative flex h-2 w-2">
@@ -132,20 +214,43 @@ export function HeroSection() {
             </motion.div>
           </div>
 
-          <motion.div className="lg:col-span-2 hidden lg:flex items-center justify-center" initial={{ opacity: 0, scale: 0.85 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.7, delay: 0.35 }}>
+          {/* Globe visual */}
+          <motion.div
+            className="hidden lg:flex items-center justify-center"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+          >
             <div className="relative">
-              <RotatingCube />
-              <div className="absolute inset-0 -z-10 scale-[2] rounded-full bg-gradient-to-r from-[#7c3aed]/20 via-[#3b82f6]/15 to-[#06b6d4]/20 blur-[60px]" />
-              <motion.div className="absolute -top-14 -left-32 rounded-xl border border-white/[0.06] bg-white/[0.03] px-4 py-3 backdrop-blur-lg" animate={{ y: [0, -6, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}>
+              <GlowingGlobe />
+
+              {/* Floating stat cards */}
+              <motion.div
+                className="absolute -top-6 -left-24 rounded-xl border border-white/[0.06] bg-[#0e0e2a]/80 px-4 py-3 backdrop-blur-xl"
+                animate={{ y: [0, -8, 0] }}
+                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              >
                 <p className="text-[11px] font-medium tracking-wide text-white/40 uppercase">Leads this month</p>
                 <p className="mt-0.5 text-xl font-bold">+47</p>
               </motion.div>
-              <motion.div className="absolute -bottom-10 -right-28 rounded-xl border border-white/[0.06] bg-white/[0.03] px-4 py-3 backdrop-blur-lg" animate={{ y: [0, 6, 0] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}>
+
+              <motion.div
+                className="absolute -bottom-4 -right-20 rounded-xl border border-white/[0.06] bg-[#0e0e2a]/80 px-4 py-3 backdrop-blur-xl"
+                animate={{ y: [0, 8, 0] }}
+                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+              >
                 <p className="text-[11px] font-medium tracking-wide text-white/40 uppercase">Conversion</p>
                 <p className="mt-0.5 text-xl font-bold text-emerald-400">4.2%</p>
               </motion.div>
-              <motion.div className="absolute top-1/2 -right-36 -translate-y-1/2 rounded-xl border border-white/[0.06] bg-white/[0.03] px-4 py-3 backdrop-blur-lg" animate={{ y: [0, -5, 0] }} transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 3 }}>
-                <div className="flex items-center gap-0.5">{[1,2,3,4,5].map((n)=>(<div key={n} className="h-2 w-2 rounded-full bg-yellow-400/70" />))}</div>
+
+              <motion.div
+                className="absolute top-1/2 -right-28 -translate-y-1/2 rounded-xl border border-white/[0.06] bg-[#0e0e2a]/80 px-4 py-3 backdrop-blur-xl"
+                animate={{ y: [0, -6, 0] }}
+                transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+              >
+                <div className="flex items-center gap-0.5">
+                  {[1,2,3,4,5].map((n)=>(<div key={n} className="h-2 w-2 rounded-full bg-yellow-400/70" />))}
+                </div>
                 <p className="mt-1 text-[11px] font-medium text-white/40">23 reviews</p>
               </motion.div>
             </div>
@@ -161,9 +266,7 @@ export function HeroSection() {
                 <div className="h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-white/15" />
                 <div className="h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-white/15" />
               </div>
-              <div className="ml-2 sm:ml-4 flex-1 rounded-lg bg-white/[0.03] px-2 py-0.5 sm:px-3 sm:py-1 text-[10px] sm:text-xs text-white/30">
-                dashboard.convertaflow.com
-              </div>
+              <div className="ml-2 sm:ml-4 flex-1 rounded-lg bg-white/[0.03] px-2 py-0.5 sm:px-3 sm:py-1 text-[10px] sm:text-xs text-white/30">dashboard.convertaflow.com</div>
             </div>
             <div className="grid grid-cols-12">
               <div className="col-span-3 hidden border-r border-white/[0.06] bg-white/[0.01] p-3 sm:p-5 lg:block">
