@@ -183,7 +183,6 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
     <div
       ref={containerRef}
       className={`relative flex items-center justify-center ${mobile ? "w-[280px] h-[280px]" : "w-[400px] h-[400px]"}`}
-      style={{ willChange: "transform" }} /* Own compositor layer — scroll doesn't repaint globe */
     >
       <style>{`@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}`}</style>
 
@@ -194,7 +193,7 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
         </>
       )}
 
-      <canvas ref={canvasRef} style={{ width: cSize, height: cSize, willChange: "transform" }} />
+      <canvas ref={canvasRef} style={{ width: cSize, height: cSize }} />
 
       <svg ref={svgRef} className="absolute inset-0 w-full h-full pointer-events-none z-10">
         {hqs.map((hq, i) => (
@@ -221,7 +220,11 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
           <div
             key={hq.id}
             className="absolute z-20"
-            style={{ top: pos.top, left: pos.left, animation: `bob ${3.5 + pos.delay}s ${pos.delay}s ease-in-out infinite` }}
+            style={{
+              top: pos.top,
+              left: pos.left,
+              ...(mobile ? {} : { animation: `bob ${3.5 + pos.delay}s ${pos.delay}s ease-in-out infinite` }),
+            }}
           >
             <div
               className={`flex items-center justify-center rounded-xl border border-white/[0.1] bg-[#0e0e2a]/90 ${mobile ? "h-7 w-7" : "h-9 w-9"}`}

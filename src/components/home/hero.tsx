@@ -7,9 +7,8 @@ import { ArrowRight, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HeroGlobe } from "@/components/home/hero-globe";
 
-/* ─── Starfield — pure CSS twinkle, no JS animation overhead ─── */
+/* ─── Starfield — pure CSS, fewer on mobile ─── */
 function Starfield() {
-  // Always generate 80 stars (works on SSR + hydration, no window check)
   const stars = useMemo(() => {
     const s: { key: number; x: number; y: number; size: number; opacity: number; twinkle: boolean; dur: number; del: number }[] = [];
     for (let i = 0; i < 80; i++) {
@@ -29,7 +28,8 @@ function Starfield() {
 
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden">
-      <style>{`@keyframes twinkle{0%,100%{opacity:var(--tw-lo)}50%{opacity:var(--tw-hi)}}`}</style>
+      {/* Twinkle only on desktop — mobile gets static stars */}
+      <style className="hidden sm:block">{`@keyframes twinkle{0%,100%{opacity:var(--tw-lo)}50%{opacity:var(--tw-hi)}}`}</style>
       {stars.map((s) => (
         <div
           key={s.key}
@@ -40,13 +40,6 @@ function Starfield() {
             left: `${s.x}%`,
             top: `${s.y}%`,
             opacity: s.opacity,
-            ...(s.twinkle
-              ? {
-                  ["--tw-lo" as string]: s.opacity * 0.3,
-                  ["--tw-hi" as string]: s.opacity,
-                  animation: `twinkle ${s.dur}s ${s.del}s ease-in-out infinite`,
-                }
-              : {}),
           }}
         />
       ))}
@@ -57,13 +50,13 @@ function Starfield() {
 export function HeroSection() {
   return (
     <section className="relative overflow-hidden bg-[#060613] text-white">
-      {/* Deep space nebula glow — minimal blur on mobile */}
+      {/* Desktop nebula glow */}
       <div className="pointer-events-none absolute inset-0 hidden sm:block">
         <div className="absolute top-[10%] left-[15%] h-[500px] w-[500px] rounded-full bg-[#6c3aed]/[0.08] blur-[140px]" />
         <div className="absolute top-[20%] right-[10%] h-[400px] w-[400px] rounded-full bg-[#2563eb]/[0.06] blur-[130px]" />
         <div className="absolute bottom-[10%] left-[40%] h-[350px] w-[350px] rounded-full bg-[#06b6d4]/[0.05] blur-[130px]" />
       </div>
-      {/* Mobile: single simple gradient instead of 3 blurred elements */}
+      {/* Mobile: simple gradient, zero blur */}
       <div className="pointer-events-none absolute inset-0 sm:hidden bg-gradient-to-b from-[#6c3aed]/[0.06] via-transparent to-[#06b6d4]/[0.04]" />
 
       <Starfield />
@@ -71,59 +64,54 @@ export function HeroSection() {
       <div className="relative mx-auto max-w-7xl px-4 pb-8 pt-8 sm:px-6 sm:pb-16 sm:pt-16 lg:px-8">
         <div className="lg:grid lg:grid-cols-2 lg:items-center lg:gap-8">
           <div className="text-center lg:text-left">
-            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+            {/* Badge — no animation on mobile */}
+            <div>
               <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.04] px-3 py-1 text-[12px] sm:text-[13px] font-medium text-white/60 sm:px-4 sm:py-1.5 sm:gap-2.5">
                 <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
                 </span>
                 Now accepting new clients
               </span>
-            </motion.div>
+            </div>
 
-            <motion.h1 className="mt-5 text-[1.85rem] font-extrabold leading-[1.1] tracking-tight sm:mt-7 sm:text-[3rem] lg:text-[3.5rem] xl:text-[4rem]" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.06 }}>
+            <h1 className="mt-5 text-[1.85rem] font-extrabold leading-[1.1] tracking-tight sm:mt-7 sm:text-[3rem] lg:text-[3.5rem] xl:text-[4rem]">
               The growth system
               <br />
               <span className="bg-gradient-to-r from-[#8b5cf6] via-[#3b82f6] to-[#06b6d4] bg-clip-text text-transparent">
                 your business is missing
               </span>
-            </motion.h1>
+            </h1>
 
-            {/* Mobile globe — no overflow-hidden so cobe glow bleeds naturally */}
-            <motion.div
-              className="flex justify-center my-4 lg:hidden"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.15 }}
-            >
+            {/* Mobile globe — no motion wrapper */}
+            <div className="flex justify-center my-4 lg:hidden">
               <div className="w-[280px] h-[280px]">
                 <HeroGlobe mobile />
               </div>
-            </motion.div>
+            </div>
 
-            <motion.p className="max-w-lg text-[14px] leading-[1.7] text-white/50 sm:text-[16px] mx-auto lg:mx-0" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.12 }}>
+            <p className="max-w-lg text-[14px] leading-[1.7] text-white/50 sm:text-[16px] mx-auto lg:mx-0">
               Luxury web design, automated lead capture, review systems,
               booking integration, and a dashboard that shows exactly what&apos;s
               driving results. Delivered in days, not months.
-            </motion.p>
+            </p>
 
-            <motion.div className="mt-5 flex flex-col items-stretch gap-2.5 sm:mt-7 sm:flex-row sm:items-center lg:justify-start sm:justify-center" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.18 }}>
+            <div className="mt-5 flex flex-col items-stretch gap-2.5 sm:mt-7 sm:flex-row sm:items-center lg:justify-start sm:justify-center">
               <Button size="lg" className="h-11 sm:h-12 bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] px-6 sm:px-7 text-[14px] sm:text-[15px] font-semibold text-white hover:opacity-90 border-0 shadow-lg shadow-[#7c3aed]/20 w-full sm:w-auto" asChild>
                 <Link href="/pricing">View Plans & Pricing <ArrowRight className="ml-2 h-4 w-4" /></Link>
               </Button>
               <Button size="lg" variant="outline" className="h-11 sm:h-12 border-white/[0.08] bg-white/[0.03] px-6 sm:px-7 text-[14px] sm:text-[15px] text-white/80 hover:bg-white/[0.06] hover:text-white w-full sm:w-auto" asChild>
                 <Link href="/how-it-works"><Play className="mr-2 h-3.5 w-3.5" />How It Works</Link>
               </Button>
-            </motion.div>
+            </div>
 
-            <motion.div className="mt-5 flex items-center gap-3 sm:gap-5 text-[11px] sm:text-[13px] text-white/30 justify-center lg:justify-start flex-wrap" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4, delay: 0.35 }}>
+            <div className="mt-5 flex items-center gap-3 sm:gap-5 text-[11px] sm:text-[13px] text-white/30 justify-center lg:justify-start flex-wrap">
               {["No contracts", "Delivered in days", "Cancel anytime"].map((t) => (
                 <span key={t} className="flex items-center gap-1.5"><span className="h-1 w-1 rounded-full bg-emerald-400/60" />{t}</span>
               ))}
-            </motion.div>
+            </div>
           </div>
 
-          {/* Desktop globe */}
+          {/* Desktop globe — framer-motion only here */}
           <motion.div className="hidden lg:flex items-center justify-center overflow-visible" initial={{ opacity: 0, scale: 0.85 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.7, delay: 0.25 }}>
             <div className="relative">
               <HeroGlobe />
@@ -144,7 +132,7 @@ export function HeroSection() {
         </div>
 
         {/* Dashboard mockup */}
-        <motion.div className="relative mx-auto mt-8 sm:mt-14 max-w-5xl" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.4 }}>
+        <div className="relative mx-auto mt-8 sm:mt-14 max-w-5xl">
           <div className="overflow-hidden rounded-xl sm:rounded-2xl border border-white/[0.06] bg-white/[0.03] shadow-2xl shadow-purple-500/[0.06]">
             <div className="flex items-center gap-2 border-b border-white/[0.06] bg-white/[0.02] px-3 py-2 sm:px-5 sm:py-3">
               <div className="flex gap-1 sm:gap-1.5"><div className="h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-white/15" /><div className="h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-white/15" /><div className="h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-white/15" /></div>
@@ -183,8 +171,8 @@ export function HeroSection() {
               </div>
             </div>
           </div>
-          <div className="pointer-events-none absolute -inset-6 sm:-inset-12 -z-10 rounded-3xl bg-gradient-to-b from-[#7c3aed]/8 via-[#3b82f6]/[0.04] to-transparent blur-2xl sm:blur-3xl" />
-        </motion.div>
+          <div className="pointer-events-none absolute -inset-6 sm:-inset-12 -z-10 rounded-3xl bg-gradient-to-b from-[#7c3aed]/8 via-[#3b82f6]/[0.04] to-transparent hidden sm:block blur-3xl" />
+        </div>
       </div>
     </section>
   );
