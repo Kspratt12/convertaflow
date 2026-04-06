@@ -120,9 +120,11 @@ export default function PricingPage() {
                   ))}
                 </ul>
 
+                <p className="mt-3 text-center text-[10px] text-white/25">{tier.microcopy}</p>
+
                 <Button
                   className={cn(
-                    "mt-5 gap-1.5",
+                    "mt-3 gap-1.5",
                     tier.highlighted
                       ? "bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] text-white border-0 hover:opacity-90"
                       : "bg-white/[0.06] border border-white/[0.1] text-white hover:bg-white/[0.1]"

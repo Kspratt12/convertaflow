@@ -16,13 +16,13 @@ export function TierPreview() {
   return (
     <section className="relative overflow-hidden bg-[#060613] py-12 text-white sm:py-16">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-[10%] left-[10%] h-[300px] w-[300px] sm:h-[450px] sm:w-[450px] rounded-full bg-[#7c3aed]/[0.06] blur-[60px] sm:blur-[120px]" />
-        <div className="absolute bottom-[10%] right-[10%] h-[250px] w-[250px] sm:h-[400px] sm:w-[400px] rounded-full bg-[#3b82f6]/[0.05] blur-[60px] sm:blur-[120px]" />
+        <div className="absolute top-[10%] left-[10%] h-[200px] w-[200px] sm:h-[350px] sm:w-[350px] rounded-full bg-[#7c3aed]/[0.06] blur-[40px] sm:blur-[100px]" />
+        <div className="absolute bottom-[10%] right-[10%] h-[180px] w-[180px] sm:h-[300px] sm:w-[300px] rounded-full bg-[#3b82f6]/[0.05] blur-[40px] sm:blur-[100px]" />
       </div>
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto mb-8 max-w-2xl text-center sm:mb-10">
-          <span className="mb-4 inline-block rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-white/50 sm:mb-5">
+          <span className="mb-4 inline-block rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-1.5 text-[11px] font-semibold uppercase tracking-widest text-white/50 sm:mb-5">
             Three Tiers
           </span>
           <h2 className="text-2xl font-bold tracking-tight sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
@@ -40,10 +40,10 @@ export function TierPreview() {
               <motion.div
                 key={tier.id}
                 className={cn(
-                  "relative flex flex-col rounded-2xl border p-5 sm:p-6 transition-all duration-200",
+                  "relative flex flex-col rounded-2xl border p-5 sm:p-6",
                   tier.highlighted
                     ? "border-[#7c3aed]/40 bg-white/[0.06] shadow-xl shadow-purple-500/[0.08] ring-1 ring-[#7c3aed]/20 lg:scale-[1.02]"
-                    : "border-white/[0.06] bg-white/[0.03] hover:bg-white/[0.05]"
+                    : "border-white/[0.06] bg-white/[0.03]"
                 )}
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
@@ -64,47 +64,54 @@ export function TierPreview() {
                     <Icon className="h-5 w-5" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-white text-[15px]">{tier.name}</h3>
-                    <p className="text-[12px] text-[#8b5cf6] font-medium">{tier.audience}</p>
+                    <h3 className="font-bold text-white text-[14px] sm:text-[15px]">{tier.name}</h3>
+                    <p className="text-[11px] sm:text-[12px] text-[#8b5cf6] font-medium">{tier.audience}</p>
                   </div>
                 </div>
 
-                <div className="mt-4 flex items-baseline gap-1">
-                  <span className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">{tier.price}</span>
-                  <span className="text-[12px] sm:text-sm text-white/35">{tier.priceNote}</span>
+                {/* Pricing */}
+                <div className="mt-4">
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">{tier.price}</span>
+                    <span className="text-[11px] sm:text-[12px] text-white/35">{tier.priceNote}</span>
+                  </div>
+                  <div className="mt-1 flex items-baseline gap-1">
+                    <span className="text-[14px] sm:text-base font-bold text-white/70">{tier.monthly}</span>
+                    <span className="text-[11px] sm:text-[12px] text-white/35">{tier.monthlyNote}</span>
+                  </div>
                 </div>
 
                 {/* Delivery + Revisions */}
                 <div className="mt-3 flex gap-3">
-                  <div className="flex items-center gap-1.5 text-[11px] sm:text-[12px] text-white/50">
+                  <div className="flex items-center gap-1 text-[10px] sm:text-[11px] text-white/50">
                     <Clock className="h-3 w-3 text-[#06b6d4]" />
                     {tier.deliveryDays}
                   </div>
-                  <div className="flex items-center gap-1.5 text-[11px] sm:text-[12px] text-white/50">
+                  <div className="flex items-center gap-1 text-[10px] sm:text-[11px] text-white/50">
                     <RotateCcw className="h-3 w-3 text-[#06b6d4]" />
                     {tier.revisions} revisions
                   </div>
                 </div>
 
-                <p className="mt-3 flex-1 text-[13px] leading-relaxed text-white/40">
+                <p className="mt-3 flex-1 text-[12px] sm:text-[13px] leading-relaxed text-white/40">
                   {tier.description}
                 </p>
 
-                <ul className="mt-4 space-y-1.5">
+                <ul className="mt-3 space-y-1.5">
                   {tier.features.slice(0, 5).map((f) => (
-                    <li key={f} className="flex items-center gap-2 text-[12px] sm:text-[13px] text-white/70">
+                    <li key={f} className="flex items-center gap-2 text-[11px] sm:text-[12px] text-white/70">
                       <Check className="h-3 w-3 shrink-0 text-[#06b6d4]" />
                       {f}
                     </li>
                   ))}
                   {tier.features.length > 5 && (
-                    <li className="text-[12px] text-white/30">+{tier.features.length - 5} more</li>
+                    <li className="text-[11px] text-white/30">+{tier.features.length - 5} more</li>
                   )}
                 </ul>
 
                 <Button
                   className={cn(
-                    "mt-5 gap-1.5",
+                    "mt-4 gap-1.5",
                     tier.highlighted
                       ? "bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] text-white border-0 hover:opacity-90"
                       : "bg-white/[0.06] border border-white/[0.1] text-white hover:bg-white/[0.1]"
@@ -112,10 +119,13 @@ export function TierPreview() {
                   asChild
                 >
                   <Link href="/pricing">
-                    View Details
+                    {tier.highlighted ? "Get Started" : "View Details"}
                     <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
                 </Button>
+
+                {/* Microcopy */}
+                <p className="mt-2 text-center text-[10px] text-white/25">{tier.microcopy}</p>
               </motion.div>
             );
           })}

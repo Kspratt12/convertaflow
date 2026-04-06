@@ -24,89 +24,95 @@ export interface TierConfig {
   priceNote: string;
   monthly: string;
   monthlyNote: string;
+  monthlyRequired: boolean;
   description: string;
   audience: string;
   deliveryDays: string;
   revisions: number;
   features: string[];
   highlighted: boolean;
+  microcopy: string;
 }
 
 export const TIERS: Record<TierId, TierConfig> = {
   starter: {
     id: "starter",
-    name: "Luxury Website Design",
+    name: "Luxury Website",
     shortName: "Foundation",
     price: "$2,497",
-    priceNote: "one-time",
-    monthly: "$97/mo",
-    monthlyNote: "hosting & support",
+    priceNote: "one-time build",
+    monthly: "$79/mo",
+    monthlyNote: "optional support",
+    monthlyRequired: false,
     description:
-      "A high-end custom website designed to make your business look established, capture leads from day one, and leave a lasting impression on every visitor.",
-    audience: "For businesses ready to look world-class online",
+      "A high-end custom website that makes your business look world-class and converts visitors into leads from day one.",
+    audience: "For businesses ready to look established",
     deliveryDays: "5–7 business days",
     revisions: 3,
     features: [
       "Custom luxury website design",
       "Mobile-optimized responsive layout",
-      "Lead capture forms and CTAs",
+      "Lead capture forms & CTAs",
       "SEO-ready page structure",
-      "Fast hosting on modern infrastructure",
-      "Contact form with email notifications",
+      "Fast hosting & SSL included",
+      "Contact form with email alerts",
       "Google Analytics integration",
-      "SSL security included",
     ],
     highlighted: false,
+    microcopy: "Website is built once. Monthly support is optional.",
   },
   growth: {
     id: "growth",
-    name: "Website + Business Systems",
+    name: "Website + Lead & Automation System",
     shortName: "Growth",
     price: "$3,997",
-    priceNote: "one-time",
-    monthly: "$197/mo",
-    monthlyNote: "systems & support",
+    priceNote: "one-time build",
+    monthly: "$199/mo",
+    monthlyNote: "growth system access",
+    monthlyRequired: true,
     description:
-      "Everything in Foundation plus booking integration, automated email notifications, review request system, and a simple dashboard to track leads and activity.",
+      "Everything in Luxury Website plus a full lead tracking dashboard, automated email notifications, booking integration, and review request system.",
     audience: "For businesses ready to capture and convert",
     deliveryDays: "7–10 business days",
     revisions: 5,
     features: [
-      "Everything in Luxury Website Design",
-      "Booking & calendar integration",
-      "Automated email notifications",
-      "Google review request system",
+      "Everything in Luxury Website",
       "Lead tracking dashboard",
-      "Activity timeline and analytics",
+      "Automated email notifications",
+      "Booking & calendar integration",
+      "Review request system",
+      "Activity timeline & basic analytics",
       "Email follow-up sequences",
       "Priority support",
     ],
     highlighted: true,
+    microcopy: "Built in days. Systems run 24/7.",
   },
   scale: {
     id: "scale",
-    name: "Full Growth System",
+    name: "Full Growth & Automation Engine",
     shortName: "Scale",
     price: "$5,997",
-    priceNote: "one-time",
-    monthly: "$297/mo",
+    priceNote: "one-time build",
+    monthly: "$399/mo",
     monthlyNote: "full system access",
+    monthlyRequired: true,
     description:
-      "The complete business growth system. Everything in Growth plus social media automation, Instagram/ManyChat workflow support, advanced analytics, and dedicated strategy.",
+      "The complete growth engine. Everything in Growth plus social media automation, Instagram/ManyChat workflows, advanced analytics, and ongoing optimization support.",
     audience: "For businesses ready to scale with systems",
     deliveryDays: "10–14 business days",
     revisions: 10,
     features: [
-      "Everything in Website + Systems",
-      "Social media automation support",
+      "Everything in Growth System",
+      "Social media automation",
       "Instagram & ManyChat workflows",
       "Advanced conversion analytics",
       "Multi-channel lead attribution",
-      "Social post scheduling",
+      "Ongoing optimization support",
       "Custom reporting",
       "Dedicated strategy support",
-      "Quarterly growth reviews",
     ],
     highlighted: false,
+    microcopy: "Cancel anytime on monthly systems.",
   },
 };
