@@ -54,7 +54,7 @@ function latLngToPixel(
 ): { x: number; y: number; visible: boolean } {
   const latRad = (lat * Math.PI) / 180;
   const lngRad = (lng * Math.PI) / 180;
-  const R = 0.85; // cobe marker radius = ee(0.8) + markerElevation(0.05)
+  const R = 0.80; // cobe globe surface radius — arrow lands ON the continent, not floating above
 
   const cosLat = Math.cos(latRad);
   const sinLat = Math.sin(latRad);
@@ -89,6 +89,8 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
   const phiRef = useRef(3.5);
   const theta = 0.3;
   const activeIdxRef = useRef(0);
+  const prevIdxRef = useRef(0);
+  const transitionRef = useRef(1); // 0 = faded out, 1 = fully visible
   const rafRef = useRef<number>(0);
 
   const canvasSize = mobile ? 260 : 400;
@@ -103,7 +105,17 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
     const label = labelRef.current;
     if (!svg || !label) return;
 
+    // Smooth fade transition when switching HQs
     const idx = activeIdxRef.current;
+    if (idx !== prevIdxRef.current) {
+      transitionRef.current = 0; // start fade in for new HQ
+      prevIdxRef.current = idx;
+    }
+    // Ease in: 0 → 1 over ~20 frames (~0.33s at 60fps)
+    if (transitionRef.current < 1) {
+      transitionRef.current = Math.min(1, transitionRef.current + 0.05);
+    }
+
     const loc = hqLocations[idx];
     const iconPos = (mobile ? mobileIconPositions : desktopIconPositions)[idx];
 
@@ -115,17 +127,24 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
       return;
     }
 
+    const fadeOpacity = String(transitionRef.current);
+
     const iconX = (parseFloat(iconPos.left) / 100) * containerW;
     const iconY = (parseFloat(iconPos.top) / 100) * containerH;
     const mx = pos.x + globeOffsetX;
     const my = pos.y + globeOffsetY;
 
+    // Gentle curve — small perpendicular offset scaled by distance
     const midX = (iconX + mx) / 2;
     const midY = (iconY + my) / 2;
+    const dist = Math.sqrt((mx - iconX) ** 2 + (my - iconY) ** 2);
+    const curveAmount = Math.min(dist * 0.15, mobile ? 20 : 30);
     const dx = mx - iconX;
     const dy = my - iconY;
-    const cpx = midX - dy * 0.25;
-    const cpy = midY + dx * 0.25;
+    const nx = -dy / (dist || 1);
+    const ny = dx / (dist || 1);
+    const cpx = midX + nx * curveAmount;
+    const cpy = midY + ny * curveAmount;
 
     const angle = Math.atan2(my - cpy, mx - cpx);
     const aLen = mobile ? 5 : 8;
@@ -161,9 +180,9 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
     els.arrow.setAttribute("fill", loc.color);
     els.dot.setAttribute("fill", loc.color);
 
-    svg.style.opacity = "1";
+    svg.style.opacity = fadeOpacity;
 
-    label.style.opacity = "1";
+    label.style.opacity = fadeOpacity;
     label.style.left = `${mx - (mobile ? 40 : 50)}px`;
     label.style.top = `${my - (mobile ? 42 : 55)}px`;
     els.name.textContent = loc.label;
