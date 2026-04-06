@@ -31,11 +31,11 @@ export function Footer() {
             <Image
               src="/convertaflow-logo.png"
               alt={SITE.name}
-              width={30}
-              height={30}
-              className="h-7 w-7 object-contain mix-blend-screen -mr-2"
+              width={36}
+              height={36}
+              className="h-8 w-8 object-contain mix-blend-screen -mr-2.5"
             />
-            <span className="text-[16px] font-bold tracking-tight">
+            <span className="text-[18px] font-bold tracking-tight">
               <span className="text-white/90">onverta</span>
               <span className="bg-gradient-to-r from-[#8b5cf6] via-[#3b82f6] to-[#06b6d4] bg-clip-text text-transparent">flow</span>
             </span>
