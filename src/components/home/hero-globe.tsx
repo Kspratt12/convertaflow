@@ -61,7 +61,7 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
   const labelRef = useRef<HTMLDivElement>(null);
   const arrowElsRef = useRef<{
     path: SVGPathElement; arrow: SVGPolygonElement;
-    dot: SVGCircleElement; pulse: SVGCircleElement;
+    dot: SVGCircleElement;
     stop1: SVGStopElement; stop2: SVGStopElement;
     name: Element; city: Element;
     card: HTMLElement; caret: HTMLElement;
@@ -69,10 +69,9 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
   const phiRef = useRef(3.5);
   const theta = 0.3;
   const [activeHQ, setActiveHQ] = useState<string | null>(null);
+  // Ref is updated IMMEDIATELY in click handler, not via useEffect
   const activeHQRef = useRef<string | null>(null);
   const rafRef = useRef<number>(0);
-
-  useEffect(() => { activeHQRef.current = activeHQ; }, [activeHQ]);
 
   const canvasSize = mobile ? 240 : 400;
   const containerW = mobile ? 280 : 400;
@@ -81,7 +80,7 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
   const globeOffsetY = (containerH - canvasSize) / 2;
   const iconPositions = mobile ? mobileIconPositions : desktopIconPositions;
 
-  // Direct DOM update for arrow + label — no React re-renders per frame
+  // Direct DOM update — zero delay, no React re-renders
   const updateArrowDOM = useCallback(() => {
     const id = activeHQRef.current;
     const svg = arrowSvgRef.current;
@@ -111,7 +110,6 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
     const mx = pos.x + globeOffsetX;
     const my = pos.y + globeOffsetY;
 
-    // Curve
     const midX = (iconX + mx) / 2;
     const midY = (iconY + my) / 2;
     const dx = mx - iconX;
@@ -119,7 +117,6 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
     const cpx = midX - dy * 0.25;
     const cpy = midY + dx * 0.25;
 
-    // Arrowhead
     const angle = Math.atan2(my - cpy, mx - cpx);
     const aLen = mobile ? 6 : 8;
     const a1x = mx - aLen * Math.cos(angle - 0.4);
@@ -127,20 +124,19 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
     const a2x = mx - aLen * Math.cos(angle + 0.4);
     const a2y = my - aLen * Math.sin(angle + 0.4);
 
-    // Cache DOM refs on first call to avoid querySelector every frame
+    // Cache DOM refs on first call
     if (!arrowElsRef.current) {
       const p = svg.querySelector("[data-arrow-path]") as SVGPathElement;
       const a = svg.querySelector("[data-arrow-head]") as SVGPolygonElement;
       const d = svg.querySelector("[data-arrow-dot]") as SVGCircleElement;
-      const pu = svg.querySelector("[data-arrow-pulse]") as SVGCircleElement;
       const s1 = svg.querySelector("[data-arrow-stop1]") as SVGStopElement;
       const s2 = svg.querySelector("[data-arrow-stop2]") as SVGStopElement;
       const nm = label.querySelector("[data-label-name]")!;
       const ct = label.querySelector("[data-label-city]")!;
       const cd = label.querySelector("[data-label-card]") as HTMLElement;
       const cr = label.querySelector("[data-label-caret]") as HTMLElement;
-      if (p && a && d && pu && s1 && s2 && nm && ct && cd && cr) {
-        arrowElsRef.current = { path: p, arrow: a, dot: d, pulse: pu, stop1: s1, stop2: s2, name: nm, city: ct, card: cd, caret: cr };
+      if (p && a && d && s1 && s2 && nm && ct && cd && cr) {
+        arrowElsRef.current = { path: p, arrow: a, dot: d, stop1: s1, stop2: s2, name: nm, city: ct, card: cd, caret: cr };
       }
     }
 
@@ -149,17 +145,15 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
 
     els.path.setAttribute("d", `M ${iconX} ${iconY} Q ${cpx} ${cpy}, ${mx} ${my}`);
     els.arrow.setAttribute("points", `${mx},${my} ${a1x},${a1y} ${a2x},${a2y}`);
-    els.dot.setAttribute("cx", String(mx)); els.dot.setAttribute("cy", String(my));
-    els.pulse.setAttribute("cx", String(mx)); els.pulse.setAttribute("cy", String(my));
+    els.dot.setAttribute("cx", String(mx));
+    els.dot.setAttribute("cy", String(my));
     els.stop1.setAttribute("stop-color", loc.color);
     els.stop2.setAttribute("stop-color", loc.color);
     els.arrow.setAttribute("fill", loc.color);
     els.dot.setAttribute("fill", loc.color);
-    els.pulse.setAttribute("fill", loc.color);
 
     svg.style.opacity = "1";
 
-    // Update label
     label.style.opacity = "1";
     label.style.left = `${mx - (mobile ? 40 : 50)}px`;
     label.style.top = `${my - (mobile ? 45 : 55)}px`;
@@ -168,6 +162,14 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
     els.card.style.boxShadow = `0 4px 16px ${loc.color}30`;
     els.caret.style.borderTopColor = `${loc.color}60`;
   }, [canvasSize, containerW, containerH, globeOffsetX, globeOffsetY, mobile]);
+
+  // Click handler — update ref immediately, trigger instant arrow update
+  const handleIconClick = useCallback((id: string) => {
+    const newId = activeHQRef.current === id ? null : id;
+    activeHQRef.current = newId;
+    setActiveHQ(newId); // for icon highlight re-render only
+    updateArrowDOM();   // instant — no waiting for next RAF frame
+  }, [updateArrowDOM]);
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -220,20 +222,20 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
       <div className={`absolute inset-[5%] rounded-full bg-[#7c3aed]/15 ${mobile ? "blur-[20px]" : "blur-[50px]"}`} />
       <div className={`absolute inset-[10%] rounded-full bg-[#3b82f6]/10 ${mobile ? "blur-[15px]" : "blur-[40px]"}`} />
 
-      {/* Globe canvas — no contain/overflow so cobe's WebGL glow bleeds naturally */}
+      {/* Globe canvas */}
       <canvas
         ref={canvasRef}
         style={{ width: canvasSize, height: canvasSize }}
       />
 
-      {/* Arrow SVG — updated via DOM, no React re-renders */}
+      {/* Arrow SVG — instant show/hide, no CSS transition */}
       <svg
         ref={arrowSvgRef}
-        className="absolute inset-0 w-full h-full pointer-events-none z-10 transition-opacity duration-200"
+        className="absolute inset-0 w-full h-full pointer-events-none z-10"
         style={{ opacity: 0 }}
       >
         <defs>
-          <linearGradient id="arrow-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <linearGradient id={`arrow-grad-${mobile ? "m" : "d"}`} x1="0%" y1="0%" x2="100%" y2="100%">
             <stop data-arrow-stop1 offset="0%" stopColor="#fff" stopOpacity="0.9" />
             <stop data-arrow-stop2 offset="100%" stopColor="#fff" stopOpacity="0.4" />
           </linearGradient>
@@ -241,24 +243,24 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
         <path
           data-arrow-path
           d="M 0 0 Q 0 0, 0 0"
-          stroke="url(#arrow-grad)"
+          stroke={`url(#arrow-grad-${mobile ? "m" : "d"})`}
           strokeWidth={mobile ? 1.5 : 2}
           fill="none"
           strokeLinecap="round"
           strokeDasharray="5 3"
         />
         <polygon data-arrow-head points="0,0 0,0 0,0" fill="#fff" opacity="0.9" />
-        <circle data-arrow-dot cx="0" cy="0" r={mobile ? 2.5 : 3} fill="#fff" opacity="0.8" />
-        <circle data-arrow-pulse cx="0" cy="0" r={mobile ? 4 : 5} fill="#fff" opacity="0.4">
-          <animate attributeName="r" values={mobile ? "3;8;3" : "4;10;4"} dur="1.5s" repeatCount="indefinite" />
-          <animate attributeName="opacity" values="0.6;0;0.6" dur="1.5s" repeatCount="indefinite" />
+        {/* Single pulsing dot — NOT two dots */}
+        <circle data-arrow-dot cx="0" cy="0" r={mobile ? 3 : 4} fill="#fff" opacity="0.85">
+          <animate attributeName="r" values={mobile ? "3;5;3" : "4;6;4"} dur="1.2s" repeatCount="indefinite" />
+          <animate attributeName="opacity" values="0.85;0.4;0.85" dur="1.2s" repeatCount="indefinite" />
         </circle>
       </svg>
 
-      {/* HQ label — updated via DOM */}
+      {/* HQ label — instant show/hide */}
       <div
         ref={labelRef}
-        className="absolute z-30 pointer-events-none transition-opacity duration-200"
+        className="absolute z-30 pointer-events-none"
         style={{ opacity: 0 }}
       >
         <div
@@ -286,7 +288,7 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
             style={{ top, left }}
             animate={{ y: [0, -3, 0] }}
             transition={{ duration: 3.5 + delay, repeat: Infinity, ease: "easeInOut", delay }}
-            onClick={() => setActiveHQ(activeHQ === id ? null : id)}
+            onClick={() => handleIconClick(id)}
           >
             <div
               className={`flex items-center justify-center rounded-xl border transition-all duration-200 ${
@@ -303,7 +305,6 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
           </motion.button>
         );
       })}
-
     </div>
   );
 }
