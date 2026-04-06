@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ExternalLink, ArrowRight } from "lucide-react";
+import { ArrowRight, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
@@ -13,8 +13,8 @@ const projects = [
     image: "/listing-flare.png",
     category: "Real Estate SaaS",
     description:
-      "AI-powered property websites for listing agents. Branded single-property sites with 24/7 chatbot, automated lead capture, and follow-up emails.",
-    stats: ["AI chatbot integration", "Lead capture system", "Analytics dashboard"],
+      "AI-powered property websites for listing agents with 24/7 chatbot, automated lead capture, and follow-up emails.",
+    stats: ["AI chatbot", "Lead capture", "Analytics"],
     accent: "#3b82f6",
   },
   {
@@ -23,8 +23,8 @@ const projects = [
     image: "/supplement-flow.png",
     category: "Roofing Software",
     description:
-      "Roofing supplement software recovering $2,400+ per supplement. AI-generated reports from mobile damage photos, ready for insurance adjusters.",
-    stats: ["AI report generation", "Mobile-first capture", "Xactimate export"],
+      "Roofing supplement software recovering $2,400+ per supplement with AI-generated reports from mobile damage photos.",
+    stats: ["AI reports", "Mobile capture", "Xactimate"],
     accent: "#8b5cf6",
   },
 ];
@@ -52,45 +52,36 @@ export function Portfolio() {
           </p>
         </div>
 
-        <div className="grid gap-5 lg:grid-cols-2">
+        <div className="grid gap-5 sm:grid-cols-2">
           {projects.map((project, i) => (
             <motion.a
               key={project.name}
               href={project.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.03] transition-all duration-300 hover:border-white/[0.12] hover:shadow-2xl hover:shadow-purple-500/[0.08]"
+              className="group relative overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.03] transition-all duration-300 hover:border-white/[0.15] hover:shadow-2xl hover:shadow-purple-500/[0.08]"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.4, delay: i * 0.1 }}
             >
-              {/* Screenshot */}
-              <div className="relative overflow-hidden border-b border-white/[0.06]">
-                <div className="flex items-center gap-2 absolute top-0 left-0 right-0 z-10 bg-gradient-to-b from-black/40 to-transparent px-4 py-2.5">
-                  <div className="flex gap-1.5">
-                    <div className="h-2 w-2 rounded-full bg-white/25" />
-                    <div className="h-2 w-2 rounded-full bg-white/25" />
-                    <div className="h-2 w-2 rounded-full bg-white/25" />
-                  </div>
-                  <div className="ml-2 flex-1 flex items-center gap-2 rounded-lg bg-black/20 backdrop-blur-sm px-3 py-0.5">
-                    <span className="text-[11px] text-white/40">{project.url.replace("https://www.", "")}</span>
-                    <ExternalLink className="h-2.5 w-2.5 text-white/20 ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </div>
-                </div>
+              {/* Screenshot area */}
+              <div className="relative overflow-hidden bg-white">
                 <Image
                   src={project.image}
                   alt={`${project.name} screenshot`}
                   width={700}
                   height={400}
-                  className="w-full h-[200px] sm:h-[240px] object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
+                  className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
                 />
+                {/* Bottom gradient fade into card */}
+                <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[#0a0a1f] to-transparent" />
               </div>
 
-              {/* Info */}
+              {/* Info section */}
               <div className="p-5 sm:p-6">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1">
+                <div className="flex items-center justify-between">
+                  <div>
                     <span
                       className="inline-block rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider"
                       style={{ backgroundColor: `${project.accent}20`, color: project.accent }}
@@ -100,26 +91,23 @@ export function Portfolio() {
                     <h3 className="mt-2 text-lg font-bold text-white sm:text-xl">
                       {project.name}
                     </h3>
-                    <p className="mt-1.5 text-[13px] leading-relaxed text-white/45 sm:text-[14px]">
-                      {project.description}
-                    </p>
                   </div>
+                  <ExternalLink className="h-4 w-4 text-white/20 group-hover:text-white/50 transition-colors shrink-0" />
                 </div>
+
+                <p className="mt-2 text-[13px] leading-relaxed text-white/45 sm:text-[14px]">
+                  {project.description}
+                </p>
 
                 <div className="mt-4 flex flex-wrap gap-2">
                   {project.stats.map((stat) => (
                     <span
                       key={stat}
-                      className="rounded-lg border border-white/[0.08] bg-white/[0.04] px-3 py-1.5 text-[11px] font-medium text-white/60"
+                      className="rounded-lg border border-white/[0.08] bg-white/[0.04] px-2.5 py-1 text-[11px] font-medium text-white/50"
                     >
                       {stat}
                     </span>
                   ))}
-                </div>
-
-                <div className="mt-4 flex items-center gap-1.5 text-[12px] font-medium text-white/30 group-hover:text-white/60 transition-colors">
-                  Visit live site
-                  <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
                 </div>
               </div>
             </motion.a>
