@@ -117,7 +117,7 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
     const container = containerRef.current;
     if (!canvasRef.current || !container) return;
 
-    const dpr = mobile ? 1 : Math.min(window.devicePixelRatio ?? 2, 2);
+    const dpr = Math.min(window.devicePixelRatio ?? 2, 2);
 
     const globe = createGlobe(canvasRef.current, {
       devicePixelRatio: dpr,
