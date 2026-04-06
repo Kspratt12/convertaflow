@@ -30,13 +30,13 @@ function FloatingParticles() {
 
 function GlowingGlobe() {
   return (
-    <div className="relative flex items-center justify-center w-[280px] h-[280px] sm:w-[320px] sm:h-[320px]">
+    <div className="relative flex items-center justify-center w-[340px] h-[340px] sm:w-[380px] sm:h-[380px]">
       {/* Outer glow */}
       <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#7c3aed]/30 via-[#3b82f6]/20 to-[#06b6d4]/30 blur-[60px] animate-pulse" />
 
       {/* Globe body */}
       <motion.div
-        className="relative w-[180px] h-[180px] sm:w-[200px] sm:h-[200px] rounded-full"
+        className="relative w-[210px] h-[210px] sm:w-[240px] sm:h-[240px] rounded-full"
         animate={{ rotate: 360 }}
         transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
       >
@@ -226,7 +226,7 @@ export function HeroSection() {
 
               {/* Floating stat cards */}
               <motion.div
-                className="absolute -top-6 -left-24 rounded-xl border border-white/[0.06] bg-[#0e0e2a]/80 px-4 py-3 backdrop-blur-xl"
+                className="absolute -top-10 -left-32 rounded-xl border border-white/[0.06] bg-[#0e0e2a]/90 px-4 py-3 backdrop-blur-xl shadow-lg shadow-[#7c3aed]/10"
                 animate={{ y: [0, -8, 0] }}
                 transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
               >
@@ -235,7 +235,7 @@ export function HeroSection() {
               </motion.div>
 
               <motion.div
-                className="absolute -bottom-4 -right-20 rounded-xl border border-white/[0.06] bg-[#0e0e2a]/80 px-4 py-3 backdrop-blur-xl"
+                className="absolute -bottom-8 -right-28 rounded-xl border border-white/[0.06] bg-[#0e0e2a]/90 px-4 py-3 backdrop-blur-xl shadow-lg shadow-emerald-500/10"
                 animate={{ y: [0, 8, 0] }}
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
               >
@@ -244,7 +244,7 @@ export function HeroSection() {
               </motion.div>
 
               <motion.div
-                className="absolute top-1/2 -right-28 -translate-y-1/2 rounded-xl border border-white/[0.06] bg-[#0e0e2a]/80 px-4 py-3 backdrop-blur-xl"
+                className="absolute top-1/2 -right-36 -translate-y-1/2 rounded-xl border border-white/[0.06] bg-[#0e0e2a]/90 px-4 py-3 backdrop-blur-xl shadow-lg shadow-yellow-500/10"
                 animate={{ y: [0, -6, 0] }}
                 transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 3 }}
               >
