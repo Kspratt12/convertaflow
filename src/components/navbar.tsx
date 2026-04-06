@@ -25,7 +25,7 @@ export function Navbar() {
       className={cn(
         "sticky top-0 z-50 w-full transition-all duration-300",
         scrolled
-          ? "bg-[#0e0826]/95 backdrop-blur-xl shadow-lg shadow-purple-950/20"
+          ? "bg-gradient-to-r from-[#110722]/95 via-[#0e0e38]/95 to-[#081848]/95 backdrop-blur-xl shadow-lg shadow-black/30"
           : "bg-gradient-to-r from-[#1a0a3e] via-[#12124a] to-[#0a1e5e]"
       )}
     >
