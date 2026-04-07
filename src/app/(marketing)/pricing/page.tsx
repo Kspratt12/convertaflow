@@ -226,6 +226,48 @@ export default function PricingPage() {
         </p>
       </Section>
 
+      {/* The Local Customer Engine — discovery */}
+      <Section>
+        <div className="mx-auto max-w-3xl">
+          <div className="relative overflow-hidden rounded-3xl border border-[#06b6d4]/20 bg-gradient-to-br from-[#06b6d4]/[0.05] to-[#7c3aed]/[0.05] p-7 sm:p-10">
+            <div className="pointer-events-none absolute inset-0">
+              <div className="absolute top-1/2 right-0 h-[200px] w-[200px] -translate-y-1/2 translate-x-1/4 rounded-full bg-[#06b6d4]/[0.10] blur-[80px]" />
+            </div>
+            <div className="relative">
+              <span className="inline-flex items-center gap-2 rounded-full border border-[#06b6d4]/30 bg-[#06b6d4]/[0.08] px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-[#67e8f9]">
+                <Star className="h-3 w-3" />
+                New
+              </span>
+              <h3 className="mt-4 text-xl font-bold tracking-tight text-white sm:text-2xl">
+                Want more local customers, not just a website?
+              </h3>
+              <p className="mt-3 text-[14px] leading-relaxed text-white/60 sm:text-[15px]">
+                The Local Customer Engine is our monthly retainer that gets
+                you in front of more local customers, every month. Google
+                Business Profile, local SEO, missed-call rescue, and reviews
+                on autopilot. Bolts on to any website plan, or works on its
+                own if you already have a site.
+              </p>
+              <div className="mt-5 flex flex-wrap items-center gap-3">
+                <Button
+                  size="lg"
+                  className="gap-1.5 bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] text-white border-0 hover:opacity-90"
+                  asChild
+                >
+                  <Link href="/local-customer-engine">
+                    See How It Works
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </Link>
+                </Button>
+                <span className="text-[12px] text-white/40">
+                  Starting at $1,497 setup or $497/mo managed
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Section>
+
       {/* FAQ */}
       <Section>
         <SectionHeader badge="FAQ" title="Questions before you start" />
