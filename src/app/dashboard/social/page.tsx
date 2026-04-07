@@ -11,10 +11,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { TierGate } from "@/components/dashboard/tier-gate";
+import { useBusiness } from "@/components/dashboard/business-provider";
 
 export default function SocialPage() {
-  // TODO: Replace with real tier from session context
-  const isLocked = true;
+  const { hasMinTier } = useBusiness();
+  // Social integration is a Scale-tier feature
+  const isLocked = !hasMinTier("scale");
 
   if (isLocked) {
     return (
