@@ -56,7 +56,7 @@ export function Navbar() {
             alt={SITE.name}
             width={56}
             height={56}
-            className="h-[42px] w-[42px] sm:h-[50px] sm:w-[50px] object-contain mix-blend-screen -mr-[10px] sm:-mr-[12px] -my-2 translate-y-[2px]"
+            className="h-[46px] w-[46px] sm:h-[54px] sm:w-[54px] object-contain mix-blend-screen -mr-[12px] sm:-mr-[14px] -my-3 translate-y-[3px] sm:translate-y-[4px]"
             priority
           />
           <span className="text-[22px] sm:text-[26px] font-bold tracking-tight">

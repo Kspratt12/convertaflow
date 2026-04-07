@@ -46,7 +46,7 @@ export function Footer() {
                 alt={SITE.name}
                 width={44}
                 height={44}
-                className="h-[34px] w-[34px] object-contain mix-blend-screen -mr-[8px] -my-1 translate-y-[1px]"
+                className="h-[38px] w-[38px] object-contain mix-blend-screen -mr-[10px] -my-2 translate-y-[2px]"
               />
               <span className="text-[18px] font-bold tracking-tight">
                 <span className="text-white/90">onverta</span>
