@@ -188,20 +188,12 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
 
       <canvas ref={canvasRef} style={{ width: cSize, height: cSize, pointerEvents: "none", touchAction: "auto" }} />
 
-      <svg ref={svgRef} className="absolute inset-0 w-full h-full pointer-events-none z-10">
+      {/* SVG kept (refs used by updateAllArrows) but lines hidden */}
+      <svg ref={svgRef} className="absolute inset-0 w-full h-full pointer-events-none z-10" style={{ display: "none" }}>
         {hqs.map((hq, i) => (
           <g key={hq.id}>
-            <path
-              data-p={i}
-              d="M0,0 Q0,0 0,0"
-              stroke={hq.color}
-              strokeWidth={mobile ? 1.5 : 2}
-              fill="none"
-              strokeLinecap="round"
-              strokeDasharray="5 3"
-              opacity="0"
-            />
-            <circle data-d={i} cx="0" cy="0" r={mobile ? 3 : 4} fill={hq.color} opacity="0" />
+            <path data-p={i} d="M0,0 Q0,0 0,0" stroke={hq.color} fill="none" opacity="0" />
+            <circle data-d={i} cx="0" cy="0" r="0" fill={hq.color} opacity="0" />
           </g>
         ))}
       </svg>
