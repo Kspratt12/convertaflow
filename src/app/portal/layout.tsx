@@ -17,7 +17,7 @@ export default async function PortalLayout({
 
   return (
     <BusinessProvider session={session}>
-      <div className="flex h-screen overflow-hidden bg-[#060613]">
+      <div className="flex h-screen overflow-hidden bg-slate-50">
         <PortalSidebar />
         <div className="flex flex-1 flex-col overflow-hidden">
           <PortalTopbar />

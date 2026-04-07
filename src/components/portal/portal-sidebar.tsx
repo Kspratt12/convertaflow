@@ -13,6 +13,7 @@ import {
   Package,
   CreditCard,
   ArrowLeft,
+  Shield,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SITE } from "@/lib/constants";
@@ -32,11 +33,11 @@ const navigation = [
 
 export function PortalSidebar() {
   const pathname = usePathname();
-  const { businessName, tier } = useBusiness();
+  const { businessName, tier, isAdmin } = useBusiness();
 
   return (
-    <aside className="hidden w-60 shrink-0 border-r border-white/[0.06] bg-[#060613] lg:flex lg:flex-col">
-      <div className="flex h-16 items-center gap-2.5 border-b border-white/[0.06] px-5">
+    <aside className="hidden w-60 shrink-0 border-r border-slate-200 bg-slate-50 lg:flex lg:flex-col">
+      <div className="flex h-16 items-center gap-2.5 border-b border-slate-200 px-5">
         <Image
           src="/convertaflow-logo.png"
           alt={SITE.name}
@@ -45,15 +46,15 @@ export function PortalSidebar() {
           className="h-8 w-8 object-contain"
         />
         <div className="min-w-0">
-          <p className="truncate text-[13px] font-bold tracking-tight text-white/90">
+          <p className="truncate text-[13px] font-bold tracking-tight text-slate-900">
             {businessName}
           </p>
-          <p className="text-[11px] text-white/40">{tierShortLabel(tier)} Plan</p>
+          <p className="text-[11px] text-slate-500">{tierShortLabel(tier)} Plan</p>
         </div>
       </div>
 
       <nav className="flex-1 space-y-0.5 px-3 py-4">
-        <p className="mb-2 px-3 text-[11px] font-semibold uppercase tracking-widest text-white/30">
+        <p className="mb-2 px-3 text-[11px] font-semibold uppercase tracking-widest text-slate-400">
           Client Portal
         </p>
         {navigation.map((item) => {
@@ -69,14 +70,14 @@ export function PortalSidebar() {
               className={cn(
                 "flex items-center gap-2.5 rounded-xl px-3 py-2 text-[13px] font-medium transition-colors",
                 active
-                  ? "bg-white/[0.06] text-white"
-                  : "text-white/50 hover:bg-white/[0.04] hover:text-white/80"
+                  ? "bg-white text-slate-900"
+                  : "text-slate-500 hover:bg-white hover:text-slate-800"
               )}
             >
               <item.icon
                 className={cn(
                   "h-4 w-4",
-                  active ? "text-[#06b6d4]" : "text-white/30"
+                  active ? "text-[#06b6d4]" : "text-slate-400"
                 )}
               />
               {item.label}
@@ -85,14 +86,23 @@ export function PortalSidebar() {
         })}
       </nav>
 
-      <div className="border-t border-white/[0.06] p-4">
+      <div className="border-t border-slate-200 p-4 space-y-1">
         <Link
           href="/dashboard"
-          className="flex items-center gap-2 rounded-xl px-3 py-2 text-[12px] font-medium text-white/40 transition-colors hover:bg-white/[0.04] hover:text-white/60"
+          className="flex items-center gap-2 rounded-xl px-3 py-2 text-[12px] font-medium text-slate-500 transition-colors hover:bg-white hover:text-slate-700"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           Growth Dashboard
         </Link>
+        {isAdmin && (
+          <Link
+            href="/admin"
+            className="flex items-center gap-2 rounded-xl px-3 py-2 text-[12px] font-medium text-slate-500 transition-colors hover:bg-white hover:text-slate-700"
+          >
+            <Shield className="h-3.5 w-3.5" />
+            Admin Panel
+          </Link>
+        )}
       </div>
     </aside>
   );

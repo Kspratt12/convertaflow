@@ -67,7 +67,7 @@ export default async function ProjectStatusPage() {
       {/* Header */}
       <div>
         <div className="flex flex-wrap items-center gap-2">
-          <h1 className="text-xl font-bold text-white/90 sm:text-2xl">Project Status</h1>
+          <h1 className="text-xl font-bold text-slate-900 sm:text-2xl">Project Status</h1>
           <span
             className={cn(
               "rounded-full border px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider",
@@ -75,13 +75,13 @@ export default async function ProjectStatusPage() {
               statusInfo.tone === "amber" && "border-amber-500/30 bg-amber-500/10 text-amber-400",
               statusInfo.tone === "purple" && "border-[#7c3aed]/30 bg-[#7c3aed]/10 text-[#a78bfa]",
               statusInfo.tone === "blue" && "border-[#06b6d4]/30 bg-[#06b6d4]/10 text-[#06b6d4]",
-              statusInfo.tone === "neutral" && "border-white/[0.1] bg-white/[0.05] text-white/60"
+              statusInfo.tone === "neutral" && "border-white/[0.1] bg-white/[0.05] text-slate-600"
             )}
           >
             {statusInfo.shortLabel}
           </span>
         </div>
-        <p className="mt-1.5 text-[13px] text-white/45 sm:text-[14px]">
+        <p className="mt-1.5 text-[13px] text-slate-900/45 sm:text-[14px]">
           {postLaunch
             ? "Your project is live. Your portal stays open for changes, uploads, and support."
             : "Track your project from start to finish. We keep this updated in real time."}
@@ -89,63 +89,63 @@ export default async function ProjectStatusPage() {
       </div>
 
       {/* Progress bar */}
-      <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6">
+      <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 sm:p-6">
         <div className="flex items-center justify-between text-[13px]">
-          <span className="font-medium text-white/70">{statusInfo.label}</span>
-          <span className="text-white/40">{percent}%</span>
+          <span className="font-medium text-slate-700">{statusInfo.label}</span>
+          <span className="text-slate-500">{percent}%</span>
         </div>
-        <div className="mt-2.5 h-1.5 w-full rounded-full bg-white/[0.06]">
+        <div className="mt-2.5 h-1.5 w-full rounded-full bg-white">
           <div
             className="h-full rounded-full bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] transition-all duration-500"
             style={{ width: `${percent}%` }}
           />
         </div>
-        <p className="mt-3 text-[12px] text-white/45">{statusInfo.description}</p>
+        <p className="mt-3 text-[12px] text-slate-900/45">{statusInfo.description}</p>
       </div>
 
       {/* Info cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6">
+        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 sm:p-6">
           <div className="flex items-center gap-2.5">
             <Sparkles className="h-4 w-4 text-[#06b6d4]" />
-            <p className="text-[11px] font-medium uppercase tracking-wider text-white/30">
+            <p className="text-[11px] font-medium uppercase tracking-wider text-slate-400">
               Selected Plan
             </p>
           </div>
-          <p className="mt-2 text-[15px] font-semibold text-white/90">{tier.shortName}</p>
-          <p className="text-[12px] text-white/40">{tier.price}</p>
+          <p className="mt-2 text-[15px] font-semibold text-slate-900">{tier.shortName}</p>
+          <p className="text-[12px] text-slate-500">{tier.price}</p>
         </div>
 
-        <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6">
+        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 sm:p-6">
           <div className="flex items-center gap-2.5">
             <Clock className="h-4 w-4 text-[#06b6d4]" />
-            <p className="text-[11px] font-medium uppercase tracking-wider text-white/30">
+            <p className="text-[11px] font-medium uppercase tracking-wider text-slate-400">
               Delivery Estimate
             </p>
           </div>
-          <p className="mt-2 text-[15px] font-semibold text-white/90">{deliveryEstimate}</p>
-          <p className="text-[12px] text-white/40">from onboarding submission</p>
+          <p className="mt-2 text-[15px] font-semibold text-slate-900">{deliveryEstimate}</p>
+          <p className="text-[12px] text-slate-500">from onboarding submission</p>
         </div>
 
-        <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6">
+        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 sm:p-6">
           <div className="flex items-center gap-2.5">
             <Edit3 className="h-4 w-4 text-[#06b6d4]" />
-            <p className="text-[11px] font-medium uppercase tracking-wider text-white/30">
+            <p className="text-[11px] font-medium uppercase tracking-wider text-slate-400">
               Revisions
             </p>
           </div>
-          <p className="mt-2 text-[15px] font-semibold text-white/90">
+          <p className="mt-2 text-[15px] font-semibold text-slate-900">
             {revisionsUsed} / {revisionsAvailable} used
           </p>
-          <p className="text-[12px] text-white/40">
+          <p className="text-[12px] text-slate-500">
             {Math.max(0, revisionsAvailable - revisionsUsed)} remaining
           </p>
         </div>
       </div>
 
       {/* Timeline */}
-      <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6">
-        <h2 className="mb-6 text-[15px] font-semibold text-white/70">Project Timeline</h2>
+      <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 sm:p-6">
+        <h2 className="mb-6 text-[15px] font-semibold text-slate-700">Project Timeline</h2>
         <div className="space-y-0">
           {TIMELINE_STAGES.map((stageId, index) => {
             const stage = STAGE_META[stageId];
@@ -165,7 +165,7 @@ export default async function ProjectStatusPage() {
                         ? "border-emerald-500 bg-emerald-500/10"
                         : isCurrent
                         ? "border-[#7c3aed] bg-[#7c3aed]/10"
-                        : "border-white/[0.1] bg-white/[0.02]"
+                        : "border-white/[0.1] bg-slate-50"
                     )}
                   >
                     {isCompleted ? (
@@ -174,7 +174,7 @@ export default async function ProjectStatusPage() {
                       <stage.icon
                         className={cn(
                           "h-4 w-4",
-                          isCurrent ? "text-[#7c3aed]" : "text-white/20"
+                          isCurrent ? "text-[#7c3aed]" : "text-slate-300"
                         )}
                       />
                     )}
@@ -183,7 +183,7 @@ export default async function ProjectStatusPage() {
                     <div
                       className={cn(
                         "w-0.5 flex-1 min-h-[24px]",
-                        isCompleted ? "bg-emerald-500/30" : "bg-white/[0.06]"
+                        isCompleted ? "bg-emerald-500/30" : "bg-white"
                       )}
                     />
                   )}
@@ -198,8 +198,8 @@ export default async function ProjectStatusPage() {
                         isCompleted
                           ? "text-emerald-400"
                           : isCurrent
-                          ? "text-white/90"
-                          : "text-white/30"
+                          ? "text-slate-900"
+                          : "text-slate-400"
                       )}
                     >
                       {stage.label}
@@ -218,7 +218,7 @@ export default async function ProjectStatusPage() {
                   <p
                     className={cn(
                       "mt-0.5 text-[12px]",
-                      isFuture ? "text-white/20" : "text-white/40"
+                      isFuture ? "text-slate-300" : "text-slate-500"
                     )}
                   >
                     {stage.description}
@@ -231,9 +231,9 @@ export default async function ProjectStatusPage() {
       </div>
 
       {/* Notes */}
-      <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6">
-        <h2 className="mb-3 text-[15px] font-semibold text-white/70">Latest Update</h2>
-        <p className="text-[13px] leading-relaxed text-white/50">{notes}</p>
+      <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 sm:p-6">
+        <h2 className="mb-3 text-[15px] font-semibold text-slate-700">Latest Update</h2>
+        <p className="text-[13px] leading-relaxed text-slate-500">{notes}</p>
       </div>
     </div>
   );

@@ -77,15 +77,15 @@ function WelcomeBanner({ planName }: { planName: string }) {
           <PartyPopper className="h-5 w-5 text-emerald-400" />
         </div>
         <div className="min-w-0">
-          <h3 className="text-[15px] font-semibold text-white/95">
+          <h3 className="text-[15px] font-semibold text-slate-900/95">
             Welcome — your <span className="text-emerald-300">{planName}</span> account is ready
           </h3>
-          <p className="mt-1 text-[13px] text-white/55">
+          <p className="mt-1 text-[13px] text-slate-900/55">
             Next step: complete your project onboarding so our team has everything we need to start your build.
           </p>
           <Link
             href="/portal/onboarding"
-            className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] px-3.5 py-2 text-[12.5px] font-semibold text-white transition-opacity hover:opacity-90"
+            className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] px-3.5 py-2 text-[12.5px] font-semibold text-slate-900 transition-opacity hover:opacity-90"
           >
             Start onboarding
           </Link>
@@ -111,10 +111,10 @@ export default function PortalOverviewPage() {
 
       {/* Welcome */}
       <div>
-        <h1 className="text-xl font-bold text-white/90 sm:text-2xl">
+        <h1 className="text-xl font-bold text-slate-900 sm:text-2xl">
           Welcome back, {businessName}
         </h1>
-        <p className="mt-1 text-[13px] text-white/45 sm:text-[14px]">
+        <p className="mt-1 text-[13px] text-slate-900/45 sm:text-[14px]">
           Your project hub — everything you need in one place.
         </p>
       </div>
@@ -122,54 +122,54 @@ export default function PortalOverviewPage() {
       {/* Top cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {/* Plan card */}
-        <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6">
+        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 sm:p-6">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#7c3aed]/20 to-[#3b82f6]/20">
               <Sparkles className="h-5 w-5 text-[#06b6d4]" />
             </div>
             <div>
-              <p className="text-[11px] font-medium uppercase tracking-wider text-white/30">
+              <p className="text-[11px] font-medium uppercase tracking-wider text-slate-400">
                 Your Plan
               </p>
-              <p className="text-[15px] font-semibold text-white/90">
+              <p className="text-[15px] font-semibold text-slate-900">
                 {tierConfig.name}
               </p>
             </div>
           </div>
           <div className="mt-4 flex items-baseline gap-1.5">
-            <span className="text-xl font-bold text-white/90">{tierConfig.price}</span>
-            <span className="text-[12px] text-white/40">{tierConfig.priceNote}</span>
+            <span className="text-xl font-bold text-slate-900">{tierConfig.price}</span>
+            <span className="text-[12px] text-slate-500">{tierConfig.priceNote}</span>
           </div>
           {tierConfig.monthlyRequired && (
-            <p className="mt-1 text-[12px] text-white/40">
+            <p className="mt-1 text-[12px] text-slate-500">
               + {tierConfig.monthly} {tierConfig.monthlyNote}
             </p>
           )}
         </div>
 
         {/* Project Status card */}
-        <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6">
+        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 sm:p-6">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#7c3aed]/20 to-[#3b82f6]/20">
               <Clock className="h-5 w-5 text-[#06b6d4]" />
             </div>
             <div>
-              <p className="text-[11px] font-medium uppercase tracking-wider text-white/30">
+              <p className="text-[11px] font-medium uppercase tracking-wider text-slate-400">
                 Project Status
               </p>
-              <p className="text-[15px] font-semibold text-white/90">
+              <p className="text-[15px] font-semibold text-slate-900">
                 {PROJECT_STAGES[currentStageIndex]}
               </p>
             </div>
           </div>
           <div className="mt-4">
-            <div className="flex justify-between text-[11px] text-white/40 mb-1.5">
+            <div className="flex justify-between text-[11px] text-slate-500 mb-1.5">
               <span>Progress</span>
               <span>
                 Stage {currentStageIndex + 1} of {PROJECT_STAGES.length}
               </span>
             </div>
-            <div className="h-1.5 w-full rounded-full bg-white/[0.06]">
+            <div className="h-1.5 w-full rounded-full bg-white">
               <div
                 className="h-full rounded-full bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] transition-all"
                 style={{
@@ -181,26 +181,26 @@ export default function PortalOverviewPage() {
         </div>
 
         {/* Onboarding Progress card */}
-        <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6">
+        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 sm:p-6">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#7c3aed]/20 to-[#3b82f6]/20">
               <CheckCircle2 className="h-5 w-5 text-[#06b6d4]" />
             </div>
             <div>
-              <p className="text-[11px] font-medium uppercase tracking-wider text-white/30">
+              <p className="text-[11px] font-medium uppercase tracking-wider text-slate-400">
                 Onboarding
               </p>
-              <p className="text-[15px] font-semibold text-white/90">
+              <p className="text-[15px] font-semibold text-slate-900">
                 {completedSections} of {onboardingSections} sections
               </p>
             </div>
           </div>
           <div className="mt-4">
-            <div className="flex justify-between text-[11px] text-white/40 mb-1.5">
+            <div className="flex justify-between text-[11px] text-slate-500 mb-1.5">
               <span>Completion</span>
               <span>{progressPercent}%</span>
             </div>
-            <div className="h-1.5 w-full rounded-full bg-white/[0.06]">
+            <div className="h-1.5 w-full rounded-full bg-white">
               <div
                 className="h-full rounded-full bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] transition-all"
                 style={{ width: `${progressPercent}%` }}
@@ -212,7 +212,7 @@ export default function PortalOverviewPage() {
 
       {/* Quick Actions */}
       <div>
-        <h2 className="mb-4 text-[15px] font-semibold text-white/70">
+        <h2 className="mb-4 text-[15px] font-semibold text-slate-700">
           Quick Actions
         </h2>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -220,17 +220,17 @@ export default function PortalOverviewPage() {
             <Link
               key={action.href}
               href={action.href}
-              className="group rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 transition-all hover:border-white/[0.12] hover:bg-white/[0.05]"
+              className="group rounded-2xl border border-slate-200 bg-slate-50 p-5 transition-all hover:border-white/[0.12] hover:bg-white/[0.05]"
             >
               <div className="flex items-start gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/[0.04] transition-colors group-hover:bg-white/[0.08]">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white transition-colors group-hover:bg-slate-100">
                   <action.icon className="h-5 w-5 text-[#06b6d4]" />
                 </div>
                 <div>
-                  <p className="text-[14px] font-semibold text-white/90">
+                  <p className="text-[14px] font-semibold text-slate-900">
                     {action.label}
                   </p>
-                  <p className="mt-0.5 text-[12px] text-white/40">
+                  <p className="mt-0.5 text-[12px] text-slate-500">
                     {action.description}
                   </p>
                 </div>

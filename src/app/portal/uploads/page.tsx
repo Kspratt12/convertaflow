@@ -155,12 +155,12 @@ export default function UploadsPage() {
       {/* Header */}
       <div>
         <div className="flex flex-wrap items-center gap-2">
-          <h1 className="text-xl font-bold text-white/90 sm:text-2xl">Uploads</h1>
+          <h1 className="text-xl font-bold text-slate-900 sm:text-2xl">Uploads</h1>
           <span className="rounded-full border border-[#7c3aed]/30 bg-[#7c3aed]/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[#a78bfa]">
             {TIERS[tier].shortName} plan
           </span>
         </div>
-        <p className="mt-1.5 text-[13px] text-white/45 sm:text-[14px]">
+        <p className="mt-1.5 text-[13px] text-slate-900/45 sm:text-[14px]">
           Share your logos, photos, brand files, {videosAllowed ? "videos, " : ""}and any other assets our team needs.
         </p>
       </div>
@@ -182,7 +182,7 @@ export default function UploadsPage() {
           "cursor-pointer rounded-2xl border-2 border-dashed px-6 py-10 text-center transition-colors sm:p-10",
           dragOver
             ? "border-[#7c3aed]/50 bg-[#7c3aed]/[0.04]"
-            : "border-white/[0.1] bg-white/[0.02] hover:border-white/[0.15] hover:bg-white/[0.03]"
+            : "border-white/[0.1] bg-slate-50 hover:border-white/[0.15] hover:bg-slate-50"
         )}
       >
         <input
@@ -201,17 +201,17 @@ export default function UploadsPage() {
             <CloudUpload className="h-7 w-7 text-[#06b6d4]" />
           </div>
           <div>
-            <p className="text-[15px] font-semibold text-white/80">
+            <p className="text-[15px] font-semibold text-slate-800">
               Drag and drop {active.label.toLowerCase()} here
             </p>
-            <p className="mt-1 text-[13px] text-white/40">
+            <p className="mt-1 text-[13px] text-slate-500">
               or{" "}
               <span className="font-medium text-[#06b6d4] hover:underline">
                 browse your computer
               </span>
             </p>
           </div>
-          <p className="text-[11px] text-white/30">{active.description}</p>
+          <p className="text-[11px] text-slate-400">{active.description}</p>
         </div>
       </div>
 
@@ -232,8 +232,8 @@ export default function UploadsPage() {
               className={cn(
                 "inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[12px] font-medium transition-all",
                 isActive
-                  ? "border border-white/[0.12] bg-white/[0.1] text-white"
-                  : "border border-white/[0.06] bg-white/[0.03] text-white/50 hover:bg-white/[0.06] hover:text-white/70"
+                  ? "border border-white/[0.12] bg-white/[0.1] text-slate-900"
+                  : "border border-slate-200 bg-slate-50 text-slate-500 hover:bg-white hover:text-slate-700"
               )}
             >
               <cat.icon className="h-3.5 w-3.5" />
@@ -250,11 +250,11 @@ export default function UploadsPage() {
           {Array.from(uploadingNames).map((name) => (
             <div
               key={name}
-              className="flex items-center gap-3 rounded-xl border border-white/[0.06] bg-white/[0.03] px-4 py-3"
+              className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3"
             >
               <Loader2 className="h-4 w-4 animate-spin text-[#06b6d4]" />
-              <span className="truncate text-[13px] text-white/70">{name}</span>
-              <span className="ml-auto text-[11px] text-white/35">Uploading…</span>
+              <span className="truncate text-[13px] text-slate-700">{name}</span>
+              <span className="ml-auto text-[11px] text-slate-900/35">Uploading…</span>
             </div>
           ))}
         </div>
@@ -262,18 +262,18 @@ export default function UploadsPage() {
 
       {/* Upload list */}
       {loading ? (
-        <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 py-16 text-center sm:p-6 sm:py-16">
-          <Loader2 className="mx-auto h-6 w-6 animate-spin text-white/30" />
+        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 py-16 text-center sm:p-6 sm:py-16">
+          <Loader2 className="mx-auto h-6 w-6 animate-spin text-slate-400" />
         </div>
       ) : visibleUploads.length === 0 ? (
-        <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 py-16 text-center sm:p-6 sm:py-16">
+        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 py-16 text-center sm:p-6 sm:py-16">
           <div className="flex flex-col items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/[0.04]">
-              <Upload className="h-6 w-6 text-white/30" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white">
+              <Upload className="h-6 w-6 text-slate-400" />
             </div>
             <div>
-              <p className="text-[14px] font-medium text-white/50">No files uploaded yet</p>
-              <p className="mt-1 text-[12px] text-white/35">
+              <p className="text-[14px] font-medium text-slate-500">No files uploaded yet</p>
+              <p className="mt-1 text-[12px] text-slate-900/35">
                 Upload your assets above to get started.
               </p>
             </div>
@@ -287,14 +287,14 @@ export default function UploadsPage() {
             return (
               <div
                 key={u.id}
-                className="flex items-center gap-3 rounded-xl border border-white/[0.06] bg-white/[0.03] px-4 py-3"
+                className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3"
               >
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/[0.04]">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white">
                   <Icon className="h-4 w-4 text-[#06b6d4]" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-[13px] font-medium text-white/85">{u.file_name}</p>
-                  <p className="text-[11px] text-white/35">
+                  <p className="truncate text-[13px] font-medium text-slate-900/85">{u.file_name}</p>
+                  <p className="text-[11px] text-slate-900/35">
                     {cat.label} · {formatBytes(u.file_size)}
                   </p>
                 </div>
@@ -303,7 +303,7 @@ export default function UploadsPage() {
                     href={u.signed_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="rounded-lg p-2 text-white/40 transition-colors hover:bg-white/[0.06] hover:text-white/70"
+                    className="rounded-lg p-2 text-slate-500 transition-colors hover:bg-white hover:text-slate-700"
                     aria-label="Open file"
                   >
                     <ExternalLink className="h-3.5 w-3.5" />
@@ -311,7 +311,7 @@ export default function UploadsPage() {
                 )}
                 <button
                   onClick={() => handleDelete(u.id)}
-                  className="rounded-lg p-2 text-white/30 transition-colors hover:bg-red-500/10 hover:text-red-400"
+                  className="rounded-lg p-2 text-slate-400 transition-colors hover:bg-red-500/10 hover:text-red-400"
                   aria-label="Delete file"
                 >
                   <Trash2 className="h-3.5 w-3.5" />
@@ -324,16 +324,16 @@ export default function UploadsPage() {
 
       {/* Upgrade nudge for non-video tiers */}
       {!videosAllowed && (
-        <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-4 sm:p-5">
+        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:p-5">
           <div className="flex items-start gap-3">
             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#7c3aed]/10">
               <Video className="h-4 w-4 text-[#a78bfa]" />
             </div>
             <div className="min-w-0">
-              <p className="text-[13px] font-semibold text-white/80">
+              <p className="text-[13px] font-semibold text-slate-800">
                 Want to upload video content?
               </p>
-              <p className="mt-0.5 text-[12px] text-white/45">
+              <p className="mt-0.5 text-[12px] text-slate-900/45">
                 Video uploads are part of the Scale and Engine plans for clients running social automation.
               </p>
             </div>

@@ -25,7 +25,7 @@ interface RevisionRequest {
 
 const PRIORITY_STYLES = {
   low: "bg-blue-500/10 text-blue-400",
-  normal: "bg-white/[0.06] text-white/60",
+  normal: "bg-white text-slate-600",
   high: "bg-amber-500/10 text-amber-400",
 };
 
@@ -36,10 +36,10 @@ const STATUS_CONFIG = {
 };
 
 const inputClasses =
-  "w-full rounded-xl bg-white/[0.04] border border-white/[0.08] px-4 py-3 text-[14px] text-white placeholder:text-white/30 focus:border-[#7c3aed]/40 focus:outline-none focus:ring-1 focus:ring-[#7c3aed]/20 transition-colors";
+  "w-full rounded-xl bg-white border border-slate-200 px-4 py-3 text-[14px] text-slate-900 placeholder:text-slate-400 focus:border-[#7c3aed]/40 focus:outline-none focus:ring-1 focus:ring-[#7c3aed]/20 transition-colors";
 
 const selectClasses =
-  "w-full rounded-xl bg-white/[0.04] border border-white/[0.08] px-4 py-3 text-[14px] text-white focus:border-[#7c3aed]/40 focus:outline-none focus:ring-1 focus:ring-[#7c3aed]/20 transition-colors [&>option]:bg-[#0a0a1a] [&>option]:text-white";
+  "w-full rounded-xl bg-white border border-slate-200 px-4 py-3 text-[14px] text-slate-900 focus:border-[#7c3aed]/40 focus:outline-none focus:ring-1 focus:ring-[#7c3aed]/20 transition-colors [&>option]:bg-[#0a0a1a] [&>option]:text-slate-900";
 
 export default function RevisionsPage() {
   const { tier } = useBusiness();
@@ -77,24 +77,24 @@ export default function RevisionsPage() {
       {/* Header */}
       <div>
         <div className="flex flex-wrap items-center gap-2">
-          <h1 className="text-xl font-bold text-white/90 sm:text-2xl">Revisions</h1>
+          <h1 className="text-xl font-bold text-slate-900 sm:text-2xl">Revisions</h1>
           <span className="rounded-full border border-[#7c3aed]/30 bg-[#7c3aed]/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[#a78bfa]">
             {tierConfig.shortName} plan
           </span>
         </div>
-        <p className="mt-1.5 text-[13px] text-white/45 sm:text-[14px]">
-          Request changes to your design. You have <span className="text-white/65">{revisionsAvailable} revisions</span> included with your plan.
+        <p className="mt-1.5 text-[13px] text-slate-900/45 sm:text-[14px]">
+          Request changes to your design. You have <span className="text-slate-900/65">{revisionsAvailable} revisions</span> included with your plan.
         </p>
       </div>
 
       {/* Revision form */}
-      <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6">
-        <h2 className="mb-5 text-[15px] font-semibold text-white/70">
+      <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 sm:p-6">
+        <h2 className="mb-5 text-[15px] font-semibold text-slate-700">
           Submit a Revision Request
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-white/30 sm:text-[12px]">
+            <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-slate-400 sm:text-[12px]">
               Title
             </label>
             <input
@@ -108,7 +108,7 @@ export default function RevisionsPage() {
           </div>
 
           <div>
-            <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-white/30 sm:text-[12px]">
+            <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-slate-400 sm:text-[12px]">
               Description
             </label>
             <textarea
@@ -123,7 +123,7 @@ export default function RevisionsPage() {
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
-              <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-white/30 sm:text-[12px]">
+              <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-slate-400 sm:text-[12px]">
                 Page or Section
               </label>
               <input
@@ -135,7 +135,7 @@ export default function RevisionsPage() {
               />
             </div>
             <div>
-              <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-white/30 sm:text-[12px]">
+              <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-slate-400 sm:text-[12px]">
                 Priority
               </label>
               <select
@@ -154,13 +154,13 @@ export default function RevisionsPage() {
 
           {/* File upload */}
           <div>
-            <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-white/30 sm:text-[12px]">
+            <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-slate-400 sm:text-[12px]">
               Attach a Screenshot (optional)
             </label>
-            <div className="flex items-center justify-center rounded-xl border border-dashed border-white/[0.1] bg-white/[0.02] px-4 py-6 text-center transition-colors hover:border-white/[0.15] hover:bg-white/[0.03]">
+            <div className="flex items-center justify-center rounded-xl border border-dashed border-white/[0.1] bg-slate-50 px-4 py-6 text-center transition-colors hover:border-white/[0.15] hover:bg-slate-50">
               <div className="flex flex-col items-center gap-2">
-                <Upload className="h-5 w-5 text-white/20" />
-                <p className="text-[13px] text-white/40">
+                <Upload className="h-5 w-5 text-slate-300" />
+                <p className="text-[13px] text-slate-500">
                   Drag and drop or{" "}
                   <span className="cursor-pointer font-medium text-[#06b6d4]">
                     browse
@@ -174,7 +174,7 @@ export default function RevisionsPage() {
             <button
               type="submit"
               disabled={submitting || !title.trim() || !description.trim()}
-              className="inline-flex h-11 items-center gap-2 rounded-xl bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] border-0 px-6 text-[13px] font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-60"
+              className="inline-flex h-11 items-center gap-2 rounded-xl bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] border-0 px-6 text-[13px] font-semibold text-slate-900 transition-opacity hover:opacity-90 disabled:opacity-60"
             >
               {submitting ? (
                 <>
@@ -199,21 +199,21 @@ export default function RevisionsPage() {
 
       {/* Past revisions */}
       <div>
-        <h2 className="mb-4 text-[15px] font-semibold text-white/70">
+        <h2 className="mb-4 text-[15px] font-semibold text-slate-700">
           Past Requests
         </h2>
 
         {revisions.length === 0 ? (
-          <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 py-14 text-center sm:p-6 sm:py-14">
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 py-14 text-center sm:p-6 sm:py-14">
             <div className="flex flex-col items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/[0.04]">
-                <Edit3 className="h-6 w-6 text-white/30" />
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white">
+                <Edit3 className="h-6 w-6 text-slate-400" />
               </div>
               <div>
-                <p className="text-[14px] font-medium text-white/50">
+                <p className="text-[14px] font-medium text-slate-500">
                   No revision requests yet
                 </p>
-                <p className="mt-1 text-[12px] text-white/35">
+                <p className="mt-1 text-[12px] text-slate-900/35">
                   Once your design is in progress, you can submit revision requests here.
                 </p>
               </div>
@@ -226,18 +226,18 @@ export default function RevisionsPage() {
               return (
                 <div
                   key={rev.id}
-                  className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6"
+                  className="rounded-2xl border border-slate-200 bg-slate-50 p-5 sm:p-6"
                 >
                   <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                     <div className="min-w-0">
-                      <p className="text-[14px] font-semibold text-white/90">
+                      <p className="text-[14px] font-semibold text-slate-900">
                         {rev.title}
                       </p>
-                      <p className="mt-1 text-[12px] text-white/40">
+                      <p className="mt-1 text-[12px] text-slate-500">
                         {rev.description}
                       </p>
                       {rev.page_or_section && (
-                        <p className="mt-1 text-[11px] text-white/30">
+                        <p className="mt-1 text-[11px] text-slate-400">
                           Section: {rev.page_or_section}
                         </p>
                       )}

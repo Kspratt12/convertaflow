@@ -183,10 +183,10 @@ const SECTIONS: OnboardingSection[] = [
 ];
 
 const inputClasses =
-  "w-full rounded-xl bg-white/[0.04] border border-white/[0.08] px-4 py-3 text-[14px] text-white placeholder:text-white/30 focus:border-[#7c3aed]/40 focus:outline-none focus:ring-1 focus:ring-[#7c3aed]/20 transition-colors";
+  "w-full rounded-xl bg-white border border-slate-200 px-4 py-3 text-[14px] text-slate-900 placeholder:text-slate-400 focus:border-[#7c3aed]/40 focus:outline-none focus:ring-1 focus:ring-[#7c3aed]/20 transition-colors";
 
 const selectClasses =
-  "w-full rounded-xl bg-white/[0.04] border border-white/[0.08] px-4 py-3 text-[14px] text-white focus:border-[#7c3aed]/40 focus:outline-none focus:ring-1 focus:ring-[#7c3aed]/20 transition-colors [&>option]:bg-[#0a0a1a] [&>option]:text-white";
+  "w-full rounded-xl bg-white border border-slate-200 px-4 py-3 text-[14px] text-slate-900 focus:border-[#7c3aed]/40 focus:outline-none focus:ring-1 focus:ring-[#7c3aed]/20 transition-colors [&>option]:bg-[#0a0a1a] [&>option]:text-slate-900";
 
 export default function OnboardingPage() {
   const { businessName, tier } = useBusiness();
@@ -313,26 +313,26 @@ export default function OnboardingPage() {
       {/* Header */}
       <div>
         <div className="flex flex-wrap items-center gap-2">
-          <h1 className="text-xl font-bold text-white/90 sm:text-2xl">Project Onboarding</h1>
+          <h1 className="text-xl font-bold text-slate-900 sm:text-2xl">Project Onboarding</h1>
           <span className="rounded-full border border-[#7c3aed]/30 bg-[#7c3aed]/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[#a78bfa]">
             {TIERS[tier].shortName} plan
           </span>
         </div>
-        <p className="mt-1.5 text-[13px] text-white/45 sm:text-[14px]">
-          Tailored to your <span className="text-white/65">{TIERS[tier].name}</span> build for {businessName}.
+        <p className="mt-1.5 text-[13px] text-slate-900/45 sm:text-[14px]">
+          Tailored to your <span className="text-slate-900/65">{TIERS[tier].name}</span> build for {businessName}.
           Save as you go — no need to finish everything at once.
         </p>
       </div>
 
       {/* Progress bar */}
-      <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6">
+      <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 sm:p-6">
         <div className="flex items-center justify-between text-[13px]">
-          <span className="font-medium text-white/70">
+          <span className="font-medium text-slate-700">
             {completedCount} of {totalCount} sections completed
           </span>
-          <span className="text-white/40">{progressPercent}%</span>
+          <span className="text-slate-500">{progressPercent}%</span>
         </div>
-        <div className="mt-2.5 h-1.5 w-full rounded-full bg-white/[0.06]">
+        <div className="mt-2.5 h-1.5 w-full rounded-full bg-white">
           <div
             className="h-full rounded-full bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] transition-all duration-500"
             style={{ width: `${progressPercent}%` }}
@@ -352,19 +352,19 @@ export default function OnboardingPage() {
           return (
             <div
               key={section.id}
-              className="overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.03]"
+              className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50"
             >
               {/* Section header */}
               <button
                 onClick={() => toggleSection(section.id)}
-                className="flex w-full items-center gap-3 p-4 text-left transition-colors hover:bg-white/[0.02] sm:p-6"
+                className="flex w-full items-center gap-3 p-4 text-left transition-colors hover:bg-slate-50 sm:p-6"
               >
                 <div
                   className={cn(
                     "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-colors",
                     isCompleted
                       ? "bg-emerald-500/10"
-                      : "bg-white/[0.04]"
+                      : "bg-white"
                   )}
                 >
                   {isCompleted ? (
@@ -374,10 +374,10 @@ export default function OnboardingPage() {
                   )}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="text-[14px] font-semibold text-white/90">
+                  <p className="text-[14px] font-semibold text-slate-900">
                     {section.title}
                   </p>
-                  <p className="text-[12px] text-white/40">{section.description}</p>
+                  <p className="text-[12px] text-slate-500">{section.description}</p>
                 </div>
                 <div className="flex shrink-0 items-center gap-2">
                   {isCompleted && (
@@ -386,19 +386,19 @@ export default function OnboardingPage() {
                     </span>
                   )}
                   {isExpanded ? (
-                    <ChevronDown className="h-4 w-4 text-white/30" />
+                    <ChevronDown className="h-4 w-4 text-slate-400" />
                   ) : (
-                    <ChevronRight className="h-4 w-4 text-white/30" />
+                    <ChevronRight className="h-4 w-4 text-slate-400" />
                   )}
                 </div>
               </button>
 
               {/* Section body */}
               {isExpanded && (
-                <div className="space-y-4 border-t border-white/[0.06] px-4 pb-5 pt-5 sm:px-6 sm:pb-6">
+                <div className="space-y-4 border-t border-slate-200 px-4 pb-5 pt-5 sm:px-6 sm:pb-6">
                   {section.fields.map((field) => (
                     <div key={field.name}>
-                      <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-white/30 sm:text-[12px]">
+                      <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-slate-400 sm:text-[12px]">
                         {field.label}
                       </label>
 
@@ -459,8 +459,8 @@ export default function OnboardingPage() {
                                 className={cn(
                                   "flex items-center gap-2.5 rounded-xl border px-3.5 py-2.5 text-left text-[13px] transition-all",
                                   checked
-                                    ? "border-[#7c3aed]/40 bg-[#7c3aed]/10 text-white/90"
-                                    : "border-white/[0.08] bg-white/[0.02] text-white/60 hover:bg-white/[0.04]"
+                                    ? "border-[#7c3aed]/40 bg-[#7c3aed]/10 text-slate-900"
+                                    : "border-slate-200 bg-slate-50 text-slate-600 hover:bg-white"
                                 )}
                               >
                                 <div
@@ -472,7 +472,7 @@ export default function OnboardingPage() {
                                   )}
                                 >
                                   {checked && (
-                                    <Check className="h-3 w-3 text-white" />
+                                    <Check className="h-3 w-3 text-slate-900" />
                                   )}
                                 </div>
                                 {option}
@@ -483,16 +483,16 @@ export default function OnboardingPage() {
                       )}
 
                       {field.type === "file" && (
-                        <div className="flex items-center justify-center rounded-xl border border-dashed border-white/[0.1] bg-white/[0.02] px-4 py-8 text-center transition-colors hover:border-white/[0.15] hover:bg-white/[0.03]">
+                        <div className="flex items-center justify-center rounded-xl border border-dashed border-white/[0.1] bg-slate-50 px-4 py-8 text-center transition-colors hover:border-white/[0.15] hover:bg-slate-50">
                           <div className="flex flex-col items-center gap-2">
-                            <Upload className="h-6 w-6 text-white/20" />
-                            <p className="text-[13px] text-white/50">
+                            <Upload className="h-6 w-6 text-slate-300" />
+                            <p className="text-[13px] text-slate-500">
                               Drag and drop files here, or{" "}
                               <span className="cursor-pointer font-medium text-[#06b6d4]">
                                 browse
                               </span>
                             </p>
-                            <p className="text-[11px] text-white/30">
+                            <p className="text-[11px] text-slate-400">
                               PNG, JPG, SVG, PDF up to 10MB
                             </p>
                           </div>
@@ -506,7 +506,7 @@ export default function OnboardingPage() {
                     <button
                       onClick={() => saveSection(section.id)}
                       disabled={isSaving}
-                      className="inline-flex h-11 items-center gap-2 rounded-xl bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] border-0 px-6 text-[13px] font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-60"
+                      className="inline-flex h-11 items-center gap-2 rounded-xl bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] border-0 px-6 text-[13px] font-semibold text-slate-900 transition-opacity hover:opacity-90 disabled:opacity-60"
                     >
                       {isSaving ? (
                         <>
@@ -541,10 +541,10 @@ export default function OnboardingPage() {
               <Check className="h-5 w-5 text-emerald-400" />
             </div>
             <div className="min-w-0">
-              <p className="text-[15px] font-semibold text-white/95">
+              <p className="text-[15px] font-semibold text-slate-900/95">
                 Onboarding submitted
               </p>
-              <p className="mt-1 text-[13px] text-white/55">
+              <p className="mt-1 text-[13px] text-slate-900/55">
                 Our team is reviewing everything you sent us. You&apos;ll get an email update as soon as we kick off the planning phase. You can still come back here anytime to update answers.
               </p>
             </div>
@@ -556,15 +556,15 @@ export default function OnboardingPage() {
             "rounded-2xl border p-5 sm:p-6 transition-colors",
             allComplete
               ? "border-[#7c3aed]/30 bg-gradient-to-br from-[#7c3aed]/[0.08] to-[#3b82f6]/[0.04]"
-              : "border-white/[0.06] bg-white/[0.02]"
+              : "border-slate-200 bg-slate-50"
           )}
         >
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="min-w-0">
-              <p className="text-[14px] font-semibold text-white/90 sm:text-[15px]">
+              <p className="text-[14px] font-semibold text-slate-900 sm:text-[15px]">
                 {allComplete ? "Ready to submit" : "Almost there"}
               </p>
-              <p className="mt-1 text-[12.5px] text-white/50 sm:text-[13px]">
+              <p className="mt-1 text-[12.5px] text-slate-500 sm:text-[13px]">
                 {allComplete
                   ? "Send your onboarding to our team to kick off planning."
                   : `Finish ${totalCount - completedCount} more section${totalCount - completedCount === 1 ? "" : "s"} to submit your onboarding for review.`}
@@ -573,7 +573,7 @@ export default function OnboardingPage() {
             <button
               onClick={submitForReview}
               disabled={!allComplete || submitting}
-              className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] px-5 text-[13px] font-semibold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+              className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] px-5 text-[13px] font-semibold text-slate-900 transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
             >
               {submitting ? (
                 <>

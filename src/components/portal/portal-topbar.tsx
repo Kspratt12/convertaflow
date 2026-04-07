@@ -65,10 +65,10 @@ export function PortalTopbar() {
 
   return (
     <>
-      <header className="flex h-14 shrink-0 items-center justify-between border-b border-white/[0.06] bg-[#060613] px-4 sm:h-16 sm:px-6">
+      <header className="flex h-14 shrink-0 items-center justify-between border-b border-slate-200 bg-slate-50 px-4 sm:h-16 sm:px-6">
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="flex items-center justify-center rounded-xl p-2 text-white/60 transition-colors hover:bg-white/[0.06] hover:text-white lg:hidden"
+          className="flex items-center justify-center rounded-xl p-2 text-slate-600 transition-colors hover:bg-white hover:text-slate-900 lg:hidden"
           aria-label="Toggle navigation"
         >
           {mobileMenuOpen ? (
@@ -79,14 +79,14 @@ export function PortalTopbar() {
         </button>
 
         <div className="hidden lg:block">
-          <p className="text-[13px] font-medium text-white/50">Client Portal</p>
+          <p className="text-[13px] font-medium text-slate-500">Client Portal</p>
         </div>
 
         <div className="flex items-center gap-3">
           <div className="relative" ref={profileRef}>
             <button
               onClick={() => setProfileOpen(!profileOpen)}
-              className="flex items-center gap-2.5 rounded-xl px-2 py-1.5 transition-colors hover:bg-white/[0.06]"
+              className="flex items-center gap-2.5 rounded-xl px-2 py-1.5 transition-colors hover:bg-white"
             >
               <Avatar className="h-8 w-8">
                 <AvatarFallback className="bg-gradient-to-br from-[#7c3aed]/20 to-[#3b82f6]/20 text-[#06b6d4] text-xs font-semibold">
@@ -94,42 +94,42 @@ export function PortalTopbar() {
                 </AvatarFallback>
               </Avatar>
               <div className="hidden text-left sm:block">
-                <p className="text-[13px] font-medium leading-tight text-white/90">
+                <p className="text-[13px] font-medium leading-tight text-slate-900">
                   {businessName}
                 </p>
-                <p className="text-[11px] leading-tight text-white/40">
+                <p className="text-[11px] leading-tight text-slate-500">
                   {userEmail}
                 </p>
               </div>
             </button>
 
             {profileOpen && (
-              <div className="absolute right-0 top-full z-50 mt-2 w-52 rounded-xl border border-white/[0.08] bg-[#0a0a1a] p-1.5 shadow-2xl shadow-black/40">
+              <div className="absolute right-0 top-full z-50 mt-2 w-52 rounded-xl border border-slate-200 bg-[#0a0a1a] p-1.5 shadow-2xl shadow-black/40">
                 <Link
                   href="/dashboard/settings"
                   onClick={() => setProfileOpen(false)}
-                  className="block rounded-lg px-3 py-2 text-[13px] text-white/70 transition-colors hover:bg-white/[0.06] hover:text-white"
+                  className="block rounded-lg px-3 py-2 text-[13px] text-slate-700 transition-colors hover:bg-white hover:text-slate-900"
                 >
                   Settings
                 </Link>
                 <Link
                   href="/dashboard"
                   onClick={() => setProfileOpen(false)}
-                  className="block rounded-lg px-3 py-2 text-[13px] text-white/70 transition-colors hover:bg-white/[0.06] hover:text-white"
+                  className="block rounded-lg px-3 py-2 text-[13px] text-slate-700 transition-colors hover:bg-white hover:text-slate-900"
                 >
                   Growth Dashboard
                 </Link>
                 <Link
                   href="/"
                   onClick={() => setProfileOpen(false)}
-                  className="block rounded-lg px-3 py-2 text-[13px] text-white/70 transition-colors hover:bg-white/[0.06] hover:text-white"
+                  className="block rounded-lg px-3 py-2 text-[13px] text-slate-700 transition-colors hover:bg-white hover:text-slate-900"
                 >
                   Back to website
                 </Link>
-                <div className="my-1.5 h-px bg-white/[0.06]" />
+                <div className="my-1.5 h-px bg-white" />
                 <button
                   onClick={handleSignOut}
-                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-[13px] text-red-400 transition-colors hover:bg-white/[0.06]"
+                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-[13px] text-red-400 transition-colors hover:bg-white"
                 >
                   <LogOut className="h-3.5 w-3.5" />
                   Sign out
@@ -142,7 +142,7 @@ export function PortalTopbar() {
 
       {/* Mobile navigation drawer */}
       {mobileMenuOpen && (
-        <div className="border-b border-white/[0.06] bg-[#060613]/95 px-4 pb-4 backdrop-blur-sm lg:hidden">
+        <div className="border-b border-slate-200 bg-slate-50/95 px-4 pb-4 backdrop-blur-sm lg:hidden">
           <div className="flex items-center gap-2 py-3">
             <Image
               src="/convertaflow-logo.png"
@@ -151,7 +151,7 @@ export function PortalTopbar() {
               height={28}
               className="h-7 w-7 object-contain"
             />
-            <span className="text-[13px] font-bold text-white/90">{businessName}</span>
+            <span className="text-[13px] font-bold text-slate-900">{businessName}</span>
           </div>
           <nav className="space-y-0.5">
             {mobileNav.map((item) => {
@@ -168,14 +168,14 @@ export function PortalTopbar() {
                   className={cn(
                     "flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-[13px] font-medium transition-colors",
                     active
-                      ? "bg-white/[0.06] text-white"
-                      : "text-white/50 hover:bg-white/[0.04] hover:text-white/80"
+                      ? "bg-white text-slate-900"
+                      : "text-slate-500 hover:bg-white hover:text-slate-800"
                   )}
                 >
                   <item.icon
                     className={cn(
                       "h-4 w-4",
-                      active ? "text-[#06b6d4]" : "text-white/30"
+                      active ? "text-[#06b6d4]" : "text-slate-400"
                     )}
                   />
                   {item.label}

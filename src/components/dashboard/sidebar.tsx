@@ -13,6 +13,7 @@ import {
   Lock,
   ArrowUpRight,
   FolderOpen,
+  Shield,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SITE } from "@/lib/constants";
@@ -39,7 +40,7 @@ const navigation: {
 
 export function DashboardSidebar() {
   const pathname = usePathname();
-  const { can, tier, businessName, hasMinTier } = useBusiness();
+  const { can, tier, businessName, isAdmin } = useBusiness();
 
   // Find next upgrade tier
   const nextTier: TierId | null =
@@ -99,6 +100,21 @@ export function DashboardSidebar() {
           <FolderOpen className="h-4 w-4" />
           Client Portal
         </Link>
+        {isAdmin && (
+          <>
+            <div className="my-2 h-px mx-3 bg-border/30" />
+            <p className="mb-2 px-3 text-[11px] font-semibold uppercase tracking-widest text-muted-foreground/60">
+              Admin
+            </p>
+            <Link
+              href="/admin"
+              className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] font-medium text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
+            >
+              <Shield className="h-4 w-4" />
+              Admin Panel
+            </Link>
+          </>
+        )}
       </nav>
 
       {nextTier && (
