@@ -219,7 +219,7 @@ export function TierPreview() {
                   asChild
                 >
                   <Link href="/pricing">
-                    {tier.highlighted ? "Get Started" : "View Details"}
+                    {tier.highlighted ? "Start My Build" : "See What's Included"}
                     <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
                 </Button>

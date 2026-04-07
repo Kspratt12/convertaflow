@@ -62,7 +62,7 @@ export default function PricingPage() {
               </span>
             </h1>
             <p className="mt-3 text-[14px] leading-relaxed text-white/50 sm:text-[16px]">
-              Every tier is designed, built, and delivered by our team. Choose the level your business is ready for.
+              Every tier is designed, built, and delivered by our team. No templates. No DIY. Choose the level your business is ready for.
             </p>
           </div>
 
@@ -133,7 +133,7 @@ export default function PricingPage() {
                   asChild
                 >
                   <Link href="/contact">
-                    Get Started
+                    {tier.highlighted ? "Start My Build" : tier.id === "scale" ? "Get My Growth Engine" : "Start My Website"}
                     <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
                 </Button>
