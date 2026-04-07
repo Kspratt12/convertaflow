@@ -94,12 +94,12 @@ function DashboardMockup() {
           </div>
           <div className="col-span-12 p-3 sm:p-6 lg:col-span-9">
             <div className="mb-2 sm:mb-5">
-              <h3 className="text-[13px] sm:text-base font-semibold text-white/90">Welcome back, Sarah</h3>
-              <p className="mt-0.5 text-[10px] sm:text-[13px] text-white/35">Here&apos;s how your business performed this month.</p>
+              <h3 className="text-[13px] sm:text-base font-semibold text-white/90">Welcome back</h3>
+              <p className="mt-0.5 text-[10px] sm:text-[13px] text-white/35">Here&apos;s how your business is doing this month.</p>
             </div>
             <div className="grid gap-1.5 sm:gap-3 grid-cols-3">
               <div className="rounded-lg sm:rounded-xl border border-white/[0.06] bg-white/[0.02] p-2 sm:p-4">
-                <p className="text-[8px] sm:text-[11px] font-medium tracking-wide text-white/35 uppercase">Leads</p>
+                <p className="text-[8px] sm:text-[11px] font-medium tracking-wide text-white/35 uppercase">New inquiries</p>
                 <div className="mt-0.5 flex items-baseline gap-1">
                   <span className="text-[15px] sm:text-2xl font-bold text-white/90"><DashCountUp end={47} /></span>
                   <span className="text-[8px] sm:text-xs font-medium text-emerald-400">+12%</span>
@@ -113,7 +113,7 @@ function DashboardMockup() {
                 </div>
               </div>
               <div className="rounded-lg sm:rounded-xl border border-white/[0.06] bg-white/[0.02] p-2 sm:p-4">
-                <p className="text-[8px] sm:text-[11px] font-medium tracking-wide text-white/35 uppercase">Conv.</p>
+                <p className="text-[8px] sm:text-[11px] font-medium tracking-wide text-white/35 uppercase">Booked</p>
                 <div className="mt-0.5 flex items-baseline gap-1">
                   <span className="text-[15px] sm:text-2xl font-bold text-white/90"><DashCountUp end={42} decimal suffix="%" /></span>
                   <span className="text-[8px] sm:text-xs font-medium text-emerald-400">+0.6%</span>
@@ -121,7 +121,7 @@ function DashboardMockup() {
               </div>
             </div>
             <div className="mt-1.5 sm:mt-5 rounded-lg sm:rounded-xl border border-white/[0.06] bg-white/[0.02] p-2 sm:p-4">
-              <p className="mb-1 sm:mb-3 text-[9px] sm:text-[13px] font-medium text-white/50">Lead Activity</p>
+              <p className="mb-1 sm:mb-3 text-[9px] sm:text-[13px] font-medium text-white/50">Inquiries this month</p>
               <div className="flex items-end gap-[1.5px] sm:gap-[3px] h-8 sm:h-20">
                 {barHeights.map((h, i) => (
                   <div
@@ -171,7 +171,7 @@ export function HeroSection() {
             </div>
 
             <h1 className="mt-5 text-[1.85rem] font-extrabold leading-[1.1] tracking-tight sm:mt-7 sm:text-[3rem] lg:text-[3.5rem] xl:text-[4rem]">
-              The growth system
+              A website that actually
               <br />
               <span
                 className="bg-clip-text text-transparent"
@@ -181,7 +181,7 @@ export function HeroSection() {
                   animation: "text-wave 6s ease-in-out infinite",
                 }}
               >
-                your business is missing
+                brings you customers
               </span>
             </h1>
 
@@ -193,9 +193,10 @@ export function HeroSection() {
             </div>
 
             <p className="max-w-lg text-[14px] leading-[1.7] text-white/50 sm:text-[16px] mx-auto lg:mx-0">
-              Luxury web design, automated lead capture, review systems,
-              booking integration, and a dashboard that shows exactly what&apos;s
-              driving results. Delivered in days, not months.
+              We build your website, set up everything that catches new
+              customers for you, and handle the boring stuff after — so you
+              can focus on the work you actually love. Delivered in days,
+              not months.
             </p>
 
             <div className="mt-5 flex flex-col items-stretch gap-2.5 sm:mt-7 sm:flex-row sm:items-center lg:justify-start sm:justify-center">
@@ -223,7 +224,7 @@ export function HeroSection() {
                 animate={{ y: [-4, 4, -4] }}
                 transition={{ duration: 7, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
               >
-                <p className="text-[10px] font-medium tracking-wide text-white/40 uppercase">Leads this month</p>
+                <p className="text-[10px] font-medium tracking-wide text-white/40 uppercase">New inquiries</p>
                 <p className="mt-0.5 text-lg font-bold">+47</p>
               </motion.div>
               <motion.div
@@ -231,7 +232,7 @@ export function HeroSection() {
                 animate={{ y: [4, -4, 4] }}
                 transition={{ duration: 8, repeat: Infinity, repeatType: "mirror", ease: "easeInOut", delay: 0.6 }}
               >
-                <p className="text-[10px] font-medium tracking-wide text-white/40 uppercase">Conversion</p>
+                <p className="text-[10px] font-medium tracking-wide text-white/40 uppercase">Booked</p>
                 <p className="mt-0.5 text-lg font-bold text-emerald-400">4.2%</p>
               </motion.div>
               <motion.div

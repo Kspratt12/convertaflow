@@ -15,31 +15,31 @@ const pains = [
     icon: Eye,
     title: "Your website looks outdated",
     description:
-      "Visitors judge your business in under 3 seconds. A dated website sends them straight to a competitor who looks sharper.",
+      "People decide if they trust your business in under 3 seconds. A dated website sends them straight to a competitor who looks sharper.",
   },
   {
     icon: AlertTriangle,
-    title: "Leads leave without a trace",
+    title: "New customers can't reach you",
     description:
-      "No capture forms, no follow-up, no second chance. Every day without a system is revenue walking out the door.",
+      "If your contact form is broken or buried, every visitor who wanted to call you is gone. You'll never know they were even there.",
   },
   {
     icon: Clock,
-    title: "Follow-up takes too long",
+    title: "You're too slow to follow up",
     description:
-      "The first business to respond wins 78% of the time. If you're taking hours, someone else is closing the deal.",
+      "The first business to reply wins almost every time. If a new customer waits hours for a response, they've already booked someone else.",
   },
   {
     icon: MessageSquareOff,
-    title: "Reviews go uncollected",
+    title: "Reviews never get asked for",
     description:
-      "Happy customers don't leave reviews on their own. Without a system, your strongest trust signal goes to waste.",
+      "Happy customers rarely leave reviews on their own. Without a system asking for them, your best trust signal goes to waste.",
   },
   {
     icon: HelpCircle,
-    title: "No visibility into what works",
+    title: "You can't tell what's working",
     description:
-      "Where do your best leads come from? Which pages convert? Without data, every marketing dollar is a guess.",
+      "Where do your new customers come from? Which page made them call? Without that, every dollar you spend on marketing is a guess.",
   },
 ];
 
@@ -61,7 +61,7 @@ export function PainPoints() {
             <span className="text-red-400/80">cost their owners money</span>
           </h2>
           <p className="mt-3 text-[14px] leading-relaxed text-white/40 sm:mt-4 sm:text-[16px]">
-            These gaps hold businesses back. Convertaflow was built to close every one of them.
+            Whether you&apos;re a plumber, a yoga instructor, or a dentist — these gaps hurt every business the same way. We built Convertaflow to close all five.
           </p>
         </div>
 
@@ -100,8 +100,9 @@ export function PainPoints() {
               That&apos;s why we built Convertaflow
             </h3>
             <p className="mt-1.5 text-[13px] leading-relaxed text-white/80 sm:mt-2">
-              Luxury website. Lead capture. Review system. Booking integration.
-              Email follow-up. Delivered in days with a dedicated team behind it.
+              A premium custom website. A way to catch every new inquiry.
+              Automatic review requests. Online booking. We build it, set it
+              up, and keep it running — so you can focus on the work.
             </p>
           </motion.div>
         </div>
