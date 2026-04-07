@@ -24,10 +24,16 @@ export async function sendEmail({
   to,
   subject,
   html,
-  from = "Convertaflow <notifications@convertaflow.co>",
+  from = process.env.EMAIL_FROM || "Convertaflow <hello@convertaflow.co>",
 }: SendEmailParams) {
   const resend = getResend();
-  const { data, error } = await resend.emails.send({ from, to, subject, html });
+  const { data, error } = await resend.emails.send({
+    from,
+    to,
+    subject,
+    html,
+    replyTo: process.env.EMAIL_REPLY_TO || "hello@convertaflow.co",
+  });
 
   if (error) {
     console.error("Email send failed:", error);
