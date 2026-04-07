@@ -155,10 +155,10 @@ export default function PricingPage() {
           </p>
         </div>
 
-        <div className="mx-auto max-w-lg">
+        <div className="mx-auto max-w-2xl grid gap-4 sm:grid-cols-2">
           <div className="relative flex flex-col rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6">
             <h3 className="text-base sm:text-lg font-bold text-white">System Upgrade</h3>
-            <p className="mt-0.5 text-[12px] sm:text-[13px] font-medium text-[#8b5cf6]">For businesses with an existing website</p>
+            <p className="mt-0.5 text-[12px] sm:text-[13px] font-medium text-[#8b5cf6]">Plug into your existing website</p>
 
             <div className="mt-4 sm:mt-5">
               <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">$1,997</span>
@@ -167,14 +167,13 @@ export default function PricingPage() {
                 <span className="text-base sm:text-lg font-bold text-white/80">$199/mo</span>
                 <span className="text-[12px] sm:text-[13px] text-white/35">system access &amp; support</span>
               </div>
-              <p className="mt-1 text-[11px] text-white/30">Advanced automation option available at $399/mo</p>
             </div>
 
-            <ul className="mt-4 space-y-2 border-t border-white/[0.06] pt-4">
+            <ul className="mt-4 space-y-2 border-t border-white/[0.06] pt-4 flex-1">
               {[
                 "Lead capture integration",
                 "Booking & calendar connection",
-                "Automated email responses (Resend)",
+                "Automated email responses",
                 "Review request system",
                 "Dashboard access",
                 "Basic analytics",
@@ -198,10 +197,51 @@ export default function PricingPage() {
             </Button>
           </div>
 
-          <p className="mt-3 text-center text-[11px] text-white/25">
-            Most clients choose a full rebuild for better performance.
-          </p>
+          <div className="relative flex flex-col rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6">
+            <h3 className="text-base sm:text-lg font-bold text-white">Full Growth Engine</h3>
+            <p className="mt-0.5 text-[12px] sm:text-[13px] font-medium text-[#8b5cf6]">All systems, no website rebuild</p>
+
+            <div className="mt-4 sm:mt-5">
+              <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">$3,497</span>
+              <p className="mt-0.5 text-[12px] sm:text-[13px] text-white/40">One-time setup &amp; integration</p>
+              <div className="mt-1.5 flex items-baseline gap-1.5">
+                <span className="text-base sm:text-lg font-bold text-white/80">$399/mo</span>
+                <span className="text-[12px] sm:text-[13px] text-white/35">full system access</span>
+              </div>
+            </div>
+
+            <ul className="mt-4 space-y-2 border-t border-white/[0.06] pt-4 flex-1">
+              {[
+                "Everything in System Upgrade",
+                "Social media automation",
+                "Instagram & ManyChat workflows",
+                "Advanced conversion analytics",
+                "Multi-channel lead attribution",
+                "Dedicated strategy support",
+              ].map((feature) => (
+                <li key={feature} className="flex items-start gap-2 text-[12px] sm:text-[13px] text-white/70">
+                  <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#06b6d4]" />
+                  {feature}
+                </li>
+              ))}
+            </ul>
+
+            <Button
+              className="mt-4 gap-1.5 bg-white/[0.06] border border-white/[0.1] text-white hover:bg-white/[0.1]"
+              size="lg"
+              asChild
+            >
+              <Link href="/contact">
+                Get the Full Engine
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            </Button>
+          </div>
         </div>
+
+        <p className="mt-4 text-center text-[11px] text-white/25">
+          Most clients choose a full rebuild for better performance.
+        </p>
       </Section>
 
       {/* FAQ */}

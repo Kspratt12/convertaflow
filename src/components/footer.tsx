@@ -40,13 +40,13 @@ export function Footer() {
         <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
           {/* Brand + socials */}
           <div>
-            <Link href="/" className="flex items-center">
+            <Link href="/" className="flex items-baseline">
               <Image
                 src="/convertaflow-logo.png"
                 alt={SITE.name}
-                width={36}
-                height={36}
-                className="h-8 w-8 object-contain mix-blend-screen -mr-2.5"
+                width={24}
+                height={24}
+                className="h-[22px] w-[22px] object-contain mix-blend-screen -mr-0.5 relative -top-[1px]"
               />
               <span className="text-[18px] font-bold tracking-tight">
                 <span className="text-white/90">onverta</span>
