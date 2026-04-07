@@ -1,4 +1,4 @@
-export type TierId = "starter" | "growth" | "scale";
+export type TierId = "starter" | "growth" | "scale" | "system_upgrade";
 export type UserRole = "owner" | "admin";
 export type PlanStatus = "active" | "trial" | "past_due" | "canceled";
 

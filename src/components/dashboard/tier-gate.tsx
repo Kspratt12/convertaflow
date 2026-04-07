@@ -14,6 +14,7 @@ interface TierGateProps {
 
 const tierIcons: Record<TierId, typeof Star> = {
   starter: Lock,
+  system_upgrade: Star,
   growth: Star,
   scale: Rocket,
 };

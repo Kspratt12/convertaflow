@@ -11,6 +11,7 @@ import {
   Edit3,
   HelpCircle,
   Package,
+  CreditCard,
   ArrowLeft,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -24,8 +25,9 @@ const navigation = [
   { label: "Uploads", href: "/portal/uploads", icon: Upload },
   { label: "Project Status", href: "/portal/project", icon: Activity },
   { label: "Revisions", href: "/portal/revisions", icon: Edit3 },
-  { label: "Support", href: "/portal/support", icon: HelpCircle },
   { label: "Delivery", href: "/portal/delivery", icon: Package },
+  { label: "Billing", href: "/portal/billing", icon: CreditCard },
+  { label: "Support", href: "/portal/support", icon: HelpCircle },
 ];
 
 export function PortalSidebar() {

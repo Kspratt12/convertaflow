@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import {
   ChevronDown,
   ChevronRight,
@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useBusiness } from "@/components/dashboard/business-provider";
+import type { TierId } from "@/lib/types";
 
 interface OnboardingSection {
   id: string;
@@ -24,6 +25,8 @@ interface OnboardingSection {
   description: string;
   icon: typeof Building2;
   fields: FieldConfig[];
+  /** Tiers this section applies to. If undefined, applies to all. */
+  tiers?: TierId[];
 }
 
 type FieldConfig =
@@ -53,6 +56,7 @@ const SECTIONS: OnboardingSection[] = [
     title: "Brand Direction",
     description: "Help us capture your visual identity and design preferences.",
     icon: Palette,
+    tiers: ["starter", "growth", "scale"],
     fields: [
       { type: "select", name: "style", label: "Preferred Design Style", options: ["Modern & Minimal", "Bold & Vibrant", "Elegant & Luxurious", "Warm & Friendly", "Corporate & Professional", "Creative & Artistic"] },
       { type: "text", name: "primary_color", label: "Primary Brand Color (hex or description)", placeholder: "e.g. #7c3aed or deep purple" },
@@ -76,9 +80,23 @@ const SECTIONS: OnboardingSection[] = [
     title: "Pages Needed",
     description: "Select which pages you need for your website.",
     icon: FileText,
+    tiers: ["starter", "growth", "scale"],
     fields: [
       { type: "checkboxes", name: "pages", label: "Pages to Include", options: ["Home", "About", "Services", "Gallery / Portfolio", "Contact", "FAQ", "Booking / Schedule", "Blog", "Custom Page (describe below)"] },
       { type: "textarea", name: "custom_pages", label: "Custom Page Details", placeholder: "Describe any custom pages or special sections you need" },
+    ],
+  },
+  {
+    id: "existing_site_integration",
+    title: "Existing Site Integration",
+    description: "Tell us about the website we'll be plugging our system into.",
+    icon: Zap,
+    tiers: ["system_upgrade"],
+    fields: [
+      { type: "text", name: "current_site_url", label: "Your Current Website URL", placeholder: "https://yourbusiness.com" },
+      { type: "select", name: "site_platform", label: "What platform is it built on?", options: ["WordPress", "Squarespace", "Wix", "Shopify", "Webflow", "Custom / Not sure", "Other"] },
+      { type: "select", name: "admin_access", label: "Can you give us admin access to make changes?", options: ["Yes", "No, but I can install scripts you provide", "Not sure"] },
+      { type: "textarea", name: "integration_notes", label: "Anything we should know about your current setup?", placeholder: "Existing forms, booking tools, CRM, email lists, etc." },
     ],
   },
   {
@@ -86,6 +104,7 @@ const SECTIONS: OnboardingSection[] = [
     title: "Domain & Existing Site",
     description: "Let us know about your current web presence.",
     icon: Globe,
+    tiers: ["starter", "growth", "scale"],
     fields: [
       { type: "select", name: "has_domain", label: "Do you have a domain name?", options: ["Yes, I own a domain", "No, I need to purchase one", "Not sure"] },
       { type: "text", name: "current_url", label: "Current Website URL (if any)", placeholder: "https://yourbusiness.com" },
@@ -109,6 +128,7 @@ const SECTIONS: OnboardingSection[] = [
     title: "Feature Needs",
     description: "Select which features and integrations matter to your business.",
     icon: Zap,
+    tiers: ["growth", "scale", "system_upgrade"],
     fields: [
       { type: "checkboxes", name: "features", label: "Features Needed", options: ["Online booking / scheduling", "Contact forms", "Google Analytics", "Review collection / display", "Email automation", "Social media integration", "Live chat widget", "Payment processing", "Custom forms"] },
       { type: "textarea", name: "feature_notes", label: "Additional feature requests or notes", placeholder: "Any specific tools or integrations you currently use?" },
@@ -134,7 +154,10 @@ const selectClasses =
   "w-full rounded-xl bg-white/[0.04] border border-white/[0.08] px-4 py-3 text-[14px] text-white focus:border-[#7c3aed]/40 focus:outline-none focus:ring-1 focus:ring-[#7c3aed]/20 transition-colors [&>option]:bg-[#0a0a1a] [&>option]:text-white";
 
 export default function OnboardingPage() {
-  const { businessName } = useBusiness();
+  const { businessName, tier } = useBusiness();
+  const visibleSections = SECTIONS.filter(
+    (s) => !s.tiers || s.tiers.includes(tier)
+  );
   const [expandedSections, setExpandedSections] = useState<Set<string>>(
     new Set(["business_basics"])
   );
@@ -142,6 +165,29 @@ export default function OnboardingPage() {
   const [completedSections, setCompletedSections] = useState<Set<string>>(new Set());
   const [savingSection, setSavingSection] = useState<string | null>(null);
   const [savedSection, setSavedSection] = useState<string | null>(null);
+
+  // Load existing submissions
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/onboarding")
+      .then((r) => r.json())
+      .then((res) => {
+        if (cancelled || !res.submissions) return;
+        const dataMap: Record<string, Record<string, unknown>> = {};
+        const done = new Set<string>();
+        type Sub = { section: string; data: Record<string, unknown>; completed: boolean };
+        (res.submissions as Sub[]).forEach((sub) => {
+          dataMap[sub.section] = sub.data || {};
+          if (sub.completed) done.add(sub.section);
+        });
+        setSectionData(dataMap);
+        setCompletedSections(done);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const toggleSection = useCallback((id: string) => {
     setExpandedSections((prev) => {
@@ -187,19 +233,30 @@ export default function OnboardingPage() {
   const saveSection = useCallback(
     async (sectionId: string) => {
       setSavingSection(sectionId);
-      // Simulate save — in production this writes to onboarding_submissions
-      await new Promise((r) => setTimeout(r, 600));
+      try {
+        await fetch("/api/onboarding", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            section: sectionId,
+            data: sectionData[sectionId] || {},
+            completed: true,
+          }),
+        });
+      } catch (err) {
+        console.error("Save failed:", err);
+      }
       setCompletedSections((prev) => new Set(prev).add(sectionId));
       setSavingSection(null);
       setSavedSection(sectionId);
       setTimeout(() => setSavedSection(null), 2000);
     },
-    []
+    [sectionData]
   );
 
   const completedCount = completedSections.size;
-  const totalCount = SECTIONS.length;
-  const progressPercent = Math.round((completedCount / totalCount) * 100);
+  const totalCount = visibleSections.length;
+  const progressPercent = totalCount === 0 ? 0 : Math.round((completedCount / totalCount) * 100);
 
   return (
     <div className="mx-auto max-w-3xl space-y-6">
@@ -230,7 +287,7 @@ export default function OnboardingPage() {
 
       {/* Sections */}
       <div className="space-y-3">
-        {SECTIONS.map((section) => {
+        {visibleSections.map((section) => {
           const isExpanded = expandedSections.has(section.id);
           const isCompleted = completedSections.has(section.id);
           const isSaving = savingSection === section.id;

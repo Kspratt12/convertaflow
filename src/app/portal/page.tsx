@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import {
   ClipboardList,
   Upload,
@@ -10,6 +12,8 @@ import {
   Sparkles,
   CheckCircle2,
   Clock,
+  CreditCard,
+  PartyPopper,
 } from "lucide-react";
 import { useBusiness } from "@/components/dashboard/business-provider";
 import { TIERS } from "@/lib/constants";
@@ -55,7 +59,41 @@ const quickActions = [
     href: "/portal/delivery",
     icon: Package,
   },
+  {
+    label: "Billing",
+    description: "Manage plan and payment",
+    href: "/portal/billing",
+    icon: CreditCard,
+  },
 ];
+
+function WelcomeBanner() {
+  const params = useSearchParams();
+  if (params.get("welcome") !== "1") return null;
+  return (
+    <div className="rounded-2xl border border-emerald-500/20 bg-gradient-to-br from-emerald-500/[0.06] to-[#06b6d4]/[0.04] p-5 sm:p-6">
+      <div className="flex items-start gap-3">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10">
+          <PartyPopper className="h-5 w-5 text-emerald-400" />
+        </div>
+        <div className="min-w-0">
+          <h3 className="text-[15px] font-semibold text-white/95">
+            Welcome to your portal
+          </h3>
+          <p className="mt-1 text-[13px] text-white/55">
+            Your account is ready. Start by completing your project onboarding so our team has everything we need to begin.
+          </p>
+          <Link
+            href="/portal/onboarding"
+            className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] px-3.5 py-2 text-[12.5px] font-semibold text-white transition-opacity hover:opacity-90"
+          >
+            Start onboarding
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function PortalOverviewPage() {
   const { businessName, tier } = useBusiness();
@@ -67,6 +105,10 @@ export default function PortalOverviewPage() {
 
   return (
     <div className="mx-auto max-w-6xl space-y-6">
+      <Suspense fallback={null}>
+        <WelcomeBanner />
+      </Suspense>
+
       {/* Welcome */}
       <div>
         <h1 className="text-xl font-bold text-white/90 sm:text-2xl">

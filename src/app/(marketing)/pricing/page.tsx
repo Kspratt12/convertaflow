@@ -4,7 +4,8 @@ import { Check, ArrowRight, Star, HelpCircle, Clock, RotateCcw } from "lucide-re
 import { Section, SectionHeader } from "@/components/section";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { TIERS } from "@/lib/constants";
+import { TIERS, PLAN_SLUGS } from "@/lib/constants";
+import { MAIN_TIER_IDS } from "@/lib/tier";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -40,7 +41,7 @@ const faqs = [
 ];
 
 export default function PricingPage() {
-  const tiers = Object.values(TIERS);
+  const tiers = MAIN_TIER_IDS.map((id) => TIERS[id]);
 
   return (
     <>
@@ -132,7 +133,7 @@ export default function PricingPage() {
                   size="lg"
                   asChild
                 >
-                  <Link href="/contact">
+                  <Link href={`/signup?plan=${PLAN_SLUGS[tier.id]}`}>
                     {tier.highlighted ? "Start My Build" : tier.id === "scale" ? "Get My Growth Engine" : "Start My Website"}
                     <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
@@ -190,7 +191,7 @@ export default function PricingPage() {
               size="lg"
               asChild
             >
-              <Link href="/contact">
+              <Link href="/signup?plan=system-upgrade">
                 Upgrade My System
                 <ArrowRight className="h-3.5 w-3.5" />
               </Link>
@@ -231,7 +232,7 @@ export default function PricingPage() {
               size="lg"
               asChild
             >
-              <Link href="/contact">
+              <Link href="/signup?plan=tier3">
                 Get the Full Engine
                 <ArrowRight className="h-3.5 w-3.5" />
               </Link>

@@ -34,6 +34,20 @@ export interface TierConfig {
   microcopy: string;
 }
 
+export const PLAN_SLUGS = {
+  starter: "tier1",
+  growth: "tier2",
+  scale: "tier3",
+  system_upgrade: "system-upgrade",
+} as const;
+
+export const PLAN_FROM_SLUG: Record<string, TierId> = {
+  tier1: "starter",
+  tier2: "growth",
+  tier3: "scale",
+  "system-upgrade": "system_upgrade",
+};
+
 export const TIERS: Record<TierId, TierConfig> = {
   starter: {
     id: "starter",
@@ -87,6 +101,31 @@ export const TIERS: Record<TierId, TierConfig> = {
     ],
     highlighted: true,
     microcopy: "Built in days. Runs 24/7. Cancel anytime.",
+  },
+  system_upgrade: {
+    id: "system_upgrade",
+    name: "System Upgrade",
+    shortName: "System",
+    price: "$1,997",
+    priceNote: "one-time setup",
+    monthly: "$199/mo",
+    monthlyNote: "system access & support",
+    monthlyRequired: true,
+    description:
+      "Already have a website? Plug our growth system into your existing site. Lead capture, follow-ups, reviews, dashboard — no rebuild required.",
+    audience: "Add our system to your existing site",
+    deliveryDays: "5–7 business days",
+    revisions: 3,
+    features: [
+      "Lead capture integration",
+      "Booking & calendar connection",
+      "Automated email follow-ups",
+      "Review request system",
+      "Dashboard access",
+      "Basic analytics",
+    ],
+    highlighted: false,
+    microcopy: "No rebuild required. Cancel anytime.",
   },
   scale: {
     id: "scale",

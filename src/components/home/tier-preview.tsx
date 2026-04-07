@@ -5,10 +5,11 @@ import { motion } from "framer-motion";
 import { Globe, Star, Rocket, Check, ArrowRight, Clock, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { TIERS } from "@/lib/constants";
+import { TIERS, PLAN_SLUGS } from "@/lib/constants";
+import { MAIN_TIER_IDS } from "@/lib/tier";
 import { cn } from "@/lib/utils";
 
-const tierIcons = { starter: Globe, growth: Star, scale: Rocket };
+const tierIcons: Record<string, typeof Globe> = { starter: Globe, growth: Star, scale: Rocket, system_upgrade: Globe };
 
 function SystemUpgrades() {
   const upgrades = [
@@ -28,6 +29,7 @@ function SystemUpgrades() {
         "Basic analytics",
       ],
       cta: "Upgrade My System",
+      href: "/signup?plan=system-upgrade",
     },
     {
       title: "Full Growth Engine",
@@ -45,6 +47,7 @@ function SystemUpgrades() {
         "Dedicated strategy support",
       ],
       cta: "Get the Full Engine",
+      href: "/signup?plan=tier3",
     },
   ];
 
@@ -94,7 +97,7 @@ function SystemUpgrades() {
               size="sm"
               asChild
             >
-              <Link href="/contact">
+              <Link href={u.href}>
                 {u.cta}
                 <ArrowRight className="h-3 w-3" />
               </Link>
@@ -111,7 +114,7 @@ function SystemUpgrades() {
 }
 
 export function TierPreview() {
-  const tiers = Object.values(TIERS);
+  const tiers = MAIN_TIER_IDS.map((id) => TIERS[id]);
 
   return (
     <section className="relative overflow-hidden bg-[#060613] py-12 text-white sm:py-16">
@@ -218,8 +221,8 @@ export function TierPreview() {
                   )}
                   asChild
                 >
-                  <Link href="/pricing">
-                    {tier.highlighted ? "Start My Build" : "See What's Included"}
+                  <Link href={`/signup?plan=${PLAN_SLUGS[tier.id]}`}>
+                    {tier.highlighted ? "Start My Build" : "Get Started"}
                     <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
                 </Button>
