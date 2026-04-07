@@ -81,7 +81,7 @@ export default function HowItWorksPage() {
             <div className="grid items-start gap-8 lg:grid-cols-5 lg:gap-12">
               <div className="lg:col-span-3">
                 <div className="mb-4 flex items-center gap-4">
-                  <span className="text-[48px] font-extrabold leading-none bg-gradient-to-b from-white/15 to-white/[0.03] bg-clip-text text-transparent">{step.number}</span>
+                  <span className="text-[48px] font-extrabold leading-none bg-gradient-to-b from-white/70 to-white/30 bg-clip-text text-transparent">{step.number}</span>
                   <div className={`flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br ${step.color} text-white shadow-lg`}>
                     <step.icon className="h-5 w-5" />
                   </div>

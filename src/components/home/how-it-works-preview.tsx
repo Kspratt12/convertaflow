@@ -61,7 +61,7 @@ export function HowItWorksPreview() {
               <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${step.color}`} />
 
               <div className="flex items-center justify-between pt-2">
-                <span className="text-[36px] sm:text-[40px] font-extrabold leading-none bg-gradient-to-b from-white/20 to-white/[0.04] bg-clip-text text-transparent">
+                <span className="text-[36px] sm:text-[40px] font-extrabold leading-none bg-gradient-to-b from-white/70 to-white/30 bg-clip-text text-transparent">
                   {step.step}
                 </span>
                 <div className={`flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${step.color} text-white shadow-lg`}>
