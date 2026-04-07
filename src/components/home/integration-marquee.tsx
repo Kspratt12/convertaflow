@@ -33,9 +33,9 @@ export function IntegrationMarquee() {
       <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 sm:w-24 z-10 bg-gradient-to-r from-[#060613] to-transparent" />
       <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 sm:w-24 z-10 bg-gradient-to-l from-[#060613] to-transparent" />
 
-      {/* Two identical rows side by side for seamless loop */}
+      {/* Four copies for seamless loop on all screen widths */}
       <div className="animate-marquee flex w-max gap-8 sm:gap-12">
-        {[...integrations, ...integrations].map((item, i) => (
+        {[...integrations, ...integrations, ...integrations, ...integrations].map((item, i) => (
           <div key={`${item.name}-${i}`} className="flex items-center gap-2 sm:gap-2.5 shrink-0">
             <span className="opacity-80">{item.icon}</span>
             <span
