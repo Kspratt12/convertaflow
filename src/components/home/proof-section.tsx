@@ -21,12 +21,12 @@ const pillars = [
   {
     icon: Globe,
     title: "Premium custom design",
-    body: "Every site is built from scratch around your brand — no templates, no cookie-cutter layouts. Mobile-optimized, fast-loading, and styled to make your business look like the leader in your space.",
+    body: "Every site is built from scratch around your brand. No templates, no cookie-cutter layouts. Mobile-optimized, fast-loading, and styled to make your business look like the leader in your space.",
   },
   {
     icon: Zap,
     title: "Built to convert",
-    body: "Strategic lead capture, clear calls to action, and conversion-optimized hero sections. We don't build websites that look pretty and sit there — we build the ones that actually bring in leads.",
+    body: "Clear contact forms, strong calls to action, and a hero that grabs attention. We don't build websites that just look pretty and sit there. We build the ones that actually bring in customers.",
   },
   {
     icon: ShieldCheck,

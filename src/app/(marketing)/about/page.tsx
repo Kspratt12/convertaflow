@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Learn about Convertaflow — the platform built to help real businesses look professional, capture leads, and grow with systems.",
+    "Learn about Convertaflow, the platform built to help real businesses look professional, catch every new inquiry, and grow with systems.",
 };
 
 const values = [
@@ -62,12 +62,12 @@ export default function AboutPage() {
               <p>
                 That&apos;s the gap we exist to close. We build the website,
                 set up everything that catches new customers for you, and handle
-                all the boring tech stuff after — so you can focus on what you
+                all the boring tech stuff after. So you can focus on what you
                 actually do best.
               </p>
               <p>
                 Plumber, dentist, yoga instructor, real estate agent, lawyer,
-                hair stylist — it doesn&apos;t matter. Every business deserves to
+                hair stylist. It doesn&apos;t matter. Every business deserves to
                 look as professional online as it does in person.
               </p>
             </div>

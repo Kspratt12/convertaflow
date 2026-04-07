@@ -61,7 +61,7 @@ export function PainPoints() {
             <span className="text-red-400/80">cost their owners money</span>
           </h2>
           <p className="mt-3 text-[14px] leading-relaxed text-white/40 sm:mt-4 sm:text-[16px]">
-            Whether you&apos;re a plumber, a yoga instructor, or a dentist — these gaps hurt every business the same way. We built Convertaflow to close all five.
+            Whether you&apos;re a plumber, a yoga instructor, or a dentist, these gaps hurt every business the same way. We built Convertaflow to close all five.
           </p>
         </div>
 
@@ -102,7 +102,7 @@ export function PainPoints() {
             <p className="mt-1.5 text-[13px] leading-relaxed text-white/80 sm:mt-2">
               A premium custom website. A way to catch every new inquiry.
               Automatic review requests. Online booking. We build it, set it
-              up, and keep it running — so you can focus on the work.
+              up, and keep it running. You focus on the work.
             </p>
           </motion.div>
         </div>

@@ -194,7 +194,7 @@ export function HeroSection() {
 
             <p className="max-w-lg text-[14px] leading-[1.7] text-white/50 sm:text-[16px] mx-auto lg:mx-0">
               We build your website, set up everything that catches new
-              customers for you, and handle the boring stuff after — so you
+              customers for you, and handle the boring stuff after. So you
               can focus on the work you actually love. Delivered in days,
               not months.
             </p>

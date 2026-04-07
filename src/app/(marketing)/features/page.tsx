@@ -8,13 +8,13 @@ import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
   title: "Features",
-  description: "Explore everything Convertaflow offers — premium websites, lead capture, review collection, email automation, dashboards, and growth tools.",
+  description: "Explore everything Convertaflow offers. Custom websites, inquiry capture, review collection, email follow-up, dashboards, and growth tools.",
 };
 
 const features = [
   {
     icon: Palette, title: "Custom Website Design",
-    description: "We design your site from scratch around your brand — not a template, not a drag-and-drop tool. Built to make your business look like the leader in your space.",
+    description: "We design your site from scratch around your brand. Not a template, not a drag-and-drop tool. Built to make your business look like the leader in your space.",
     benefits: ["Custom design built for your brand", "Looks great on phones, tablets, and desktops", "Loads fast on every device", "Easy for Google to find", "Built to make people trust you"],
   },
   {
@@ -24,32 +24,32 @@ const features = [
   },
   {
     icon: Mail, title: "Email Alerts & Follow-Up",
-    description: "Get an email the moment someone reaches out — so you can call them back while they're still interested. Plus optional automatic follow-up emails that work for you 24/7.",
+    description: "Get an email the moment someone reaches out, so you can call them back while they're still interested. Plus optional automatic follow-up emails that work for you 24/7.",
     benefits: ["Instant alerts the moment someone inquires", "Automatic follow-up emails (Growth+)", "Beautifully branded email templates", "See what got opened", "Confirmation emails to your customers"],
   },
   {
     icon: Star, title: "Get More 5-Star Reviews",
-    description: "After every job, we automatically ask your happy customers to leave a Google review. The reviews that win you new business — without you having to ask in person.",
+    description: "After every job, we automatically ask your happy customers to leave a Google review. The reviews that win you new business, without you having to ask in person.",
     benefits: ["Auto-send after every job (Growth+)", "Direct link straight to Google", "We control the timing for the best response", "See who left a review", "Track your rating over time"],
   },
   {
     icon: LayoutDashboard, title: "Your Business at a Glance",
-    description: "One clean dashboard showing every new inquiry, every review, and every email — all in one place. Check it once a week to see how your business is doing online.",
+    description: "One clean dashboard showing every new inquiry, every review, and every email. All in one place. Check it once a week to see how your business is doing online.",
     benefits: ["Every inquiry in one place", "Every review in one place", "Email tracking", "See where your customers come from", "Activity timeline"],
   },
   {
     icon: TrendingUp, title: "Know What's Working",
-    description: "See how many people are visiting your site, how many are reaching out, and which pages they're looking at. No more guessing — actual answers about what's working.",
+    description: "See how many people are visiting your site, how many are reaching out, and which pages they're looking at. No more guessing. Actual answers about what's working.",
     benefits: ["Visitor tracking", "Inquiry trends over time", "Which pages perform best", "Response time tracking", "Weekly summaries"],
   },
   {
     icon: Share2, title: "Social Media On Autopilot",
     description: "We post for you, respond to Instagram and Facebook DMs automatically, and connect every social touchpoint back to your website. Available in Everything Done For You.",
-    benefits: ["Automatic social posting", "Instagram and Facebook DM responses", "Track which social posts brought customers", "All in one dashboard", "Hands-off — we run it"],
+    benefits: ["Automatic social posting", "Instagram and Facebook DM responses", "Track which social posts brought customers", "All in one dashboard", "Hands-off, we run it"],
   },
   {
     icon: Zap, title: "Run On Autopilot",
-    description: "We set up the systems that work in the background while you focus on the actual work. Follow-up emails, review requests, social posts — all happening automatically.",
+    description: "We set up the systems that work in the background while you focus on the actual work. Follow-up emails, review requests, social posts. All happening automatically.",
     benefits: ["Set it once, runs forever", "Follow-ups that fire automatically", "Reviews requested without you asking", "All actions logged so you can see what happened", "Pause anytime"],
   },
 ];

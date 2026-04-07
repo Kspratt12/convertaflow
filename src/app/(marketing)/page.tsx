@@ -11,7 +11,7 @@ import { HowItWorksPreview } from "@/components/home/how-it-works-preview";
 import { FinalCTA } from "@/components/home/final-cta";
 
 export const metadata: Metadata = {
-  title: "Convertaflow — The Growth System Your Business Is Missing",
+  title: "Convertaflow · A website that actually brings you customers",
 };
 
 export default function HomePage() {

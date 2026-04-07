@@ -106,7 +106,7 @@ export const TIERS: Record<TierId, TierConfig> = {
     monthlyNote: "growth tools running 24/7 + unlimited updates",
     monthlyRequired: true,
     description:
-      "Everything in Just the Website, plus the tools that turn website visitors into actual paying customers — automatically, without you lifting a finger.",
+      "Everything in Just the Website, plus the tools that turn website visitors into actual paying customers, automatically, without you lifting a finger.",
     audience: "I want my website to bring in customers",
     deliveryDays: "7–10 business days",
     revisions: 5,
@@ -139,7 +139,7 @@ export const TIERS: Record<TierId, TierConfig> = {
     monthlyNote: "growth tools on your existing site",
     monthlyRequired: true,
     description:
-      "Already have a website you like? We add the growth tools — inquiry capture, follow-ups, reviews, and a dashboard — without rebuilding anything.",
+      "Already have a website you like? We add the growth tools (inquiry capture, follow-ups, reviews, and a dashboard) without rebuilding anything.",
     audience: "I like my website, just add the tools",
     deliveryDays: "5–7 business days",
     revisions: 3,
@@ -162,7 +162,7 @@ export const TIERS: Record<TierId, TierConfig> = {
   },
   scale_single: {
     id: "scale_single",
-    name: "Everything Done For You — Add-On",
+    name: "Everything Done For You · Add-On",
     shortName: "Engine",
     price: "$3,497",
     priceNote: "one-time setup",

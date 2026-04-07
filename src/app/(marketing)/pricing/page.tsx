@@ -10,25 +10,25 @@ import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Pricing",
-  description: "Choose the Convertaflow tier that fits your business — from luxury website design to a complete growth system.",
+  description: "Choose the Convertaflow plan that fits your business. From a custom website to a fully managed online presence.",
 };
 
 const faqs = [
   {
     q: "What exactly do I get?",
-    a: "You get a fully custom-designed website plus the systems included in your tier — built by our team, not a template. We handle the design, development, and setup. You approve, we launch.",
+    a: "You get a fully custom-designed website plus the tools included in your plan, built by our team, not a template. We handle the design, development, and setup. You approve, we launch.",
   },
   {
     q: "How fast will my site be live?",
-    a: "Foundation tier launches in 5–7 business days. Growth in 7–10. Scale in 10–14. We move fast without cutting corners.",
+    a: "Just the Website launches in 5–7 business days. Website + Growth Tools in 7–10. Everything Done For You in 10–14. We move fast without cutting corners.",
   },
   {
     q: "What if I need changes?",
-    a: "Every tier includes revisions — 3, 5, or 10 depending on your plan. Additional revisions are available as add-ons if needed.",
+    a: "Every plan includes rounds of edits before launch (3, 5, or 10 depending on your plan). After launch, you can request changes anytime through your portal.",
   },
   {
     q: "Can I upgrade later?",
-    a: "Yes. You can start with Foundation and upgrade once you're ready for more. We add the new systems on top of what you already have — no rebuilding.",
+    a: "Yes. You can start with Just the Website and upgrade once you're ready for more. We add the new tools on top of what you already have. No rebuilding.",
   },
   {
     q: "Is this a subscription?",
@@ -36,7 +36,7 @@ const faqs = [
   },
   {
     q: "Do you work with my industry?",
-    a: "We work with service businesses, professional practices, local businesses, and growing companies. If you need to look established and capture more leads online — we can help.",
+    a: "We work with service businesses, professional practices, local businesses, and growing companies. Plumbers, dentists, yoga instructors, real estate agents, lawyers, hair stylists, and many more. If you need to look established and bring in more customers online, we can help.",
   },
 ];
 
@@ -173,96 +173,56 @@ export default function PricingPage() {
             You don&apos;t need to start over
           </h2>
           <p className="mt-2 text-[13px] sm:text-[14px] leading-relaxed text-white/45 max-w-lg mx-auto">
-            We can plug our system into your current site and turn it into a lead and automation engine.
+            We plug everything into your current website. No rebuild, no downtime.
           </p>
         </div>
 
         <div className="mx-auto max-w-2xl grid gap-4 sm:grid-cols-2">
-          <div className="relative flex flex-col rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6">
-            <h3 className="text-base sm:text-lg font-bold text-white">System Upgrade</h3>
-            <p className="mt-0.5 text-[12px] sm:text-[13px] font-medium text-[#8b5cf6]">Plug into your existing website</p>
-
-            <div className="mt-4 sm:mt-5">
-              <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">$1,997</span>
-              <p className="mt-0.5 text-[12px] sm:text-[13px] text-white/40">One-time setup &amp; integration</p>
-              <div className="mt-1.5 flex items-baseline gap-1.5">
-                <span className="text-base sm:text-lg font-bold text-white/80">$199/mo</span>
-                <span className="text-[12px] sm:text-[13px] text-white/35">system access &amp; support</span>
-              </div>
-            </div>
-
-            <ul className="mt-4 space-y-2 border-t border-white/[0.06] pt-4 flex-1">
-              {[
-                "Lead capture integration",
-                "Booking & calendar connection",
-                "Automated email responses",
-                "Review request system",
-                "Dashboard access",
-                "Basic analytics",
-              ].map((feature) => (
-                <li key={feature} className="flex items-start gap-2 text-[12px] sm:text-[13px] text-white/70">
-                  <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#06b6d4]" />
-                  {feature}
-                </li>
-              ))}
-            </ul>
-
-            <Button
-              className="mt-4 gap-1.5 bg-white/[0.06] border border-white/[0.1] text-white hover:bg-white/[0.1]"
-              size="lg"
-              asChild
+          {[TIERS.system_upgrade, TIERS.scale_single].map((tier) => (
+            <div
+              key={tier.id}
+              className="relative flex flex-col rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6"
             >
-              <Link href="/signup?plan=system-upgrade">
-                Upgrade My System
-                <ArrowRight className="h-3.5 w-3.5" />
-              </Link>
-            </Button>
-          </div>
+              <h3 className="text-base sm:text-lg font-bold text-white">{tier.name}</h3>
+              <p className="mt-0.5 text-[12px] sm:text-[13px] font-medium text-[#8b5cf6]">{tier.audience}</p>
 
-          <div className="relative flex flex-col rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6">
-            <h3 className="text-base sm:text-lg font-bold text-white">Full Growth Engine</h3>
-            <p className="mt-0.5 text-[12px] sm:text-[13px] font-medium text-[#8b5cf6]">All systems, no website rebuild</p>
-
-            <div className="mt-4 sm:mt-5">
-              <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">$3,497</span>
-              <p className="mt-0.5 text-[12px] sm:text-[13px] text-white/40">One-time setup &amp; integration</p>
-              <div className="mt-1.5 flex items-baseline gap-1.5">
-                <span className="text-base sm:text-lg font-bold text-white/80">$399/mo</span>
-                <span className="text-[12px] sm:text-[13px] text-white/35">full system access</span>
+              <div className="mt-4 sm:mt-5">
+                <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">{tier.price}</span>
+                <p className="mt-0.5 text-[12px] sm:text-[13px] text-white/40">{tier.priceNote}</p>
               </div>
+
+              <div className="mt-3 rounded-xl border border-[#06b6d4]/15 bg-[#06b6d4]/[0.04] px-3 py-2.5">
+                <div className="flex items-baseline gap-1.5">
+                  <span className="text-base sm:text-lg font-bold text-white">{tier.monthly}</span>
+                  <span className="text-[11px] sm:text-[12px] text-white/45">{tier.monthlyNote}</span>
+                </div>
+              </div>
+
+              <ul className="mt-4 space-y-2 border-t border-white/[0.06] pt-4 flex-1">
+                {tier.features.slice(0, 6).map((feature) => (
+                  <li key={feature} className="flex items-start gap-2 text-[12px] sm:text-[13px] text-white/70">
+                    <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#06b6d4]" />
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+
+              <Button
+                className="mt-4 gap-1.5 border border-[#7c3aed]/40 bg-[#7c3aed]/10 text-white hover:bg-[#7c3aed]/20 hover:border-[#7c3aed]/60"
+                size="lg"
+                asChild
+              >
+                <Link href={`/signup?plan=${PLAN_SLUGS[tier.id]}`}>
+                  Get Started
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
+              </Button>
             </div>
-
-            <ul className="mt-4 space-y-2 border-t border-white/[0.06] pt-4 flex-1">
-              {[
-                "Everything in System Upgrade",
-                "Social media automation",
-                "Instagram & ManyChat workflows",
-                "Advanced conversion analytics",
-                "Multi-channel lead attribution",
-                "Dedicated strategy support",
-              ].map((feature) => (
-                <li key={feature} className="flex items-start gap-2 text-[12px] sm:text-[13px] text-white/70">
-                  <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#06b6d4]" />
-                  {feature}
-                </li>
-              ))}
-            </ul>
-
-            <Button
-              className="mt-4 gap-1.5 bg-white/[0.06] border border-white/[0.1] text-white hover:bg-white/[0.1]"
-              size="lg"
-              asChild
-            >
-              <Link href="/signup?plan=tier3-single">
-                Get the Full Engine
-                <ArrowRight className="h-3.5 w-3.5" />
-              </Link>
-            </Button>
-          </div>
+          ))}
         </div>
 
         <p className="mt-4 text-center text-[11px] text-white/25">
-          Most clients choose a full rebuild for better performance.
+          Most customers go with a full rebuild for the best results.
         </p>
       </Section>
 

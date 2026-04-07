@@ -26,7 +26,7 @@ function SystemUpgrades() {
           Keep your site. Add our tools.
         </h3>
         <p className="mt-1.5 text-[12px] sm:text-[13px] text-white/40 max-w-md mx-auto">
-          We plug everything into your current website — no rebuild, no downtime.
+          We plug everything into your current website. No rebuild, no downtime.
         </p>
       </div>
 

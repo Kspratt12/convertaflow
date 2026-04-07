@@ -26,7 +26,7 @@ export default function TermsPage() {
 
           <div>
             <h2 className="text-[16px] font-semibold text-white/80 mb-2">Payments & Billing</h2>
-            <p>All pricing is listed on our pricing page. One-time setup fees are due upon project kickoff. Monthly subscription fees are billed on the same date each month. You may cancel your monthly subscription at any time — cancellation takes effect at the end of the current billing period. No refunds are issued for partial months.</p>
+            <p>All pricing is listed on our pricing page. One-time setup fees are due upon project kickoff. Monthly subscription fees are billed on the same date each month. You may cancel your monthly subscription at any time. Cancellation takes effect at the end of the current billing period. No refunds are issued for partial months.</p>
           </div>
 
           <div>
