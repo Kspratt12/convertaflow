@@ -31,18 +31,20 @@ export async function POST(request: NextRequest) {
       // Don't fail the request — email notification still valuable
     }
 
-    // Send notification email to business owner
-    if (isEmailConfigured() && process.env.NOTIFICATION_EMAIL) {
-      try {
-        await sendEmail({
-          to: process.env.NOTIFICATION_EMAIL,
-          ...newLeadEmail(name, email, message),
-        });
-      } catch (emailErr) {
-        console.error("Notification email failed:", emailErr);
+    if (isEmailConfigured()) {
+      // Send notification email to business owner (only if recipient configured)
+      if (process.env.NOTIFICATION_EMAIL) {
+        try {
+          await sendEmail({
+            to: process.env.NOTIFICATION_EMAIL,
+            ...newLeadEmail(name, email, message),
+          });
+        } catch (emailErr) {
+          console.error("Notification email failed:", emailErr);
+        }
       }
 
-      // Send confirmation to the lead
+      // Send confirmation to the lead (independent of admin notification)
       try {
         await sendEmail({
           to: email,
