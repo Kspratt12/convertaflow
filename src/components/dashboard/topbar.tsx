@@ -3,9 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-import { Bell, Search, Menu, X, LogOut } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Menu, X, LogOut } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { SITE } from "@/lib/constants";
 import { useBusiness } from "@/components/dashboard/business-provider";
@@ -30,19 +28,9 @@ export function DashboardTopbar() {
           {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
 
-        <div className="hidden max-w-sm flex-1 md:block">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
-            <Input placeholder="Search leads, reviews..." className="pl-9" />
-          </div>
-        </div>
+        <div className="hidden flex-1 md:block" />
 
         <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" className="relative">
-            <Bell className="h-4 w-4" />
-            <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-primary" />
-          </Button>
-
           <div className="relative">
             <button
               onClick={() => setProfileOpen(!profileOpen)}

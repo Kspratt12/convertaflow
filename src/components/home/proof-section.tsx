@@ -1,105 +1,45 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { TrendingUp, Clock, Star, Globe } from "lucide-react";
+import {
+  Sparkles,
+  ShieldCheck,
+  Zap,
+  Globe,
+  Mail,
+  Star,
+  Users,
+  TrendingUp,
+} from "lucide-react";
 
-/* ─── Count-up hook — triggers when element scrolls into view ─── */
-function useCountUp(end: number, duration: number = 1.5) {
-  const [count, setCount] = useState(0);
-  const ref = useRef<HTMLDivElement>(null);
-  const started = useRef(false);
+/* What's included in every Convertaflow plan — honest, capability-based copy
+ * (no fabricated metrics, no fake customer quotes). Replace with real
+ * testimonials once you have them, and real benchmark data once you can
+ * measure it across your customer base. */
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !started.current) {
-          started.current = true;
-          const startTime = performance.now();
-          function tick(now: number) {
-            const elapsed = now - startTime;
-            const progress = Math.min(elapsed / (duration * 1000), 1);
-            // Ease out cubic
-            const eased = 1 - Math.pow(1 - progress, 3);
-            setCount(Math.round(eased * end));
-            if (progress < 1) requestAnimationFrame(tick);
-          }
-          requestAnimationFrame(tick);
-        }
-      },
-      { threshold: 0.3 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [end, duration]);
-
-  return { ref, count };
-}
-
-/* ─── Animated metric display ─── */
-function AnimatedMetric({ value, label, icon: Icon, delay }: {
-  value: string; label: string; icon: typeof TrendingUp; delay: number;
-}) {
-  // Parse the number and affixes from value like "3.2x", "84%", "< 5", "100%"
-  const prefix = value.match(/^[^0-9]*/)?.[0] || "";
-  const suffix = value.match(/[^0-9.]*$/)?.[0] || "";
-  const numStr = value.replace(prefix, "").replace(suffix, "");
-  const num = parseFloat(numStr) || 0;
-  const hasDecimal = numStr.includes(".");
-  const decimalPlaces = hasDecimal ? (numStr.split(".")[1]?.length || 0) : 0;
-
-  const { ref, count } = useCountUp(hasDecimal ? num * Math.pow(10, decimalPlaces) : num, 1.8);
-  const displayNum = hasDecimal
-    ? (count / Math.pow(10, decimalPlaces)).toFixed(decimalPlaces)
-    : count;
-
-  return (
-    <motion.div
-      ref={ref}
-      className="motion-fade rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 text-center"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true, margin: "20px" }}
-      transition={{ duration: 0.3, delay }}
-    >
-      <Icon className="mx-auto h-5 w-5 text-[#06b6d4]/60" />
-      <div className="mt-2 text-3xl font-extrabold tracking-tight bg-gradient-to-r from-[#8b5cf6] to-[#06b6d4] bg-clip-text text-transparent">
-        {prefix}{displayNum}{suffix}
-      </div>
-      <div className="mt-1 text-[13px] font-medium text-white/60">{label}</div>
-    </motion.div>
-  );
-}
-
-const metrics = [
-  { icon: TrendingUp, value: "3.2x", label: "More qualified leads" },
-  { icon: Clock, value: "< 5 min", label: "Response time" },
-  { icon: Star, value: "84%", label: "Review completion" },
-  { icon: Globe, value: "100%", label: "Professional presence" },
+const pillars = [
+  {
+    icon: Globe,
+    title: "Premium custom design",
+    body: "Every site is built from scratch around your brand — no templates, no cookie-cutter layouts. Mobile-optimized, fast-loading, and styled to make your business look like the leader in your space.",
+  },
+  {
+    icon: Zap,
+    title: "Built to convert",
+    body: "Strategic lead capture, clear calls to action, and conversion-optimized hero sections. We don't build websites that look pretty and sit there — we build the ones that actually bring in leads.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Hands-off after launch",
+    body: "Hosting, security, updates, and support are handled. You focus on running your business; we handle everything that keeps your site fast, secure, and online.",
+  },
 ];
 
-const testimonials = [
-  {
-    quote: "We went from a basic WordPress site to something that genuinely impresses our clients. The dashboard alone saves us hours every week.",
-    name: "Marcus Chen",
-    role: "Prestige Home Services",
-    metric: "47 leads in first month",
-  },
-  {
-    quote: "The review system changed everything. We went from 12 Google reviews to over 80 in three months. New customers tell us that's why they called.",
-    name: "Sarah Mitchell",
-    role: "Mitchell Dental Group",
-    metric: "568% review increase",
-  },
-  {
-    quote: "I can finally see exactly where our leads come from and what's converting. We cut our ad spend by 40% and got better results.",
-    name: "James Rodriguez",
-    role: "Atlas Property Management",
-    metric: "40% lower cost per lead",
-  },
+const promises = [
+  { icon: Users, label: "Strategic lead capture", value: "Built in" },
+  { icon: Mail, label: "Branded email system", value: "Included" },
+  { icon: Star, label: "Review request tools", value: "Growth+" },
+  { icon: TrendingUp, label: "Lead tracking dashboard", value: "Growth+" },
 ];
 
 export function ProofSection() {
@@ -112,58 +52,59 @@ export function ProofSection() {
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto mb-10 max-w-2xl text-center">
-          <span className="mb-5 inline-block rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-white/50">
-            Results
+          <span className="mb-5 inline-flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-white/50">
+            <Sparkles className="h-3 w-3" />
+            What you get
           </span>
           <h2 className="text-2xl font-bold tracking-tight sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
-            Numbers that speak{" "}
+            Built to look premium.{" "}
             <span className="bg-gradient-to-r from-[#8b5cf6] via-[#3b82f6] to-[#06b6d4] bg-clip-text text-transparent">
-              louder than promises
+              Built to actually work.
             </span>
           </h2>
+          <p className="mt-4 text-[14px] leading-relaxed text-white/50 sm:text-[15px]">
+            Every Convertaflow build comes with the same core foundation. Pick the plan that matches how much growth system you need on top.
+          </p>
         </div>
 
-        {/* Metrics row — count-up animation */}
-        <div className="mb-12 grid grid-cols-2 gap-3 lg:grid-cols-4">
-          {metrics.map((metric, i) => (
-            <AnimatedMetric
-              key={metric.label}
-              value={metric.value}
-              label={metric.label}
-              icon={metric.icon}
-              delay={i * 0.03}
-            />
-          ))}
-        </div>
-
-        {/* Testimonials */}
-        <div className="grid gap-4 md:grid-cols-3">
-          {testimonials.map((t, i) => (
+        {/* Capability pillars */}
+        <div className="mb-12 grid gap-4 md:grid-cols-3">
+          {pillars.map((pillar, i) => (
             <motion.div
-              key={t.name}
-              className="motion-fade flex flex-col rounded-2xl border border-white/[0.06] bg-white/[0.03] p-6"
+              key={pillar.title}
+              className="flex flex-col rounded-2xl border border-white/[0.06] bg-white/[0.03] p-6"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true, margin: "20px" }}
               transition={{ duration: 0.3, delay: i * 0.04 }}
             >
-              <div className="flex gap-0.5">
-                {Array.from({ length: 5 }).map((_, j) => (
-                  <Star key={j} className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />
-                ))}
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#7c3aed]/15 to-[#06b6d4]/10 border border-white/[0.06]">
+                <pillar.icon className="h-4 w-4 text-[#06b6d4]" />
               </div>
-              <blockquote className="mt-3 flex-1 text-[14px] leading-relaxed text-white/60">
-                &ldquo;{t.quote}&rdquo;
-              </blockquote>
-              <div className="mt-5 flex items-center justify-between border-t border-white/[0.06] pt-4">
-                <div>
-                  <div className="text-[13px] font-semibold text-white/90">{t.name}</div>
-                  <div className="text-[12px] text-white/40">{t.role}</div>
-                </div>
-                <span className="rounded-full bg-[#06b6d4]/10 border border-[#06b6d4]/20 px-2.5 py-1 text-[11px] font-semibold text-[#06b6d4]">
-                  {t.metric}
-                </span>
-              </div>
+              <h3 className="mt-4 text-[15px] font-semibold text-white/90">
+                {pillar.title}
+              </h3>
+              <p className="mt-2 text-[13px] leading-relaxed text-white/55 sm:text-[14px]">
+                {pillar.body}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* What's included strip */}
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+          {promises.map((p, i) => (
+            <motion.div
+              key={p.label}
+              className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 text-center"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, margin: "20px" }}
+              transition={{ duration: 0.3, delay: i * 0.03 }}
+            >
+              <p.icon className="mx-auto h-5 w-5 text-[#06b6d4]/60" />
+              <div className="mt-2 text-[15px] font-bold text-white/90">{p.value}</div>
+              <div className="mt-1 text-[12px] font-medium text-white/50">{p.label}</div>
             </motion.div>
           ))}
         </div>
