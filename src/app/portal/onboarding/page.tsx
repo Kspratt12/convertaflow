@@ -188,7 +188,7 @@ const SECTIONS: OnboardingSection[] = [
   {
     id: "custom_build_request",
     title: "Tell Us What To Build For You",
-    description: "Your plan includes a custom build catered to your business. Plumber, yoga instructor, dentist, real estate, lawyer, hair stylist — we meet you where you are. Tell us what you need.",
+    description: "Your plan includes a custom build catered to your business. Plumber, yoga instructor, dentist, real estate, lawyer, hair stylist. We meet you where you are. Tell us what you need.",
     icon: Sparkles,
     // Scale tier only — the 'we build whatever you need' tier
     tiers: ["scale", "scale_single"],
@@ -208,6 +208,17 @@ const SECTIONS: OnboardingSection[] = [
           "Example: 'Right now I lose half my booking inquiries because the form is generic. I need each one to route to the right stylist automatically.'",
       },
       {
+        type: "checkboxes",
+        name: "phone_features",
+        label: "Want any phone-based features? (optional, $29/mo each, we handle the setup)",
+        options: [
+          "Missed-call rescue (auto-text customers when you miss their call)",
+          "SMS appointment reminders (text customers the day before)",
+          "Inquiry-to-text alerts (form submissions text your phone in 5 seconds)",
+          "Two-way SMS conversations (customers text your business number, we route to your team)",
+        ],
+      },
+      {
         type: "textarea",
         name: "custom_build_inspiration",
         label: "Any examples or inspiration? (links, screenshots, or descriptions)",
@@ -219,9 +230,9 @@ const SECTIONS: OnboardingSection[] = [
         name: "custom_build_priority",
         label: "How important is this vs the rest of the build?",
         options: [
-          "Critical — this is the main reason I bought this plan",
-          "Important — but not the only thing I need",
-          "Nice to have — would be great but not blocking",
+          "Critical, this is the main reason I bought this plan",
+          "Important, but not the only thing I need",
+          "Nice to have, would be great but not blocking",
         ],
       },
       {
