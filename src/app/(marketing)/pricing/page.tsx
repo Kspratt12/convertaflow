@@ -232,7 +232,7 @@ export default function PricingPage() {
               size="lg"
               asChild
             >
-              <Link href="/signup?plan=tier3">
+              <Link href="/signup?plan=system-upgrade">
                 Get the Full Engine
                 <ArrowRight className="h-3.5 w-3.5" />
               </Link>

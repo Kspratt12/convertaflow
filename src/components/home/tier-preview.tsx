@@ -47,7 +47,7 @@ function SystemUpgrades() {
         "Dedicated strategy support",
       ],
       cta: "Get the Full Engine",
-      href: "/signup?plan=tier3",
+      href: "/signup?plan=system-upgrade",
     },
   ];
 
@@ -222,7 +222,11 @@ export function TierPreview() {
                   asChild
                 >
                   <Link href={`/signup?plan=${PLAN_SLUGS[tier.id]}`}>
-                    {tier.highlighted ? "Start My Build" : "Get Started"}
+                    {tier.highlighted
+                      ? "Start My Build"
+                      : tier.id === "scale"
+                      ? "Get the Full Engine"
+                      : "Start My Website"}
                     <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
                 </Button>

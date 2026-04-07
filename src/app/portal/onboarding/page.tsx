@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useBusiness } from "@/components/dashboard/business-provider";
+import { TIERS } from "@/lib/constants";
 import type { TierId } from "@/lib/types";
 
 interface OnboardingSection {
@@ -262,9 +263,14 @@ export default function OnboardingPage() {
     <div className="mx-auto max-w-3xl space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-xl font-bold text-white/90 sm:text-2xl">Project Onboarding</h1>
-        <p className="mt-1 text-[13px] text-white/45 sm:text-[14px]">
-          Complete each section below so we can build exactly what {businessName} needs.
+        <div className="flex flex-wrap items-center gap-2">
+          <h1 className="text-xl font-bold text-white/90 sm:text-2xl">Project Onboarding</h1>
+          <span className="rounded-full border border-[#7c3aed]/30 bg-[#7c3aed]/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[#a78bfa]">
+            {TIERS[tier].shortName} plan
+          </span>
+        </div>
+        <p className="mt-1.5 text-[13px] text-white/45 sm:text-[14px]">
+          Tailored to your <span className="text-white/65">{TIERS[tier].name}</span> build for {businessName}.
           Save as you go — no need to finish everything at once.
         </p>
       </div>

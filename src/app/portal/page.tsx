@@ -67,7 +67,7 @@ const quickActions = [
   },
 ];
 
-function WelcomeBanner() {
+function WelcomeBanner({ planName }: { planName: string }) {
   const params = useSearchParams();
   if (params.get("welcome") !== "1") return null;
   return (
@@ -78,10 +78,10 @@ function WelcomeBanner() {
         </div>
         <div className="min-w-0">
           <h3 className="text-[15px] font-semibold text-white/95">
-            Welcome to your portal
+            Welcome — your <span className="text-emerald-300">{planName}</span> account is ready
           </h3>
           <p className="mt-1 text-[13px] text-white/55">
-            Your account is ready. Start by completing your project onboarding so our team has everything we need to begin.
+            Next step: complete your project onboarding so our team has everything we need to start your build.
           </p>
           <Link
             href="/portal/onboarding"
@@ -106,7 +106,7 @@ export default function PortalOverviewPage() {
   return (
     <div className="mx-auto max-w-6xl space-y-6">
       <Suspense fallback={null}>
-        <WelcomeBanner />
+        <WelcomeBanner planName={tierConfig.name} />
       </Suspense>
 
       {/* Welcome */}

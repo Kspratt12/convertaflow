@@ -121,12 +121,18 @@ export default async function BillingPage() {
               </>
             ) : (
               <>
-                <p className="mt-1 text-[13px] text-white/50">
-                  Your account is in <span className="text-white/80 font-medium">trial</span> status. Once you complete onboarding, our team will send you a secure payment link to activate your plan.
+                <p className="mt-1 text-[13px] text-white/55">
+                  Your account is in <span className="text-white/85 font-medium">trial</span> status. Once you finish onboarding, our team reviews your intake and sends a secure payment link to activate your plan.
                 </p>
-                <div className="mt-3 flex items-start gap-2 rounded-lg border border-amber-500/15 bg-amber-500/[0.04] px-3 py-2.5 text-[12px] text-amber-200/80">
-                  <AlertCircle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-400" />
-                  No charge will occur until you confirm and accept the payment link.
+                <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center">
+                  <Link
+                    href="/portal/onboarding"
+                    className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] px-4 py-2 text-[13px] font-semibold text-white transition-opacity hover:opacity-90"
+                  >
+                    Continue Onboarding
+                    <ExternalLink className="h-3.5 w-3.5" />
+                  </Link>
+                  <span className="text-[11.5px] text-white/35">No charge until you confirm.</span>
                 </div>
               </>
             )}

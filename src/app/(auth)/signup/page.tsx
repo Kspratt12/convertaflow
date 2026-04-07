@@ -4,7 +4,7 @@ import { Suspense, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ArrowRight, Loader2, Check, Clock, RotateCcw, ShieldCheck } from "lucide-react";
+import { ArrowRight, Loader2, Check, Clock, RotateCcw, ShieldCheck, Info, FileText, MessageSquare, Rocket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -18,9 +18,13 @@ const inputClass =
 function SignupInner() {
   const router = useRouter();
   const params = useSearchParams();
-  const planSlug = params.get("plan") || "tier2";
+  const rawPlan = params.get("plan");
+  const planSlug = rawPlan || "tier2";
+  const planFound = !!rawPlan && !!PLAN_FROM_SLUG[planSlug];
   const tierId: TierId = PLAN_FROM_SLUG[planSlug] || "growth";
   const tier = TIERS[tierId];
+  const planMissing = !rawPlan;
+  const planInvalid = !!rawPlan && !planFound;
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -99,9 +103,20 @@ function SignupInner() {
         </Link>
       </div>
 
+      {(planMissing || planInvalid) && (
+        <div className="mb-4 flex items-start gap-2 rounded-xl border border-[#06b6d4]/20 bg-[#06b6d4]/[0.06] px-4 py-3 text-[12.5px] text-[#a5e8f3]">
+          <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#06b6d4]" />
+          <div>
+            {planInvalid
+              ? "We couldn't find that plan, so we picked our most popular one for you. Use the switcher below to change it."
+              : "We picked our most popular plan to start. Use the switcher below to change it before you sign up."}
+          </div>
+        </div>
+      )}
+
       <div className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
         {/* LEFT — Plan summary */}
-        <aside className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-6 sm:p-7">
+        <aside className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-7">
           <span className="inline-block rounded-full border border-white/[0.08] bg-white/[0.04] px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-white/50">
             Selected Plan
           </span>
@@ -153,32 +168,54 @@ function SignupInner() {
           {/* Plan switcher */}
           <div className="mt-5 border-t border-white/[0.06] pt-4">
             <p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-white/30">
-              Not the right fit?
+              Switch plan
             </p>
             <div className="flex flex-wrap gap-1.5">
-              {(Object.keys(PLAN_SLUGS) as TierId[])
-                .filter((id) => id !== tierId)
-                .map((id) => (
+              {(Object.keys(PLAN_SLUGS) as TierId[]).map((id) => {
+                const active = id === tierId;
+                return (
                   <Link
                     key={id}
                     href={`/signup?plan=${PLAN_SLUGS[id]}`}
-                    className="rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1 text-[11px] font-medium text-white/60 transition-colors hover:border-white/[0.15] hover:text-white"
+                    className={
+                      active
+                        ? "rounded-full border border-[#7c3aed]/40 bg-[#7c3aed]/15 px-3 py-1 text-[11px] font-semibold text-white"
+                        : "rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1 text-[11px] font-medium text-white/60 transition-colors hover:border-white/[0.15] hover:text-white"
+                    }
                   >
                     {TIERS[id].shortName}
                   </Link>
-                ))}
+                );
+              })}
             </div>
           </div>
         </aside>
 
         {/* RIGHT — Intake form */}
-        <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-6 sm:p-7">
+        <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-7">
           <h2 className="text-xl font-bold tracking-tight text-white/95">Create your account</h2>
           <p className="mt-1 text-[13px] text-white/50">
-            A short intake to get you started. Full onboarding happens inside your portal after signup.
+            Takes about a minute. The full project questionnaire happens inside your portal — not here.
           </p>
 
-          <form onSubmit={handleSubmit} className="mt-5 space-y-4">
+          {/* What happens next — quick visual reassurance */}
+          <ol className="mt-4 space-y-2.5 rounded-xl border border-white/[0.05] bg-white/[0.02] px-4 py-3.5">
+            {[
+              { icon: FileText, text: "Quick intake (right now)" },
+              { icon: MessageSquare, text: "Full onboarding inside your portal" },
+              { icon: Rocket, text: "We confirm your plan and start your build" },
+            ].map((step, i) => (
+              <li key={i} className="flex items-center gap-2.5 text-[12.5px] text-white/65">
+                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#7c3aed]/15 text-[10px] font-bold text-[#a78bfa]">
+                  {i + 1}
+                </span>
+                <step.icon className="h-3.5 w-3.5 shrink-0 text-[#06b6d4]" />
+                {step.text}
+              </li>
+            ))}
+          </ol>
+
+          <form onSubmit={handleSubmit} className="mt-5 space-y-4 sm:space-y-4">
             {intakeFields.map((f) => (
               <div key={f.name} className="space-y-1.5">
                 <Label htmlFor={f.name} className="text-[12px] text-white/60">
@@ -191,7 +228,18 @@ function SignupInner() {
                   type={f.type}
                   placeholder={f.placeholder}
                   required={f.required}
-                  className={inputClass}
+                  autoComplete={
+                    f.name === "email"
+                      ? "email"
+                      : f.name === "businessName"
+                      ? "organization"
+                      : f.name === "contactName"
+                      ? "name"
+                      : f.name === "phone"
+                      ? "tel"
+                      : "off"
+                  }
+                  className={`h-11 ${inputClass}`}
                 />
               </div>
             ))}
@@ -206,7 +254,8 @@ function SignupInner() {
                 type="password"
                 placeholder="At least 8 characters"
                 required
-                className={inputClass}
+                autoComplete="new-password"
+                className={`h-11 ${inputClass}`}
               />
             </div>
 
