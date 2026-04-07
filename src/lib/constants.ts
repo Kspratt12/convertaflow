@@ -11,8 +11,8 @@ export const SITE = {
 export const NAV_LINKS = [
   { label: "Features", href: "/features" },
   { label: "Pricing", href: "/pricing" },
-  { label: "Get Customers", href: "/local-customer-engine" },
   { label: "How It Works", href: "/how-it-works" },
+  { label: "Preview", href: "/preview" },
   { label: "Contact", href: "/contact" },
 ] as const;
 
@@ -208,17 +208,21 @@ export const TIERS: Record<TierId, TierConfig> = {
     revisions: 10,
     features: [
       "Everything in Website + Growth Tools",
+      "Google Business Profile fully optimized",
+      "Show up first in 'near me' searches",
+      "Auto-text reply on missed calls",
+      "Listed on 15+ local directories",
       "Automatic social media posting",
       "Instagram and Facebook DM responses",
-      "Track exactly where each customer came from",
-      "Detailed reports tailored to your goals",
-      "Ongoing optimization by our team",
+      "Monthly 'what's working' performance report",
       "Dedicated strategist on your account",
     ],
     monthlyIncludes: [
       "Everything in Website + Growth Tools",
       "Unlimited updates with priority queue",
-      "Social media automation running 24/7",
+      "Google Business posts and review replies",
+      "Local search ranking monitoring",
+      "Monthly performance report",
       "Dedicated strategist",
       "Same-day support (1 business day response)",
     ],
@@ -228,136 +232,3 @@ export const TIERS: Record<TierId, TierConfig> = {
   },
 };
 
-/* ──────────────────────────────────────────────────────────────────
- * The Local Customer Engine
- * ──────────────────────────────────────────────────────────────────
- * Standalone offer that bolts on top of any website tier (or works
- * alone for businesses that already have a website). The pitch is
- * outcome-focused: 'we get you more local customers every month.'
- * Targeted at home service businesses, professional practices,
- * and any local business that depends on showing up first when
- * someone searches their service near them.
- */
-
-export interface EngineTier {
-  id: "engine-setup" | "engine-monthly" | "engine-pro";
-  name: string;
-  /** The big number shown on the pricing card */
-  headlinePrice: string;
-  /** Caption under the big number */
-  headlinePriceNote: string;
-  /** Optional secondary line shown after the headline (e.g. setup fee for monthly tiers) */
-  secondaryPrice?: string;
-  cadence: "one-time" | "monthly";
-  audience: string;
-  description: string;
-  features: string[];
-  cta: string;
-  highlighted: boolean;
-}
-
-export const ENGINE_TIERS: EngineTier[] = [
-  {
-    id: "engine-setup",
-    name: "Setup Only",
-    headlinePrice: "$997",
-    headlinePriceNote: "one-time, no monthly",
-    cadence: "one-time",
-    audience: "Build it once, run it yourself",
-    description:
-      "We set up everything that gets you more local customers, hand it to you, and you run it from there. No monthly fee, no contracts.",
-    features: [
-      "Google Business Profile fully optimized",
-      "Local SEO so you show up in 'near me' searches",
-      "Listed on 15+ local directories (Yelp, Angi, BBB, more)",
-      "Inquiry-to-text instant alerts on your phone",
-      "Auto-text reply on missed calls",
-      "30-day support after setup",
-    ],
-    cta: "Get the Setup",
-    highlighted: false,
-  },
-  {
-    id: "engine-monthly",
-    name: "Local Customer Engine",
-    headlinePrice: "$497/mo",
-    headlinePriceNote: "we run it for you",
-    secondaryPrice: "+ $1,497 one-time setup",
-    cadence: "monthly",
-    audience: "Hands-off, we manage everything",
-    description:
-      "Everything in Setup, plus we run it for you every month. Weekly Google posts, every review replied to, monthly performance report, and ongoing tweaks to keep you ranking.",
-    features: [
-      "Everything in Setup Only",
-      "Weekly Google Business posts (we write them)",
-      "Every review replied to within 24 hours",
-      "Monthly 'what's working' performance report",
-      "Local search ranking monitoring",
-      "Ongoing optimization to stay on top",
-      "Cancel anytime, no contracts",
-    ],
-    cta: "Start Getting Customers",
-    highlighted: true,
-  },
-  {
-    id: "engine-pro",
-    name: "Local Customer Engine PRO",
-    headlinePrice: "$997/mo",
-    headlinePriceNote: "with Google Ads management",
-    secondaryPrice: "+ $1,497 one-time setup",
-    cadence: "monthly",
-    audience: "Full management + paid ads",
-    description:
-      "Everything in the Local Customer Engine, plus we manage your Google Ads campaigns. You set the ad budget, we run the strategy.",
-    features: [
-      "Everything in Local Customer Engine",
-      "Google Ads campaign setup and management",
-      "Custom landing page for ad traffic",
-      "Weekly ad spend optimization",
-      "Detailed conversion tracking",
-      "Dedicated strategist on your account",
-      "Ad spend billed separately",
-    ],
-    cta: "Go PRO",
-    highlighted: false,
-  },
-];
-
-/** What the Engine actually does, written for the customer in plain English. */
-export const ENGINE_PILLARS = [
-  {
-    title: "Show up first when people search",
-    body: "When someone Googles 'plumber near me' or 'yoga studio in [your city],' they'll find you before your competitors. We make sure your Google Business Profile, your website, and 15+ local directories all say the same thing about your business.",
-  },
-  {
-    title: "Catch every call, even the missed ones",
-    body: "When someone fills out your contact form, you get a text in 5 seconds. When you miss a call (because you're under a sink or in a class), the system automatically texts them back. About 30% of those missed calls turn into actual jobs.",
-  },
-  {
-    title: "Build the reviews that win new customers",
-    body: "We reply to every review you get within 24 hours, and we ask happy customers for new ones automatically. Your Google rating goes up, your number of reviews goes up, and that's the trust signal that wins you new business.",
-  },
-  {
-    title: "Know exactly what's working",
-    body: "Once a month you get a one-page report: how many new inquiries you got, where they came from, what your competitors are doing, and what we recommend you do next month. No spreadsheets, no jargon, just answers.",
-  },
-];
-
-/** The 'why this matters' math, written for skeptics. */
-export const ENGINE_PROOF = [
-  {
-    metric: "Faster",
-    label: "First to respond wins almost every time",
-    body: "78% of customers go with whoever calls them back first. Our system gets you there in under 5 seconds.",
-  },
-  {
-    metric: "More",
-    label: "Calls captured, not lost",
-    body: "An average local business misses 1 in 3 calls. We turn those misses into customers automatically.",
-  },
-  {
-    metric: "Higher",
-    label: "Google ranking, more inquiries",
-    body: "Businesses with optimized Google Business Profiles get 7x more clicks than those without.",
-  },
-];

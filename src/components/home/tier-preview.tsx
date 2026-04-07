@@ -9,76 +9,11 @@ import { TIERS, PLAN_SLUGS } from "@/lib/constants";
 import { MAIN_TIER_IDS } from "@/lib/tier";
 import { cn } from "@/lib/utils";
 
-const tierIcons: Record<string, typeof Globe> = { starter: Globe, growth: Star, scale: Rocket, system_upgrade: Globe };
-
-function SystemUpgrades() {
-  // Pulled from canonical TIERS so wording stays consistent across the site.
-  const upgrades = [
-    { tier: TIERS.system_upgrade, slug: "system-upgrade" },
-    { tier: TIERS.scale_single, slug: PLAN_SLUGS.scale_single },
-  ];
-
-  return (
-    <div className="relative mx-auto max-w-7xl px-4 mt-10 sm:mt-14 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-2xl text-center mb-5 sm:mb-6">
-        <p className="text-[11px] font-semibold uppercase tracking-widest text-white/30">Already have a website?</p>
-        <h3 className="mt-1.5 text-lg sm:text-xl font-bold tracking-tight text-white/80">
-          Keep your site. Add our tools.
-        </h3>
-        <p className="mt-1.5 text-[12px] sm:text-[13px] text-white/40 max-w-md mx-auto">
-          We plug everything into your current website. No rebuild, no downtime.
-        </p>
-      </div>
-
-      <div className="mx-auto grid max-w-2xl gap-3 sm:grid-cols-2">
-        {upgrades.map(({ tier, slug }) => (
-          <div
-            key={tier.id}
-            className="flex flex-col rounded-xl border border-white/[0.06] bg-white/[0.02] p-4 sm:p-5"
-          >
-            <h4 className="text-[14px] sm:text-[15px] font-bold text-white">{tier.name}</h4>
-            <p className="text-[11px] text-[#8b5cf6] font-medium">{tier.audience}</p>
-
-            <div className="mt-3">
-              <div className="flex items-baseline gap-1">
-                <span className="text-xl sm:text-2xl font-extrabold tracking-tight text-white">{tier.price}</span>
-                <span className="text-[11px] text-white/35">{tier.priceNote}</span>
-              </div>
-              <div className="mt-0.5 flex items-baseline gap-1">
-                <span className="text-[13px] sm:text-[14px] font-bold text-white/70">{tier.monthly}</span>
-                <span className="text-[11px] text-white/35">{tier.monthlyNote}</span>
-              </div>
-            </div>
-
-            <ul className="mt-3 space-y-1.5 border-t border-white/[0.05] pt-3 flex-1">
-              {tier.features.slice(0, 6).map((f) => (
-                <li key={f} className="flex items-center gap-2 text-[11px] sm:text-[12px] text-white/60">
-                  <Check className="h-3 w-3 shrink-0 text-[#06b6d4]" />
-                  {f}
-                </li>
-              ))}
-            </ul>
-
-            <Button
-              className="mt-3 gap-1.5 bg-white/[0.05] border border-white/[0.08] text-white/80 hover:bg-white/[0.08] text-[12px] sm:text-[13px]"
-              size="sm"
-              asChild
-            >
-              <Link href={`/signup?plan=${slug}`}>
-                Get Started
-                <ArrowRight className="h-3 w-3" />
-              </Link>
-            </Button>
-          </div>
-        ))}
-      </div>
-
-      <p className="mt-2.5 text-center text-[10px] text-white/20">
-        Most customers go with a full rebuild for the best results.
-      </p>
-    </div>
-  );
-}
+const tierIcons: Record<string, typeof Globe> = {
+  starter: Globe,
+  growth: Star,
+  scale: Rocket,
+};
 
 export function TierPreview() {
   const tiers = MAIN_TIER_IDS.map((id) => TIERS[id]);
@@ -184,16 +119,12 @@ export function TierPreview() {
                     "mt-4 gap-1.5",
                     tier.highlighted
                       ? "bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] text-white border-0 hover:opacity-90"
-                      : "bg-white/[0.06] border border-white/[0.1] text-white hover:bg-white/[0.1]"
+                      : "border border-[#7c3aed]/40 bg-[#7c3aed]/10 text-white hover:bg-[#7c3aed]/20 hover:border-[#7c3aed]/60"
                   )}
                   asChild
                 >
                   <Link href={`/signup?plan=${PLAN_SLUGS[tier.id]}`}>
-                    {tier.highlighted
-                      ? "Start My Build"
-                      : tier.id === "scale"
-                      ? "Get the Full Engine"
-                      : "Start My Website"}
+                    Get Started
                     <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
                 </Button>
@@ -204,8 +135,6 @@ export function TierPreview() {
             );
           })}
         </div>
-
-        <SystemUpgrades />
       </div>
     </section>
   );
