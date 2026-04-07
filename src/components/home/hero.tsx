@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, Play } from "lucide-react";
@@ -41,6 +41,104 @@ function Starfield() {
           }}
         />
       ))}
+    </div>
+  );
+}
+
+/* ─── Dashboard mockup with animated bars + count-up stats ─── */
+function DashCountUp({ end, suffix = "", decimal = false }: { end: number; suffix?: string; decimal?: boolean }) {
+  const [val, setVal] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const started = useRef(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting && !started.current) {
+        started.current = true;
+        const t0 = performance.now();
+        const target = decimal ? end * 10 : end;
+        function tick(now: number) {
+          const p = Math.min((now - t0) / 1500, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          setVal(Math.round(eased * target));
+          if (p < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      }
+    }, { threshold: 0.3 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [end, decimal]);
+
+  const display = decimal ? (val / 10).toFixed(1) : val;
+  return <span ref={ref}>{display}{suffix}</span>;
+}
+
+function DashboardMockup() {
+  const barHeights = [30, 48, 38, 60, 44, 68, 54, 76, 64, 85, 72, 92];
+
+  return (
+    <div className="relative mx-auto mt-8 sm:mt-14 max-w-5xl">
+      <div className="overflow-hidden rounded-xl sm:rounded-2xl border border-white/[0.06] bg-white/[0.03] shadow-2xl shadow-purple-500/[0.06]">
+        <div className="flex items-center gap-2 border-b border-white/[0.06] bg-white/[0.02] px-3 py-2 sm:px-5 sm:py-3">
+          <div className="flex gap-1 sm:gap-1.5"><div className="h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-white/15" /><div className="h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-white/15" /><div className="h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-white/15" /></div>
+          <div className="ml-2 sm:ml-4 flex-1 rounded-lg bg-white/[0.03] px-2 py-0.5 sm:px-3 sm:py-1 text-[10px] sm:text-xs text-white/30">dashboard.convertaflow.com</div>
+        </div>
+        <div className="grid grid-cols-12">
+          <div className="col-span-3 hidden border-r border-white/[0.06] bg-white/[0.01] p-3 sm:p-5 lg:block">
+            {["Overview", "Leads", "Reviews", "Email", "Social", "Settings"].map((item, i) => (
+              <div key={item} className={`rounded-lg px-2 py-1.5 sm:px-3 sm:py-2 text-[11px] sm:text-[13px] ${i === 0 ? "bg-gradient-to-r from-[#7c3aed]/15 to-[#3b82f6]/10 font-medium text-white/90" : "text-white/30 mt-0.5"}`}>{item}</div>
+            ))}
+          </div>
+          <div className="col-span-12 p-3 sm:p-6 lg:col-span-9">
+            <div className="mb-2 sm:mb-5">
+              <h3 className="text-[13px] sm:text-base font-semibold text-white/90">Welcome back, Sarah</h3>
+              <p className="mt-0.5 text-[10px] sm:text-[13px] text-white/35">Here&apos;s how your business performed this month.</p>
+            </div>
+            <div className="grid gap-1.5 sm:gap-3 grid-cols-3">
+              <div className="rounded-lg sm:rounded-xl border border-white/[0.06] bg-white/[0.02] p-2 sm:p-4">
+                <p className="text-[8px] sm:text-[11px] font-medium tracking-wide text-white/35 uppercase">Leads</p>
+                <div className="mt-0.5 flex items-baseline gap-1">
+                  <span className="text-[15px] sm:text-2xl font-bold text-white/90"><DashCountUp end={47} /></span>
+                  <span className="text-[8px] sm:text-xs font-medium text-emerald-400">+12%</span>
+                </div>
+              </div>
+              <div className="rounded-lg sm:rounded-xl border border-white/[0.06] bg-white/[0.02] p-2 sm:p-4">
+                <p className="text-[8px] sm:text-[11px] font-medium tracking-wide text-white/35 uppercase">Reviews</p>
+                <div className="mt-0.5 flex items-baseline gap-1">
+                  <span className="text-[15px] sm:text-2xl font-bold text-white/90"><DashCountUp end={23} /></span>
+                  <span className="text-[8px] sm:text-xs font-medium text-emerald-400">+8%</span>
+                </div>
+              </div>
+              <div className="rounded-lg sm:rounded-xl border border-white/[0.06] bg-white/[0.02] p-2 sm:p-4">
+                <p className="text-[8px] sm:text-[11px] font-medium tracking-wide text-white/35 uppercase">Conv.</p>
+                <div className="mt-0.5 flex items-baseline gap-1">
+                  <span className="text-[15px] sm:text-2xl font-bold text-white/90"><DashCountUp end={42} decimal suffix="%" /></span>
+                  <span className="text-[8px] sm:text-xs font-medium text-emerald-400">+0.6%</span>
+                </div>
+              </div>
+            </div>
+            <div className="mt-1.5 sm:mt-5 rounded-lg sm:rounded-xl border border-white/[0.06] bg-white/[0.02] p-2 sm:p-4">
+              <p className="mb-1 sm:mb-3 text-[9px] sm:text-[13px] font-medium text-white/50">Lead Activity</p>
+              <div className="flex items-end gap-[1.5px] sm:gap-[3px] h-8 sm:h-20">
+                {barHeights.map((h, i) => (
+                  <div
+                    key={i}
+                    className="flex-1 rounded-t-sm bg-gradient-to-t from-[#7c3aed]/25 to-[#3b82f6]/45"
+                    style={{
+                      height: `${h}%`,
+                      animation: `bar-rise 1s ${0.1 + i * 0.06}s ease-out both`,
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="pointer-events-none absolute -inset-6 sm:-inset-12 -z-10 rounded-3xl bg-gradient-to-b from-[#7c3aed]/8 via-[#3b82f6]/[0.04] to-transparent hidden sm:block blur-3xl" />
     </div>
   );
 }
@@ -136,48 +234,8 @@ export function HeroSection() {
           </motion.div>
         </div>
 
-        {/* Dashboard mockup */}
-        <div className="relative mx-auto mt-8 sm:mt-14 max-w-5xl">
-          <div className="overflow-hidden rounded-xl sm:rounded-2xl border border-white/[0.06] bg-white/[0.03] shadow-2xl shadow-purple-500/[0.06]">
-            <div className="flex items-center gap-2 border-b border-white/[0.06] bg-white/[0.02] px-3 py-2 sm:px-5 sm:py-3">
-              <div className="flex gap-1 sm:gap-1.5"><div className="h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-white/15" /><div className="h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-white/15" /><div className="h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-white/15" /></div>
-              <div className="ml-2 sm:ml-4 flex-1 rounded-lg bg-white/[0.03] px-2 py-0.5 sm:px-3 sm:py-1 text-[10px] sm:text-xs text-white/30">dashboard.convertaflow.com</div>
-            </div>
-            <div className="grid grid-cols-12">
-              <div className="col-span-3 hidden border-r border-white/[0.06] bg-white/[0.01] p-3 sm:p-5 lg:block">
-                {["Overview", "Leads", "Reviews", "Email", "Social", "Settings"].map((item, i) => (
-                  <div key={item} className={`rounded-lg px-2 py-1.5 sm:px-3 sm:py-2 text-[11px] sm:text-[13px] ${i === 0 ? "bg-gradient-to-r from-[#7c3aed]/15 to-[#3b82f6]/10 font-medium text-white/90" : "text-white/30 mt-0.5"}`}>{item}</div>
-                ))}
-              </div>
-              <div className="col-span-12 p-3 sm:p-6 lg:col-span-9">
-                <div className="mb-2 sm:mb-5">
-                  <h3 className="text-[13px] sm:text-base font-semibold text-white/90">Welcome back, Sarah</h3>
-                  <p className="mt-0.5 text-[10px] sm:text-[13px] text-white/35">Here&apos;s how your business performed this month.</p>
-                </div>
-                <div className="grid gap-1.5 sm:gap-3 grid-cols-3">
-                  {[{ label: "Leads", value: "47", change: "+12%" }, { label: "Reviews", value: "23", change: "+8%" }, { label: "Conv.", value: "4.2%", change: "+0.6%" }].map((s) => (
-                    <div key={s.label} className="rounded-lg sm:rounded-xl border border-white/[0.06] bg-white/[0.02] p-2 sm:p-4">
-                      <p className="text-[8px] sm:text-[11px] font-medium tracking-wide text-white/35 uppercase">{s.label}</p>
-                      <div className="mt-0.5 flex items-baseline gap-1">
-                        <span className="text-[15px] sm:text-2xl font-bold text-white/90">{s.value}</span>
-                        <span className="text-[8px] sm:text-xs font-medium text-emerald-400">{s.change}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-1.5 sm:mt-5 rounded-lg sm:rounded-xl border border-white/[0.06] bg-white/[0.02] p-2 sm:p-4">
-                  <p className="mb-1 sm:mb-3 text-[9px] sm:text-[13px] font-medium text-white/50">Lead Activity</p>
-                  <div className="flex items-end gap-[1.5px] sm:gap-[3px] h-8 sm:h-20">
-                    {[30, 48, 38, 60, 44, 68, 54, 76, 64, 85, 72, 92].map((h, i) => (
-                      <div key={i} className="flex-1 rounded-t-sm bg-gradient-to-t from-[#7c3aed]/25 to-[#3b82f6]/45" style={{ height: `${h}%` }} />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="pointer-events-none absolute -inset-6 sm:-inset-12 -z-10 rounded-3xl bg-gradient-to-b from-[#7c3aed]/8 via-[#3b82f6]/[0.04] to-transparent hidden sm:block blur-3xl" />
-        </div>
+        {/* Dashboard mockup — animated */}
+        <DashboardMockup />
       </div>
     </section>
   );

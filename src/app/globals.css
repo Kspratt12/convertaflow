@@ -7,6 +7,10 @@
   50% { transform: translateY(-3px); }
 }
 
+@keyframes bar-rise {
+  from { height: 0%; }
+}
+
 @keyframes text-wave {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
