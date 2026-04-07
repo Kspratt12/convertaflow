@@ -2,9 +2,9 @@ import type { TierId } from "./types";
 
 export const SITE = {
   name: "Convertaflow",
-  tagline: "Luxury websites and growth systems for businesses",
+  tagline: "A website that actually brings you customers",
   description:
-    "Convertaflow helps businesses look established, capture leads, and grow through premium web design, automated systems, and hands-on strategy.",
+    "Convertaflow builds custom websites and gets local businesses more customers every month. For plumbers, dentists, yoga instructors, real estate agents, and any local business that depends on showing up first.",
   url: "https://convertaflow.co",
 } as const;
 

@@ -54,7 +54,7 @@ export function Footer() {
               </span>
             </Link>
             <p className="mt-2 max-w-[220px] text-[11px] leading-relaxed text-white/30">
-              Premium websites and growth systems for businesses ready to scale.
+              Custom websites and more local customers, every month.
             </p>
             {/* Social links — hidden until real Convertaflow accounts exist.
                 When you have real Instagram / TikTok / Facebook URLs, swap

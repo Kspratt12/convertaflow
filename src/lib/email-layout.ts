@@ -186,7 +186,7 @@ table { border-collapse: collapse; }
               Questions? Reply to this email or contact <a href="mailto:${EMAIL_SUPPORT}" style="color:${BRAND_CYAN};text-decoration:none;">${EMAIL_SUPPORT}</a>
             </div>
             <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:11px;color:rgba(255,255,255,0.25);margin-top:14px;">
-              <a href="${EMAIL_SITE_URL}" target="_blank" style="color:rgba(255,255,255,0.35);text-decoration:none;">${EMAIL_BRAND}</a> · Premium websites and growth systems
+              <a href="${EMAIL_SITE_URL}" target="_blank" style="color:rgba(255,255,255,0.35);text-decoration:none;">${EMAIL_BRAND}</a> · Custom websites and more local customers
             </div>
           </td>
         </tr>

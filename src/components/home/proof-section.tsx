@@ -63,7 +63,7 @@ export function ProofSection() {
             </span>
           </h2>
           <p className="mt-4 text-[14px] leading-relaxed text-white/50 sm:text-[15px]">
-            Every Convertaflow build comes with the same core foundation. Pick the plan that matches how much growth system you need on top.
+            Every Convertaflow build comes with the same core foundation. Pick the plan that matches how much help you need on top.
           </p>
         </div>
 
