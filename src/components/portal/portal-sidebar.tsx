@@ -25,7 +25,7 @@ const navigation = [
   { label: "Onboarding", href: "/portal/onboarding", icon: ClipboardList },
   { label: "Uploads", href: "/portal/uploads", icon: Upload },
   { label: "Project Status", href: "/portal/project", icon: Activity },
-  { label: "Revisions", href: "/portal/revisions", icon: Edit3 },
+  { label: "Request a Change", href: "/portal/revisions", icon: Edit3 },
   { label: "Delivery", href: "/portal/delivery", icon: Package },
   { label: "Billing", href: "/portal/billing", icon: CreditCard },
   { label: "Support", href: "/portal/support", icon: HelpCircle },
