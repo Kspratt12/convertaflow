@@ -16,6 +16,8 @@ import {
   Upload,
   Video,
   Share2,
+  Send,
+  Loader2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useBusiness } from "@/components/dashboard/business-provider";
@@ -198,6 +200,8 @@ export default function OnboardingPage() {
   const [completedSections, setCompletedSections] = useState<Set<string>>(new Set());
   const [savingSection, setSavingSection] = useState<string | null>(null);
   const [savedSection, setSavedSection] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   // Load existing submissions
   useEffect(() => {
@@ -290,6 +294,19 @@ export default function OnboardingPage() {
   const completedCount = completedSections.size;
   const totalCount = visibleSections.length;
   const progressPercent = totalCount === 0 ? 0 : Math.round((completedCount / totalCount) * 100);
+  const allComplete = totalCount > 0 && completedCount === totalCount;
+
+  const submitForReview = useCallback(async () => {
+    setSubmitting(true);
+    try {
+      await fetch("/api/onboarding/submit", { method: "POST" });
+      setSubmitted(true);
+    } catch (err) {
+      console.error("Submit failed:", err);
+    } finally {
+      setSubmitting(false);
+    }
+  }, []);
 
   return (
     <div className="mx-auto max-w-3xl space-y-6">
@@ -340,7 +357,7 @@ export default function OnboardingPage() {
               {/* Section header */}
               <button
                 onClick={() => toggleSection(section.id)}
-                className="flex w-full items-center gap-3 p-5 text-left transition-colors hover:bg-white/[0.02] sm:p-6"
+                className="flex w-full items-center gap-3 p-4 text-left transition-colors hover:bg-white/[0.02] sm:p-6"
               >
                 <div
                   className={cn(
@@ -378,7 +395,7 @@ export default function OnboardingPage() {
 
               {/* Section body */}
               {isExpanded && (
-                <div className="space-y-4 border-t border-white/[0.06] px-5 pb-5 pt-5 sm:px-6 sm:pb-6">
+                <div className="space-y-4 border-t border-white/[0.06] px-4 pb-5 pt-5 sm:px-6 sm:pb-6">
                   {section.fields.map((field) => (
                     <div key={field.name}>
                       <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-white/30 sm:text-[12px]">
@@ -515,6 +532,64 @@ export default function OnboardingPage() {
           );
         })}
       </div>
+
+      {/* Submit for review */}
+      {submitted ? (
+        <div className="rounded-2xl border border-emerald-500/20 bg-gradient-to-br from-emerald-500/[0.06] to-[#06b6d4]/[0.04] p-5 sm:p-6">
+          <div className="flex items-start gap-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-500/15">
+              <Check className="h-5 w-5 text-emerald-400" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-[15px] font-semibold text-white/95">
+                Onboarding submitted
+              </p>
+              <p className="mt-1 text-[13px] text-white/55">
+                Our team is reviewing everything you sent us. You&apos;ll get an email update as soon as we kick off the planning phase. You can still come back here anytime to update answers.
+              </p>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div
+          className={cn(
+            "rounded-2xl border p-5 sm:p-6 transition-colors",
+            allComplete
+              ? "border-[#7c3aed]/30 bg-gradient-to-br from-[#7c3aed]/[0.08] to-[#3b82f6]/[0.04]"
+              : "border-white/[0.06] bg-white/[0.02]"
+          )}
+        >
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="min-w-0">
+              <p className="text-[14px] font-semibold text-white/90 sm:text-[15px]">
+                {allComplete ? "Ready to submit" : "Almost there"}
+              </p>
+              <p className="mt-1 text-[12.5px] text-white/50 sm:text-[13px]">
+                {allComplete
+                  ? "Send your onboarding to our team to kick off planning."
+                  : `Finish ${totalCount - completedCount} more section${totalCount - completedCount === 1 ? "" : "s"} to submit your onboarding for review.`}
+              </p>
+            </div>
+            <button
+              onClick={submitForReview}
+              disabled={!allComplete || submitting}
+              className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] px-5 text-[13px] font-semibold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              {submitting ? (
+                <>
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                  Submitting…
+                </>
+              ) : (
+                <>
+                  <Send className="h-3.5 w-3.5" />
+                  Submit for Review
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

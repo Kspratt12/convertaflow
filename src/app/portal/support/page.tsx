@@ -166,7 +166,7 @@ export default function SupportPage() {
             </button>
             {submitted && (
               <span className="text-[12px] text-emerald-400">
-                Support request submitted — we will be in touch soon
+                Sent — we&apos;ll respond within one business day
               </span>
             )}
           </div>

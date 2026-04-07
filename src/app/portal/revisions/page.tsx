@@ -76,9 +76,14 @@ export default function RevisionsPage() {
     <div className="mx-auto max-w-4xl space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-xl font-bold text-white/90 sm:text-2xl">Revisions</h1>
-        <p className="mt-1 text-[13px] text-white/45 sm:text-[14px]">
-          Request changes to your design. You have {revisionsAvailable} revisions included with your plan.
+        <div className="flex flex-wrap items-center gap-2">
+          <h1 className="text-xl font-bold text-white/90 sm:text-2xl">Revisions</h1>
+          <span className="rounded-full border border-[#7c3aed]/30 bg-[#7c3aed]/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[#a78bfa]">
+            {tierConfig.shortName} plan
+          </span>
+        </div>
+        <p className="mt-1.5 text-[13px] text-white/45 sm:text-[14px]">
+          Request changes to your design. You have <span className="text-white/65">{revisionsAvailable} revisions</span> included with your plan.
         </p>
       </div>
 
@@ -185,7 +190,7 @@ export default function RevisionsPage() {
             </button>
             {submitted && (
               <span className="text-[12px] text-emerald-400">
-                Revision request submitted successfully
+                Submitted — we&apos;ll start on this shortly
               </span>
             )}
           </div>
