@@ -28,7 +28,7 @@ const faqs = [
   },
   {
     q: "Can I upgrade later?",
-    a: "Yes. Many clients start with Foundation and upgrade once they see the impact. We add the new systems on top of what you already have — no rebuilding.",
+    a: "Yes. You can start with Foundation and upgrade once you're ready for more. We add the new systems on top of what you already have — no rebuilding.",
   },
   {
     q: "Is this a subscription?",
@@ -128,7 +128,7 @@ export default function PricingPage() {
                     "mt-3 gap-1.5",
                     tier.highlighted
                       ? "bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] text-white border-0 hover:opacity-90"
-                      : "bg-white/[0.06] border border-white/[0.1] text-white hover:bg-white/[0.1]"
+                      : "border border-[#7c3aed]/40 bg-[#7c3aed]/10 text-white hover:bg-[#7c3aed]/20 hover:border-[#7c3aed]/60"
                   )}
                   size="lg"
                   asChild

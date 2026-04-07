@@ -56,15 +56,17 @@ export function Footer() {
             <p className="mt-2 max-w-[220px] text-[11px] leading-relaxed text-white/30">
               Premium websites and growth systems for businesses ready to scale.
             </p>
-            {/* Social links */}
-            <div className="mt-3 flex items-center gap-3">
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-white/30 hover:text-white/70 transition-colors" aria-label="Instagram">
+            {/* Social links — hidden until real Convertaflow accounts exist.
+                When you have real Instagram / TikTok / Facebook URLs, swap
+                href values below and remove the `hidden` class. */}
+            <div className="mt-3 hidden items-center gap-3">
+              <a href="https://instagram.com/convertaflow" target="_blank" rel="noopener noreferrer" className="text-white/30 hover:text-white/70 transition-colors" aria-label="Instagram">
                 <InstagramIcon />
               </a>
-              <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className="text-white/30 hover:text-white/70 transition-colors" aria-label="TikTok">
+              <a href="https://tiktok.com/@convertaflow" target="_blank" rel="noopener noreferrer" className="text-white/30 hover:text-white/70 transition-colors" aria-label="TikTok">
                 <TikTokIcon />
               </a>
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-white/30 hover:text-white/70 transition-colors" aria-label="Facebook">
+              <a href="https://facebook.com/convertaflow" target="_blank" rel="noopener noreferrer" className="text-white/30 hover:text-white/70 transition-colors" aria-label="Facebook">
                 <FacebookIcon />
               </a>
             </div>
