@@ -1,6 +1,4 @@
-"use client";
-
-import { useState } from "react";
+import { redirect } from "next/navigation";
 import {
   ExternalLink,
   Globe,
@@ -10,6 +8,8 @@ import {
   LinkIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { getSession } from "@/lib/auth";
+import { createClient } from "@/lib/supabase/server";
 
 interface DeliveryLink {
   id: string;
@@ -26,8 +26,18 @@ const TYPE_CONFIG = {
   other: { label: "Other", icon: LinkIcon, style: "bg-white/[0.06] text-white/50 border-white/[0.1]" },
 };
 
-export default function DeliveryPage() {
-  const [links] = useState<DeliveryLink[]>([]);
+export default async function DeliveryPage() {
+  const session = await getSession();
+  if (!session) redirect("/login");
+
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("delivery_links")
+    .select("id, label, url, link_type, notes")
+    .eq("business_id", session.profile.id)
+    .order("created_at", { ascending: false });
+
+  const links: DeliveryLink[] = (data as DeliveryLink[]) || [];
 
   return (
     <div className="mx-auto max-w-4xl space-y-6">
@@ -51,7 +61,7 @@ export default function DeliveryPage() {
                 Your project hasn&apos;t been delivered yet
               </p>
               <p className="mt-2 text-[13px] leading-relaxed text-white/35">
-                We will add your preview link, live site URL, and dashboard access here once everything is ready. You will be notified when delivery links are available.
+                We&apos;ll add your preview link, live site URL, and dashboard access here once everything is ready. You&apos;ll be notified by email when delivery links are available.
               </p>
             </div>
           </div>
@@ -74,11 +84,11 @@ export default function DeliveryPage() {
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/[0.04]">
                       <config.icon className="h-5 w-5 text-[#06b6d4]" />
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <p className="text-[14px] font-semibold text-white/90">
                         {link.label}
                       </p>
-                      <p className="mt-0.5 text-[12px] text-white/40 truncate max-w-[200px]">
+                      <p className="mt-0.5 max-w-[200px] truncate text-[12px] text-white/40">
                         {link.url}
                       </p>
                     </div>
@@ -96,7 +106,7 @@ export default function DeliveryPage() {
                     {config.label}
                   </span>
                   {link.notes && (
-                    <span className="text-[11px] text-white/30 truncate">
+                    <span className="truncate text-[11px] text-white/30">
                       {link.notes}
                     </span>
                   )}

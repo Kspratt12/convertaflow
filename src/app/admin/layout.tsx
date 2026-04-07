@@ -3,10 +3,11 @@ import { getSession } from "@/lib/auth";
 import Link from "next/link";
 import Image from "next/image";
 import { SITE } from "@/lib/constants";
-import { LayoutDashboard, Users, CreditCard, Settings } from "lucide-react";
+import { LayoutDashboard, Users, CreditCard, Settings, Activity } from "lucide-react";
 
 const adminNav = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
+  { label: "Projects", href: "/admin/projects", icon: Activity },
   { label: "Customers", href: "/admin/customers", icon: Users },
   { label: "Billing", href: "/admin/billing", icon: CreditCard },
   { label: "Settings", href: "/admin/settings", icon: Settings },
