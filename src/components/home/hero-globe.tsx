@@ -136,7 +136,7 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
       markers: [],
     });
 
-    /* Pause when off-screen */
+    /* Pause rendering when off-screen (saves GPU) */
     const observer = new IntersectionObserver(
       ([entry]) => { visibleRef.current = entry.isIntersecting; },
       { threshold: 0.1 }
@@ -144,28 +144,23 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
     observer.observe(container);
 
     /*
-     * MOBILE: Pause during active scroll so WebGL and scroll
-     * compositor don't fight for GPU. Resume 150ms after scroll stops.
+     * Time-based rotation: phi is always derived from elapsed time,
+     * so the globe is at the correct position even after being
+     * off-screen or paused during scroll — never misses a beat.
      */
-    const scrollingRef = { current: false };
-    let scrollTimer: ReturnType<typeof setTimeout>;
-    function onScroll() {
-      scrollingRef.current = true;
-      clearTimeout(scrollTimer);
-      scrollTimer = setTimeout(() => { scrollingRef.current = false; }, 150);
-    }
-    if (mobile) {
-      window.addEventListener("scroll", onScroll, { passive: true });
-    }
-
     let active = true;
     const speed = mobile ? 0.003 : 0.004;
+    const startTime = performance.now();
+    const startPhi = phiRef.current;
+
     function animate() {
       if (!active) return;
       rafRef.current = requestAnimationFrame(animate);
-      // Skip render if off-screen OR actively scrolling on mobile
-      if (!visibleRef.current || (mobile && scrollingRef.current)) return;
-      phiRef.current += speed;
+      // Always compute correct phi from elapsed time
+      const elapsed = (performance.now() - startTime) / 16.667; // ~frames at 60fps
+      phiRef.current = startPhi + elapsed * speed;
+      // Only render when visible (but phi stays correct regardless)
+      if (!visibleRef.current) return;
       globe.update({ phi: phiRef.current });
       updateAllArrows();
     }
@@ -174,9 +169,7 @@ export function HeroGlobe({ mobile = false }: { mobile?: boolean }) {
     return () => {
       active = false;
       cancelAnimationFrame(rafRef.current);
-      clearTimeout(scrollTimer);
       observer.disconnect();
-      if (mobile) window.removeEventListener("scroll", onScroll);
       globe.destroy();
     };
   }, [mobile, cSize, updateAllArrows]);
