@@ -12,6 +12,7 @@ import {
   Settings,
   Lock,
   ArrowUpRight,
+  FolderOpen,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SITE } from "@/lib/constants";
@@ -87,6 +88,17 @@ export function DashboardSidebar() {
             </Link>
           );
         })}
+        <div className="my-2 h-px mx-3 bg-border/30" />
+        <p className="mb-2 px-3 text-[11px] font-semibold uppercase tracking-widest text-muted-foreground/60">
+          Project
+        </p>
+        <Link
+          href="/portal"
+          className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] font-medium text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
+        >
+          <FolderOpen className="h-4 w-4" />
+          Client Portal
+        </Link>
       </nav>
 
       {nextTier && (

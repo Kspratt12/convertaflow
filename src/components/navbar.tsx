@@ -84,6 +84,12 @@ export function Navbar() {
 
         <div className="hidden items-center gap-2 md:flex">
           <Link
+            href="/portal"
+            className="rounded-lg px-3.5 py-2 text-[13px] font-medium text-white/60 transition-colors hover:text-white"
+          >
+            Client Portal
+          </Link>
+          <Link
             href="/login"
             className="rounded-lg px-3.5 py-2 text-[13px] font-medium text-white/60 transition-colors hover:text-white"
           >
@@ -129,6 +135,13 @@ export function Navbar() {
               </Link>
             ))}
             <div className="mt-4 flex flex-col gap-2 border-t border-white/[0.06] pt-4">
+              <Link
+                href="/portal"
+                onClick={() => setOpen(false)}
+                className="rounded-lg border border-white/15 px-3 py-2.5 text-center text-sm font-medium text-white/80"
+              >
+                Client Portal
+              </Link>
               <Link
                 href="/login"
                 onClick={() => setOpen(false)}
