@@ -90,8 +90,8 @@ export function FeatureHighlights() {
               viewport={{ once: true, margin: "20px" }}
               transition={{ duration: 0.3, delay: i * 0.02 }}
             >
-              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-white/[0.06] transition-colors group-hover:bg-white/[0.12]">
-                <feature.icon className="h-5 w-5 text-white/70" />
+              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#7c3aed]/20 to-[#06b6d4]/15 border border-[#7c3aed]/20 transition-all group-hover:from-[#7c3aed]/30 group-hover:to-[#06b6d4]/20 group-hover:border-[#7c3aed]/40">
+                <feature.icon className="h-5 w-5 text-[#06b6d4]" />
               </div>
               <h3 className="text-[15px] font-semibold leading-snug text-white/90">
                 {feature.title}

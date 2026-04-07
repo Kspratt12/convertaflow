@@ -91,10 +91,10 @@ export default function FeaturesPage() {
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className={`grid items-start gap-8 lg:grid-cols-2 lg:gap-12 ${i % 2 !== 0 ? "" : ""}`}>
               <div className={i % 2 !== 0 ? "lg:order-2" : ""}>
-                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-white/[0.06]">
-                  <feature.icon className="h-5 w-5 text-white/70" />
+                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#7c3aed]/20 to-[#06b6d4]/15 border border-[#7c3aed]/20 shadow-lg shadow-[#7c3aed]/10">
+                  <feature.icon className="h-5 w-5 text-[#06b6d4]" />
                 </div>
-                <h2 className="text-xl font-bold tracking-tight text-white/90 sm:text-2xl">
+                <h2 className="text-xl font-bold tracking-tight sm:text-2xl bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">
                   {feature.title}
                 </h2>
                 <p className="mt-3 text-[14px] leading-relaxed text-white/50 sm:text-[15px]">
