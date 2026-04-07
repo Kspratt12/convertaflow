@@ -140,18 +140,75 @@ interface AdminOnboardingVars {
   email: string;
   planName: string;
   businessId: string;
+  /** Optional Tier 3 custom build details — surfaced prominently if present */
+  customBuild?: {
+    overview?: string | null;
+    problem?: string | null;
+    inspiration?: string | null;
+    priority?: string | null;
+    timeline?: string | null;
+    phoneFeatures?: string[] | null;
+  };
+  /** Optional Tier 2 extras request — surfaced if present */
+  extras?: {
+    requested?: string[] | null;
+    notes?: string | null;
+  };
 }
 
 export function adminOnboardingSubmittedEmail(v: AdminOnboardingVars) {
+  // Build the custom-build callout block if Tier 3 fields are present.
+  const hasCustomBuild =
+    v.customBuild &&
+    (v.customBuild.overview ||
+      v.customBuild.problem ||
+      (v.customBuild.phoneFeatures && v.customBuild.phoneFeatures.length > 0));
+
+  const customBuildHtml = hasCustomBuild
+    ? `
+      <p style="margin:0 0 6px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:#fcd34d;">Custom Build Request</p>
+      ${v.customBuild?.overview ? `<p style="margin:0 0 10px;color:#ffffff;font-size:14px;line-height:1.55;"><strong>What they want built:</strong><br>${v.customBuild.overview}</p>` : ""}
+      ${v.customBuild?.problem ? `<p style="margin:0 0 10px;color:rgba(255,255,255,0.75);font-size:13px;line-height:1.55;"><strong style="color:#ffffff;">Problem to solve:</strong><br>${v.customBuild.problem}</p>` : ""}
+      ${v.customBuild?.inspiration ? `<p style="margin:0 0 10px;color:rgba(255,255,255,0.75);font-size:13px;line-height:1.55;"><strong style="color:#ffffff;">Inspiration / examples:</strong><br>${v.customBuild.inspiration}</p>` : ""}
+      ${v.customBuild?.priority ? `<p style="margin:0 0 6px;color:rgba(255,255,255,0.75);font-size:13px;"><strong style="color:#ffffff;">Priority:</strong> ${v.customBuild.priority}</p>` : ""}
+      ${v.customBuild?.timeline ? `<p style="margin:0 0 10px;color:rgba(255,255,255,0.75);font-size:13px;"><strong style="color:#ffffff;">Timeline:</strong> ${v.customBuild.timeline}</p>` : ""}
+      ${
+        v.customBuild?.phoneFeatures && v.customBuild.phoneFeatures.length > 0
+          ? `<p style="margin:0 0 6px;color:#ffffff;font-size:13px;font-weight:600;">Phone features requested ($29/mo each):</p><ul style="margin:0 0 0 18px;padding:0;color:rgba(255,255,255,0.75);font-size:13px;">${v.customBuild.phoneFeatures.map((f) => `<li style="margin-bottom:4px;">${f}</li>`).join("")}</ul>`
+          : ""
+      }
+    `
+    : "";
+
+  // Build the extras callout if Tier 2 selected anything.
+  const hasExtras =
+    v.extras &&
+    ((v.extras.requested && v.extras.requested.length > 0) || v.extras.notes);
+
+  const extrasHtml = hasExtras
+    ? `
+      <p style="margin:${hasCustomBuild ? "16px" : "0"} 0 6px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:#67e8f9;">Extras Requested</p>
+      ${
+        v.extras?.requested && v.extras.requested.length > 0
+          ? `<ul style="margin:0 0 8px 18px;padding:0;color:rgba(255,255,255,0.75);font-size:13px;">${v.extras.requested.map((e) => `<li style="margin-bottom:4px;">${e}</li>`).join("")}</ul>`
+          : ""
+      }
+      ${v.extras?.notes ? `<p style="margin:0;color:rgba(255,255,255,0.75);font-size:13px;line-height:1.55;"><strong style="color:#ffffff;">Notes:</strong> ${v.extras.notes}</p>` : ""}
+    `
+    : "";
+
+  const noteContent = customBuildHtml + extrasHtml;
+
   return {
-    subject: `📋 Onboarding submitted: ${v.businessName} — ready for payment link`,
+    subject: `📋 Onboarding submitted: ${v.businessName} (${v.planName})`,
     html: renderEmail({
-      preheader: `${v.businessName} finished onboarding. Time to send them a payment link.`,
+      preheader: `${v.businessName} finished onboarding. ${hasCustomBuild ? "Custom build details inside." : "Time to send them a payment link."}`,
       badge: { label: "Action Required", tone: "amber" },
       title: `${v.businessName} just finished onboarding`,
       bodyHtml:
         p(`<strong style="color:#ffffff;">${v.businessName}</strong> has completed their full intake for the <strong style="color:#ffffff;">${v.planName}</strong> plan.`) +
         p(`<strong style="color:#fcd34d;">Next step:</strong> review their intake, then send a Stripe Payment Link to <a href="mailto:${v.email}" style="color:#67e8f9;text-decoration:none;">${v.email}</a>. Once they pay, flip their <code style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;font-size:12px;">plan_status</code> to <code style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;font-size:12px;">active</code> in the admin panel.`),
+      note: noteContent || undefined,
       cta: { url: `${EMAIL_SITE_URL}/admin/projects/${v.businessId}`, label: "Open Project" },
     }),
   };

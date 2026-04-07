@@ -50,9 +50,51 @@ export async function POST() {
     },
   }).catch((e) => console.error("Onboarding submit email failed:", e));
 
-  // Notify the admin so they know to send a payment link
+  // Notify the admin so they know to send a payment link.
+  // For Tier 3 customers, also pull their custom build details and surface
+  // them prominently in the email so the team knows what to scope.
   if (isEmailConfigured() && process.env.NOTIFICATION_EMAIL) {
     try {
+      // Load the saved onboarding sections so we can highlight Tier 2/3
+      // request data inside the admin notification.
+      const { data: sections } = await supabase
+        .from("onboarding_submissions")
+        .select("section, data")
+        .eq("business_id", businessId);
+
+      const sectionMap = new Map<string, Record<string, unknown>>(
+        (sections ?? []).map((row) => [
+          row.section as string,
+          (row.data as Record<string, unknown>) ?? {},
+        ])
+      );
+
+      const customBuildData = sectionMap.get("custom_build_request");
+      const extrasData = sectionMap.get("tools_to_set_up");
+
+      // Coerce to optional shape the email helper expects
+      const customBuild = customBuildData
+        ? {
+            overview: (customBuildData.custom_build_overview as string) ?? null,
+            problem: (customBuildData.custom_build_problem as string) ?? null,
+            inspiration: (customBuildData.custom_build_inspiration as string) ?? null,
+            priority: (customBuildData.custom_build_priority as string) ?? null,
+            timeline: (customBuildData.custom_build_timeline as string) ?? null,
+            phoneFeatures: Array.isArray(customBuildData.phone_features)
+              ? (customBuildData.phone_features as string[])
+              : null,
+          }
+        : undefined;
+
+      const extras = extrasData
+        ? {
+            requested: Array.isArray(extrasData.extras_requested)
+              ? (extrasData.extras_requested as string[])
+              : null,
+            notes: (extrasData.extras_notes as string) ?? null,
+          }
+        : undefined;
+
       await sendEmail({
         to: process.env.NOTIFICATION_EMAIL,
         ...adminOnboardingSubmittedEmail({
@@ -60,6 +102,8 @@ export async function POST() {
           email: session.profile.business_email || session.user.email,
           planName: tier?.name ?? session.profile.plan_tier,
           businessId,
+          customBuild,
+          extras,
         }),
       });
     } catch (err) {

@@ -98,7 +98,7 @@ export function TierPreview() {
                   </div>
                 </div>
 
-                <p className="mt-3 flex-1 text-[12px] sm:text-[13px] leading-relaxed text-white/40">
+                <p className="mt-3 text-[12px] sm:text-[13px] leading-relaxed text-white/40">
                   {tier.description}
                 </p>
 
@@ -113,6 +113,9 @@ export function TierPreview() {
                     <li className="text-[11px] text-white/30">+{tier.features.length - 5} more</li>
                   )}
                 </ul>
+
+                {/* Flexible spacer — keeps Get Started buttons aligned */}
+                <div className="flex-1 min-h-[8px]" />
 
                 <Button
                   className={cn(

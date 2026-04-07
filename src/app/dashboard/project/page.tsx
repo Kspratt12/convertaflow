@@ -159,24 +159,32 @@ export default async function ProjectPage() {
   const session = await getSession();
   if (!session) redirect("/login");
 
-  const data = await loadProject(
-    session.profile.id,
-    session.profile.plan_tier as TierId
-  );
+  const planTier = session.profile.plan_tier as TierId;
+  const data = await loadProject(session.profile.id, planTier);
+
+  // Customers on the tools-only variants (system_upgrade, scale_single)
+  // already have a website. Reframe the timeline copy so it doesn't
+  // talk about a 'website build' that doesn't exist for them.
+  const isToolsOnly =
+    planTier === "system_upgrade" || planTier === "scale_single";
+  const projectKindLabel = isToolsOnly ? "System Build" : "Website Build";
+  const subtitleCopy = isToolsOnly
+    ? "Track your system build progress."
+    : "Track your website build progress.";
 
   return (
     <div className="mx-auto max-w-2xl space-y-5">
       <div>
         <h1 className="text-xl font-bold tracking-tight">Project Status</h1>
-        <p className="mt-0.5 text-[13px] text-muted-foreground">
-          Track your website build progress.
-        </p>
+        <p className="mt-0.5 text-[13px] text-muted-foreground">{subtitleCopy}</p>
       </div>
 
       <Card className="border-border/50">
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-[14px] font-semibold">Build Timeline</CardTitle>
+            <CardTitle className="text-[14px] font-semibold">
+              {projectKindLabel} Timeline
+            </CardTitle>
             <Badge
               className={`text-[11px] ${TONE_BADGE[data.statusBadge.tone] ?? ""}`}
             >

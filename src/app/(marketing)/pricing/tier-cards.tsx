@@ -181,7 +181,7 @@ export function PricingTierCards({ tierIds }: TierCardsProps) {
               </div>
             </div>
 
-            <p className="mt-3 flex-1 text-[13px] leading-relaxed text-white/45">
+            <p className="mt-3 text-[13px] leading-relaxed text-white/45">
               {tier.description}
             </p>
 
@@ -197,6 +197,11 @@ export function PricingTierCards({ tierIds }: TierCardsProps) {
                 </li>
               ))}
             </ul>
+
+            {/* Flexible spacer — absorbs height differences between tiers
+                so the monthly-includes box and Get Started button line up
+                across all three cards. */}
+            <div className="flex-1 min-h-[8px]" />
 
             {/* What the monthly fee covers — explicit */}
             <div className="mt-4 rounded-xl border border-[#7c3aed]/20 bg-[#7c3aed]/[0.05] px-3 py-3">
