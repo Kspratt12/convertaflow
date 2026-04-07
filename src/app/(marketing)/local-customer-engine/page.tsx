@@ -231,12 +231,17 @@ export default function LocalCustomerEnginePage() {
                 <div className="mt-5">
                   <div className="flex items-baseline gap-1.5">
                     <span className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-                      {tier.price}
+                      {tier.headlinePrice}
                     </span>
                   </div>
-                  <p className="mt-1 text-[12px] text-white/45">
-                    {tier.priceNote}
+                  <p className="mt-1 text-[12px] text-white/55">
+                    {tier.headlinePriceNote}
                   </p>
+                  {tier.secondaryPrice && (
+                    <p className="mt-2 inline-block rounded-md border border-white/[0.06] bg-white/[0.03] px-2 py-1 text-[11px] text-white/55">
+                      {tier.secondaryPrice}
+                    </p>
+                  )}
                 </div>
 
                 <p className="mt-4 flex-1 text-[13px] leading-relaxed text-white/50 sm:text-[14px]">

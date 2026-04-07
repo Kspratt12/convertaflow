@@ -242,8 +242,12 @@ export const TIERS: Record<TierId, TierConfig> = {
 export interface EngineTier {
   id: "engine-setup" | "engine-monthly" | "engine-pro";
   name: string;
-  price: string;
-  priceNote: string;
+  /** The big number shown on the pricing card */
+  headlinePrice: string;
+  /** Caption under the big number */
+  headlinePriceNote: string;
+  /** Optional secondary line shown after the headline (e.g. setup fee for monthly tiers) */
+  secondaryPrice?: string;
   cadence: "one-time" | "monthly";
   audience: string;
   description: string;
@@ -256,12 +260,12 @@ export const ENGINE_TIERS: EngineTier[] = [
   {
     id: "engine-setup",
     name: "Setup Only",
-    price: "$1,497",
-    priceNote: "one-time setup",
+    headlinePrice: "$997",
+    headlinePriceNote: "one-time, no monthly",
     cadence: "one-time",
-    audience: "Want the whole system built once and yours forever",
+    audience: "Build it once, run it yourself",
     description:
-      "We set up everything that gets you more local customers, hand it to you, and you run it from there. No monthly fee.",
+      "We set up everything that gets you more local customers, hand it to you, and you run it from there. No monthly fee, no contracts.",
     features: [
       "Google Business Profile fully optimized",
       "Local SEO so you show up in 'near me' searches",
@@ -276,12 +280,13 @@ export const ENGINE_TIERS: EngineTier[] = [
   {
     id: "engine-monthly",
     name: "Local Customer Engine",
-    price: "$1,497",
-    priceNote: "one-time setup, then $497/mo",
+    headlinePrice: "$497/mo",
+    headlinePriceNote: "we run it for you",
+    secondaryPrice: "+ $1,497 one-time setup",
     cadence: "monthly",
-    audience: "Want it set up and managed for you, every month",
+    audience: "Hands-off, we manage everything",
     description:
-      "Everything in Setup, plus we run it for you. Weekly Google posts, every review replied to, monthly performance report, and ongoing tweaks to keep you ranking.",
+      "Everything in Setup, plus we run it for you every month. Weekly Google posts, every review replied to, monthly performance report, and ongoing tweaks to keep you ranking.",
     features: [
       "Everything in Setup Only",
       "Weekly Google Business posts (we write them)",
@@ -297,10 +302,11 @@ export const ENGINE_TIERS: EngineTier[] = [
   {
     id: "engine-pro",
     name: "Local Customer Engine PRO",
-    price: "$1,497",
-    priceNote: "one-time setup, then $997/mo",
+    headlinePrice: "$997/mo",
+    headlinePriceNote: "with Google Ads management",
+    secondaryPrice: "+ $1,497 one-time setup",
     cadence: "monthly",
-    audience: "Want us to run your Google Ads too",
+    audience: "Full management + paid ads",
     description:
       "Everything in the Local Customer Engine, plus we manage your Google Ads campaigns. You set the ad budget, we run the strategy.",
     features: [

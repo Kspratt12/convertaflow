@@ -260,7 +260,7 @@ export default function PricingPage() {
                   </Link>
                 </Button>
                 <span className="text-[12px] text-white/40">
-                  Starting at $1,497 setup or $497/mo managed
+                  From $997 one-time, or $497/mo managed
                 </span>
               </div>
             </div>
