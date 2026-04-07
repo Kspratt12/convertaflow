@@ -165,6 +165,66 @@ export default function PricingPage() {
         </div>
       </section>
 
+      {/* Real builds — examples of what we can build for you (Tier 3 grounding) */}
+      <Section>
+        <div className="mx-auto max-w-3xl text-center mb-6 sm:mb-8">
+          <p className="text-[11px] font-semibold uppercase tracking-widest text-[#06b6d4]/80">
+            Everything Done For You · Examples
+          </p>
+          <h2 className="mt-2 text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight text-white/90">
+            We meet you where you are
+          </h2>
+          <p className="mt-2 text-[13px] sm:text-[14px] leading-relaxed text-white/45 max-w-xl mx-auto">
+            Tier 3 includes a custom build catered to your business. Here&apos;s a few examples of what we&apos;ve built (or can build) for different industries.
+          </p>
+        </div>
+
+        <div className="mx-auto max-w-5xl grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            {
+              industry: "Plumber",
+              build: "Emergency call routing form that pages whoever's on call, plus a service-area map so customers know if you cover them.",
+            },
+            {
+              industry: "Real Estate Agent",
+              build: "Listing showcase with a separate lead capture per property, auto-following up the moment someone asks.",
+            },
+            {
+              industry: "Dentist",
+              build: "New patient intake with insurance verification fields and appointment booking that syncs to your calendar.",
+            },
+            {
+              industry: "Yoga / Pilates Studio",
+              build: "Class schedule with recurring booking, member portal, and SMS reminders the day before each class.",
+            },
+            {
+              industry: "Lawyer",
+              build: "Case intake form with conditional logic, plus secure document upload so clients can send you sensitive paperwork safely.",
+            },
+            {
+              industry: "Hair Stylist",
+              build: "Stylist-specific booking page so clients can pick by name, with portfolio gallery and Instagram embed.",
+            },
+          ].map((ex) => (
+            <div
+              key={ex.industry}
+              className="flex flex-col rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5"
+            >
+              <p className="text-[11px] font-semibold uppercase tracking-wider text-[#06b6d4]">
+                {ex.industry}
+              </p>
+              <p className="mt-2 text-[13px] leading-relaxed text-white/65 sm:text-[14px]">
+                {ex.build}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <p className="mt-5 text-center text-[12px] text-white/35 max-w-2xl mx-auto">
+          These are examples, not a fixed menu. After you sign up, you fill out a form in your portal describing exactly what you need. We build it.
+        </p>
+      </Section>
+
       {/* FAQ */}
       <Section>
         <SectionHeader badge="FAQ" title="Questions before you start" />

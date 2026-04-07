@@ -18,6 +18,8 @@ import {
   Share2,
   Send,
   Loader2,
+  Wrench,
+  Sparkles,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useBusiness } from "@/components/dashboard/business-provider";
@@ -141,6 +143,94 @@ const SECTIONS: OnboardingSection[] = [
     fields: [
       { type: "checkboxes", name: "features", label: "Features Needed", options: ["Online booking / scheduling", "Contact forms", "Google Analytics", "Review collection / display", "Email automation", "Social media integration", "Live chat widget", "Payment processing", "Custom forms"] },
       { type: "textarea", name: "feature_notes", label: "Additional feature requests or notes", placeholder: "Any specific tools or integrations you currently use?" },
+    ],
+  },
+  {
+    id: "tools_to_set_up",
+    title: "Tools To Set Up For You",
+    description: "Confirm the tools that come with your plan, and tell us about anything extra you want.",
+    icon: Wrench,
+    // Growth + Scale: anyone with the systems layer
+    tiers: ["growth", "scale", "system_upgrade", "scale_single"],
+    fields: [
+      {
+        type: "checkboxes",
+        name: "included_tools_confirm",
+        label: "Confirm the tools we'll set up (all included with your plan)",
+        options: [
+          "Google Reviews automation (auto-request after every job, branded review requests)",
+          "Lead capture with instant email alerts (you get notified the moment someone reaches out)",
+          "Email follow-up sequences (we write and run nurture emails for you)",
+        ],
+      },
+      {
+        type: "checkboxes",
+        name: "extras_requested",
+        label: "Anything extra you'd like us to build or wire up? (we'll quote anything beyond the basics)",
+        options: [
+          "Online booking / calendar integration",
+          "Custom contact form with conditional fields",
+          "Newsletter signup with welcome email",
+          "Customer testimonial / review display widget",
+          "FAQ section with search",
+          "Social media post scheduling",
+          "Other (describe below)",
+        ],
+      },
+      {
+        type: "textarea",
+        name: "extras_notes",
+        label: "Tell us more about anything specific you need",
+        placeholder: "Describe any specific tools, workflows, or integrations you want. The more detail, the better the quote.",
+      },
+    ],
+  },
+  {
+    id: "custom_build_request",
+    title: "Tell Us What To Build For You",
+    description: "Your plan includes a custom build catered to your business. Plumber, yoga instructor, dentist, real estate, lawyer, hair stylist — we meet you where you are. Tell us what you need.",
+    icon: Sparkles,
+    // Scale tier only — the 'we build whatever you need' tier
+    tiers: ["scale", "scale_single"],
+    fields: [
+      {
+        type: "textarea",
+        name: "custom_build_overview",
+        label: "What do you want us to build?",
+        placeholder:
+          "Describe what you need in your own words. Examples: 'A booking system that lets clients pick a stylist by name', 'A patient intake form with insurance verification', 'A listing showcase that captures leads per property', 'A custom CRM that tracks every job from inquiry to invoice.' Whatever it is, tell us.",
+      },
+      {
+        type: "textarea",
+        name: "custom_build_problem",
+        label: "What problem will this solve for your business?",
+        placeholder:
+          "Example: 'Right now I lose half my booking inquiries because the form is generic. I need each one to route to the right stylist automatically.'",
+      },
+      {
+        type: "textarea",
+        name: "custom_build_inspiration",
+        label: "Any examples or inspiration? (links, screenshots, or descriptions)",
+        placeholder:
+          "Show us what you have in mind. Links to other websites, apps you like, or just a description of what it should feel like.",
+      },
+      {
+        type: "select",
+        name: "custom_build_priority",
+        label: "How important is this vs the rest of the build?",
+        options: [
+          "Critical — this is the main reason I bought this plan",
+          "Important — but not the only thing I need",
+          "Nice to have — would be great but not blocking",
+        ],
+      },
+      {
+        type: "textarea",
+        name: "custom_build_timeline",
+        label: "Any timeline pressure?",
+        placeholder:
+          "Example: 'I need this live before my busy season starts in May' or 'No rush, take the time to do it right.'",
+      },
     ],
   },
   {
