@@ -101,6 +101,62 @@ export function contactConfirmationEmail(name: string) {
   };
 }
 
+// ──────────────────────────────────────────────────────────────────────────
+// Admin notifications — internal emails to the Convertaflow team
+// ──────────────────────────────────────────────────────────────────────────
+
+interface AdminSignupVars {
+  businessName: string;
+  contactName: string;
+  email: string;
+  phone?: string | null;
+  planName: string;
+}
+
+export function adminNewSignupEmail(v: AdminSignupVars) {
+  const detailsHtml = `
+    <p style="margin:0 0 8px;"><strong style="color:#ffffff;">Business:</strong> ${v.businessName}</p>
+    <p style="margin:0 0 8px;"><strong style="color:#ffffff;">Contact:</strong> ${v.contactName}</p>
+    <p style="margin:0 0 8px;"><strong style="color:#ffffff;">Email:</strong> <a href="mailto:${v.email}" style="color:#67e8f9;text-decoration:none;">${v.email}</a></p>
+    ${v.phone ? `<p style="margin:0 0 8px;"><strong style="color:#ffffff;">Phone:</strong> ${v.phone}</p>` : ""}
+    <p style="margin:0;"><strong style="color:#ffffff;">Plan:</strong> ${v.planName}</p>
+  `;
+  return {
+    subject: `🎉 New signup: ${v.businessName} (${v.planName})`,
+    html: renderEmail({
+      preheader: `${v.contactName} just signed up for ${v.planName}.`,
+      badge: { label: "New Signup", tone: "purple" },
+      title: "New customer signed up",
+      bodyHtml:
+        p(`A new customer just created their ${EMAIL_BRAND} account. They'll be working through onboarding next.`),
+      note: detailsHtml,
+      cta: { url: `${EMAIL_SITE_URL}/admin/customers`, label: "View in Admin" },
+    }),
+  };
+}
+
+interface AdminOnboardingVars {
+  businessName: string;
+  email: string;
+  planName: string;
+  businessId: string;
+}
+
+export function adminOnboardingSubmittedEmail(v: AdminOnboardingVars) {
+  return {
+    subject: `📋 Onboarding submitted: ${v.businessName} — ready for payment link`,
+    html: renderEmail({
+      preheader: `${v.businessName} finished onboarding. Time to send them a payment link.`,
+      badge: { label: "Action Required", tone: "amber" },
+      title: `${v.businessName} just finished onboarding`,
+      bodyHtml:
+        p(`<strong style="color:#ffffff;">${v.businessName}</strong> has completed their full intake for the <strong style="color:#ffffff;">${v.planName}</strong> plan.`) +
+        p(`<strong style="color:#fcd34d;">Next step:</strong> review their intake, then send a Stripe Payment Link to <a href="mailto:${v.email}" style="color:#67e8f9;text-decoration:none;">${v.email}</a>. Once they pay, flip their <code style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;font-size:12px;">plan_status</code> to <code style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;font-size:12px;">active</code> in the admin panel.`),
+      cta: { url: `${EMAIL_SITE_URL}/admin/projects/${v.businessId}`, label: "Open Project" },
+    }),
+  };
+}
+
 export function followUpEmail(leadName: string, businessName: string) {
   return {
     subject: `Following up — ${businessName}`,

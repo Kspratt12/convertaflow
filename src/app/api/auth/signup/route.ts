@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { sendProjectEvent } from "@/lib/email-events";
+import { sendEmail, adminNewSignupEmail, isEmailConfigured } from "@/lib/email";
 import { TIERS } from "@/lib/constants";
 import type { TierId } from "@/lib/types";
 
@@ -99,17 +99,27 @@ export async function POST(request: NextRequest) {
         { onConflict: "business_id" }
       );
 
-      // Fire welcome email (logs to email_events even if Resend not configured)
-      await sendProjectEvent({
-        event: "welcome",
-        businessId: profile.id,
-        to: email,
-        vars: {
-          businessName: businessName,
-          contactName: contactName,
-          planName: TIERS[planTier]?.name,
-        },
-      }).catch((e) => console.error("Welcome email failed:", e));
+      // Welcome email fires from /auth/callback once the customer
+      // confirms their email — that way they don't get welcomed
+      // before they can actually sign in.
+
+      // Notify admin so they know a new customer just signed up
+      if (isEmailConfigured() && process.env.NOTIFICATION_EMAIL) {
+        try {
+          await sendEmail({
+            to: process.env.NOTIFICATION_EMAIL,
+            ...adminNewSignupEmail({
+              businessName,
+              contactName,
+              email,
+              phone,
+              planName: TIERS[planTier]?.name ?? planTier,
+            }),
+          });
+        } catch (err) {
+          console.error("Admin signup notification failed:", err);
+        }
+      }
     }
 
     return NextResponse.json({ success: true, plan: planTier });

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { getSession } from "@/lib/auth";
 import { sendProjectEvent } from "@/lib/email-events";
+import { sendEmail, adminOnboardingSubmittedEmail, isEmailConfigured } from "@/lib/email";
 import { TIERS } from "@/lib/constants";
 import type { TierId } from "@/lib/types";
 
@@ -37,7 +38,7 @@ export async function POST() {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  // Fire confirmation email (best-effort, never fail the submit)
+  // Fire confirmation email to the customer (best-effort, never fail the submit)
   const tier = TIERS[session.profile.plan_tier as TierId];
   await sendProjectEvent({
     event: "onboarding_submitted",
@@ -48,6 +49,23 @@ export async function POST() {
       planName: tier?.name,
     },
   }).catch((e) => console.error("Onboarding submit email failed:", e));
+
+  // Notify the admin so they know to send a payment link
+  if (isEmailConfigured() && process.env.NOTIFICATION_EMAIL) {
+    try {
+      await sendEmail({
+        to: process.env.NOTIFICATION_EMAIL,
+        ...adminOnboardingSubmittedEmail({
+          businessName: session.profile.business_name,
+          email: session.profile.business_email || session.user.email,
+          planName: tier?.name ?? session.profile.plan_tier,
+          businessId,
+        }),
+      });
+    } catch (err) {
+      console.error("Admin onboarding notification failed:", err);
+    }
+  }
 
   return NextResponse.json({ success: true });
 }
