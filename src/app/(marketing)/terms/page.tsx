@@ -61,7 +61,7 @@ export default function TermsPage() {
 
           <div>
             <h2 className="text-[16px] font-semibold text-white/80 mb-2">Contact</h2>
-            <p>Questions about these terms? Contact us at support@convertaflow.com.</p>
+            <p>Questions about these terms? Contact us at support@convertaflow.co.</p>
           </div>
         </div>
       </div>

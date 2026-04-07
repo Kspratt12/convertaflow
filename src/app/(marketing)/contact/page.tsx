@@ -88,7 +88,7 @@ export default function ContactPage() {
 
             <div className="mt-8 space-y-4">
               {[
-                { icon: Mail, label: "hello@convertaflow.com" },
+                { icon: Mail, label: "hello@convertaflow.co" },
                 { icon: Phone, label: "(555) 000-0000" },
                 { icon: MapPin, label: "Remote — serving clients everywhere" },
               ].map((item) => (

@@ -5,7 +5,7 @@ export const SITE = {
   tagline: "Luxury websites and growth systems for businesses",
   description:
     "Convertaflow helps businesses look established, capture leads, and grow through premium web design, automated systems, and hands-on strategy.",
-  url: "https://convertaflow.com",
+  url: "https://convertaflow.co",
 } as const;
 
 export const NAV_LINKS = [

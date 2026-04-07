@@ -24,7 +24,7 @@ export async function sendEmail({
   to,
   subject,
   html,
-  from = "Convertaflow <notifications@convertaflow.com>",
+  from = "Convertaflow <notifications@convertaflow.co>",
 }: SendEmailParams) {
   const resend = getResend();
   const { data, error } = await resend.emails.send({ from, to, subject, html });

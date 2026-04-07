@@ -41,7 +41,7 @@ export default function PrivacyPage() {
 
           <div>
             <h2 className="text-[16px] font-semibold text-white/80 mb-2">Your Rights</h2>
-            <p>You have the right to access, update, or delete your personal information at any time. You can request a copy of your data or ask us to remove it by contacting us at privacy@convertaflow.com. We will respond to all requests within 30 days.</p>
+            <p>You have the right to access, update, or delete your personal information at any time. You can request a copy of your data or ask us to remove it by contacting us at privacy@convertaflow.co. We will respond to all requests within 30 days.</p>
           </div>
 
           <div>
@@ -51,7 +51,7 @@ export default function PrivacyPage() {
 
           <div>
             <h2 className="text-[16px] font-semibold text-white/80 mb-2">Contact Us</h2>
-            <p>If you have any questions about this privacy policy, please contact us at privacy@convertaflow.com.</p>
+            <p>If you have any questions about this privacy policy, please contact us at privacy@convertaflow.co.</p>
           </div>
         </div>
       </div>

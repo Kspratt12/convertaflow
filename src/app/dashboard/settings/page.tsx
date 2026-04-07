@@ -41,7 +41,7 @@ export default function SettingsPage() {
             </div>
             <div className="space-y-1.5">
               <Label className="text-[13px]">Website URL</Label>
-              <Input defaultValue="https://prestigehome.convertaflow.com" />
+              <Input defaultValue="https://prestigehome.convertaflow.co" />
             </div>
           </div>
           <Button size="sm" className="gap-1.5">
