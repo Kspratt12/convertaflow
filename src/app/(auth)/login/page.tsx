@@ -18,22 +18,29 @@ export default function LoginPage() {
     setLoading(true);
     setError("");
     const formData = new FormData(e.currentTarget);
-    const email = formData.get("email") as string;
+    const email = (formData.get("email") as string)?.trim();
     const password = formData.get("password") as string;
+
+    if (!email || !password) {
+      setError("Please enter both your email and password.");
+      setLoading(false);
+      return;
+    }
+
     try {
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
+      const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        const data = await res.json();
-        setError(data.error || "Invalid credentials");
+        setError(data.error || "Incorrect email or password. Please try again.");
         return;
       }
       window.location.href = "/dashboard";
     } catch {
-      setError("Something went wrong. Please try again.");
+      setError("Connection issue. Please check your internet and try again.");
     } finally {
       setLoading(false);
     }
