@@ -12,43 +12,10 @@ import { cn } from "@/lib/utils";
 const tierIcons: Record<string, typeof Globe> = { starter: Globe, growth: Star, scale: Rocket, system_upgrade: Globe };
 
 function SystemUpgrades() {
+  // Pulled from canonical TIERS so wording stays consistent across the site.
   const upgrades = [
-    {
-      title: "System Upgrade",
-      subtitle: "Plug into your existing website",
-      price: "$1,997",
-      priceNote: "one-time setup",
-      monthly: "$199/mo",
-      monthlyNote: "system access",
-      features: [
-        "Lead capture integration",
-        "Booking & calendar connection",
-        "Automated email responses",
-        "Review request system",
-        "Dashboard access",
-        "Basic analytics",
-      ],
-      cta: "Upgrade My System",
-      href: "/signup?plan=system-upgrade",
-    },
-    {
-      title: "Full Growth Engine",
-      subtitle: "All systems, no website rebuild",
-      price: "$3,497",
-      priceNote: "one-time setup",
-      monthly: "$399/mo",
-      monthlyNote: "full system access",
-      features: [
-        "Everything in System Upgrade",
-        "Social media automation",
-        "Instagram & ManyChat workflows",
-        "Advanced conversion analytics",
-        "Multi-channel lead attribution",
-        "Dedicated strategy support",
-      ],
-      cta: "Get the Full Engine",
-      href: "/signup?plan=tier3-single",
-    },
+    { tier: TIERS.system_upgrade, slug: "system-upgrade" },
+    { tier: TIERS.scale_single, slug: PLAN_SLUGS.scale_single },
   ];
 
   return (
@@ -56,35 +23,35 @@ function SystemUpgrades() {
       <div className="mx-auto max-w-2xl text-center mb-5 sm:mb-6">
         <p className="text-[11px] font-semibold uppercase tracking-widest text-white/30">Already have a website?</p>
         <h3 className="mt-1.5 text-lg sm:text-xl font-bold tracking-tight text-white/80">
-          Add our systems without rebuilding
+          Keep your site. Add our tools.
         </h3>
         <p className="mt-1.5 text-[12px] sm:text-[13px] text-white/40 max-w-md mx-auto">
-          We plug directly into your current site and turn it into a lead and automation engine.
+          We plug everything into your current website — no rebuild, no downtime.
         </p>
       </div>
 
       <div className="mx-auto grid max-w-2xl gap-3 sm:grid-cols-2">
-        {upgrades.map((u) => (
+        {upgrades.map(({ tier, slug }) => (
           <div
-            key={u.title}
+            key={tier.id}
             className="flex flex-col rounded-xl border border-white/[0.06] bg-white/[0.02] p-4 sm:p-5"
           >
-            <h4 className="text-[14px] sm:text-[15px] font-bold text-white">{u.title}</h4>
-            <p className="text-[11px] text-[#8b5cf6] font-medium">{u.subtitle}</p>
+            <h4 className="text-[14px] sm:text-[15px] font-bold text-white">{tier.name}</h4>
+            <p className="text-[11px] text-[#8b5cf6] font-medium">{tier.audience}</p>
 
             <div className="mt-3">
               <div className="flex items-baseline gap-1">
-                <span className="text-xl sm:text-2xl font-extrabold tracking-tight text-white">{u.price}</span>
-                <span className="text-[11px] text-white/35">{u.priceNote}</span>
+                <span className="text-xl sm:text-2xl font-extrabold tracking-tight text-white">{tier.price}</span>
+                <span className="text-[11px] text-white/35">{tier.priceNote}</span>
               </div>
               <div className="mt-0.5 flex items-baseline gap-1">
-                <span className="text-[13px] sm:text-[14px] font-bold text-white/70">{u.monthly}</span>
-                <span className="text-[11px] text-white/35">{u.monthlyNote}</span>
+                <span className="text-[13px] sm:text-[14px] font-bold text-white/70">{tier.monthly}</span>
+                <span className="text-[11px] text-white/35">{tier.monthlyNote}</span>
               </div>
             </div>
 
             <ul className="mt-3 space-y-1.5 border-t border-white/[0.05] pt-3 flex-1">
-              {u.features.map((f) => (
+              {tier.features.slice(0, 6).map((f) => (
                 <li key={f} className="flex items-center gap-2 text-[11px] sm:text-[12px] text-white/60">
                   <Check className="h-3 w-3 shrink-0 text-[#06b6d4]" />
                   {f}
@@ -97,8 +64,8 @@ function SystemUpgrades() {
               size="sm"
               asChild
             >
-              <Link href={u.href}>
-                {u.cta}
+              <Link href={`/signup?plan=${slug}`}>
+                Get Started
                 <ArrowRight className="h-3 w-3" />
               </Link>
             </Button>
@@ -107,7 +74,7 @@ function SystemUpgrades() {
       </div>
 
       <p className="mt-2.5 text-center text-[10px] text-white/20">
-        Most clients choose a full rebuild for better performance.
+        Most customers go with a full rebuild for the best results.
       </p>
     </div>
   );

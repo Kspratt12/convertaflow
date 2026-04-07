@@ -54,20 +54,21 @@ export default function AboutPage() {
 
             <div className="space-y-4 text-[15px] leading-[1.8] text-white/50 sm:text-[16px]">
               <p>
-                Most businesses don&apos;t have a marketing team. They don&apos;t have a
-                full-time designer or a CRM specialist. What they have is great work, happy
-                customers, and a website that doesn&apos;t reflect any of it.
+                Most business owners don&apos;t have a marketing team. They don&apos;t
+                have a full-time designer or a tech person on staff. What they
+                do have is great work, loyal customers, and a website that
+                doesn&apos;t reflect either of those things.
               </p>
               <p>
-                Convertaflow was built to close that gap. We combine premium web
-                design with automated lead capture, review collection, email
-                follow-up, and simple business dashboards. Not a collection of
-                disconnected tools. One system, designed to work together.
+                That&apos;s the gap we exist to close. We build the website,
+                set up everything that catches new customers for you, and handle
+                all the boring tech stuff after — so you can focus on what you
+                actually do best.
               </p>
               <p>
-                We believe every business deserves to look professional online, to
-                never miss a lead, and to know exactly what&apos;s driving growth.
-                That&apos;s what we build.
+                Plumber, dentist, yoga instructor, real estate agent, lawyer,
+                hair stylist — it doesn&apos;t matter. Every business deserves to
+                look as professional online as it does in person.
               </p>
             </div>
           </div>

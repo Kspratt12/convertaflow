@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { title, description, pageOrSection, priority } = body;
+    const { title, description, pageOrSection, priority, changeSize } = body;
 
     if (!title || !description) {
       return NextResponse.json(
@@ -40,13 +40,27 @@ export async function POST(request: NextRequest) {
     const cleanPriority =
       priority === "low" || priority === "high" ? priority : "normal";
 
+    // changeSize is metadata only — UI hint for the team to know whether
+    // this is a quick edit or needs a quote. Stored in the description
+    // header line so we don't need a schema migration.
+    const cleanSize =
+      changeSize === "medium" || changeSize === "large" ? changeSize : "small";
+    const sizeLabel =
+      cleanSize === "large"
+        ? "Larger change (likely needs a quote)"
+        : cleanSize === "medium"
+        ? "Medium change (may need a quote)"
+        : "Small change";
+
+    const finalDescription = `[${sizeLabel}]\n\n${description.trim()}`;
+
     const supabase = await createClient();
     const { data: row, error } = await supabase
       .from("revision_requests")
       .insert({
         business_id: session.profile.id,
         title: title.trim(),
-        description: description.trim(),
+        description: finalDescription,
         page_or_section: pageOrSection?.trim() || null,
         priority: cleanPriority,
         status: "pending",
@@ -76,6 +90,7 @@ export async function POST(request: NextRequest) {
         const detailsHtml = `
           <p style="margin:0 0 8px;"><strong style="color:#ffffff;">Customer:</strong> ${session.profile.business_name}</p>
           <p style="margin:0 0 8px;"><strong style="color:#ffffff;">Plan:</strong> ${tier?.name ?? session.profile.plan_tier}</p>
+          <p style="margin:0 0 8px;"><strong style="color:#ffffff;">Size:</strong> ${sizeLabel}</p>
           <p style="margin:0 0 8px;"><strong style="color:#ffffff;">Priority:</strong> ${priorityLabel}</p>
           ${pageOrSection ? `<p style="margin:0 0 8px;"><strong style="color:#ffffff;">Page / Section:</strong> ${pageOrSection}</p>` : ""}
           <p style="margin:12px 0 0;"><strong style="color:#ffffff;">Request:</strong></p>

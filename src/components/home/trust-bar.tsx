@@ -8,12 +8,12 @@ import {
 } from "lucide-react";
 
 const trustItems = [
-  { icon: Target, label: "Lead Capture" },
-  { icon: Star, label: "Reviews" },
-  { icon: BarChart3, label: "Dashboards" },
-  { icon: TrendingUp, label: "Analytics" },
-  { icon: Zap, label: "Automation" },
-  { icon: Shield, label: "Security" },
+  { icon: Target, label: "Catch every inquiry" },
+  { icon: Star, label: "Get more reviews" },
+  { icon: BarChart3, label: "See what's working" },
+  { icon: TrendingUp, label: "Grow on autopilot" },
+  { icon: Zap, label: "Built in days" },
+  { icon: Shield, label: "Always secure" },
 ];
 
 export function TrustBar() {

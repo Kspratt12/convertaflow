@@ -13,44 +13,44 @@ export const metadata: Metadata = {
 
 const features = [
   {
-    icon: Palette, title: "Premium Website Design",
-    description: "Custom-built websites designed around your brand and optimized to convert. Not a template drop. A strategic build that makes your business look as good as the work you deliver.",
-    benefits: ["Custom brand-aligned design", "Conversion-optimized layouts", "Mobile-first responsive", "Fast load times", "SEO-ready from day one"],
+    icon: Palette, title: "Custom Website Design",
+    description: "We design your site from scratch around your brand — not a template, not a drag-and-drop tool. Built to make your business look like the leader in your space.",
+    benefits: ["Custom design built for your brand", "Looks great on phones, tablets, and desktops", "Loads fast on every device", "Easy for Google to find", "Built to make people trust you"],
   },
   {
-    icon: Target, title: "Lead Capture Forms",
-    description: "Strategic forms placed where they matter most. Multi-step options, spam protection, and instant notifications mean every visitor has a clear path to becoming a lead.",
-    benefits: ["Smart multi-step forms", "Instant email notifications", "Lead data in your dashboard", "Spam protection built in", "Strategic placement"],
+    icon: Target, title: "Catch Every New Inquiry",
+    description: "Every visitor who wants to reach you gets a clear, easy way to do it. Forms placed where they actually work, with instant alerts to your email so nothing slips through.",
+    benefits: ["Clear contact forms on every page", "Instant email when someone reaches out", "No more checking 'did anyone fill this out?'", "Spam blocked automatically", "Phone-tap and email-tap on mobile"],
   },
   {
-    icon: Mail, title: "Email Notifications & Follow-Up",
-    description: "Get notified the moment a lead comes in so you can respond while they're still interested. Set up automated follow-ups that nurture leads without manual work.",
-    benefits: ["Instant lead alerts via Resend", "Automated follow-up sequences", "Branded email templates", "Delivery tracking", "Contact confirmations"],
+    icon: Mail, title: "Email Alerts & Follow-Up",
+    description: "Get an email the moment someone reaches out — so you can call them back while they're still interested. Plus optional automatic follow-up emails that work for you 24/7.",
+    benefits: ["Instant alerts the moment someone inquires", "Automatic follow-up emails (Growth+)", "Beautifully branded email templates", "See what got opened", "Confirmation emails to your customers"],
   },
   {
-    icon: Star, title: "Review Request Workflows",
-    description: "Send automated review requests after a job is done. Build the Google reviews that convince new customers to choose you over competitors.",
-    benefits: ["Automated request emails", "Direct Google review links", "Timing controls", "Completion tracking", "Review analytics"],
+    icon: Star, title: "Get More 5-Star Reviews",
+    description: "After every job, we automatically ask your happy customers to leave a Google review. The reviews that win you new business — without you having to ask in person.",
+    benefits: ["Auto-send after every job (Growth+)", "Direct link straight to Google", "We control the timing for the best response", "See who left a review", "Track your rating over time"],
   },
   {
-    icon: LayoutDashboard, title: "Business Dashboard",
-    description: "One clean interface showing every lead, review request, email sent, and conversion. See what's working at a glance. No more guessing, no more spreadsheets.",
-    benefits: ["Real-time lead tracking", "Review analytics", "Email delivery stats", "Lead source attribution", "Activity timeline"],
+    icon: LayoutDashboard, title: "Your Business at a Glance",
+    description: "One clean dashboard showing every new inquiry, every review, and every email — all in one place. Check it once a week to see how your business is doing online.",
+    benefits: ["Every inquiry in one place", "Every review in one place", "Email tracking", "See where your customers come from", "Activity timeline"],
   },
   {
-    icon: TrendingUp, title: "Growth Analytics",
-    description: "Track lead volume, conversion rates, review growth, and response times over time. Identify what drives new business so you can invest smarter.",
-    benefits: ["Conversion funnel views", "Lead source breakdown", "Performance trends", "Response time tracking", "Weekly reporting"],
+    icon: TrendingUp, title: "Know What's Working",
+    description: "See how many people are visiting your site, how many are reaching out, and which pages they're looking at. No more guessing — actual answers about what's working.",
+    benefits: ["Visitor tracking", "Inquiry trends over time", "Which pages perform best", "Response time tracking", "Weekly summaries"],
   },
   {
-    icon: Share2, title: "Social Media Integration",
-    description: "Connect profiles, track link clicks, and see how social channels contribute to lead generation. Available in the Full Growth Bundle.",
-    benefits: ["Profile link management", "Click tracking", "Social-to-lead attribution", "Post scheduling", "Cross-platform analytics"],
+    icon: Share2, title: "Social Media On Autopilot",
+    description: "We post for you, respond to Instagram and Facebook DMs automatically, and connect every social touchpoint back to your website. Available in Everything Done For You.",
+    benefits: ["Automatic social posting", "Instagram and Facebook DM responses", "Track which social posts brought customers", "All in one dashboard", "Hands-off — we run it"],
   },
   {
-    icon: Zap, title: "Automation Workflows",
-    description: "Set triggers that fire automatically. Follow-up emails when leads come in, review requests after service completion. Save hours every week.",
-    benefits: ["Event-driven triggers", "Multi-step sequences", "Conditional logic", "Timing controls", "Full activity logging"],
+    icon: Zap, title: "Run On Autopilot",
+    description: "We set up the systems that work in the background while you focus on the actual work. Follow-up emails, review requests, social posts — all happening automatically.",
+    benefits: ["Set it once, runs forever", "Follow-ups that fire automatically", "Reviews requested without you asking", "All actions logged so you can see what happened", "Pause anytime"],
   },
 ];
 

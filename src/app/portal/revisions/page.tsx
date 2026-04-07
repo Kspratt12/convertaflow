@@ -58,6 +58,7 @@ export default function ChangeRequestsPage() {
   const [description, setDescription] = useState("");
   const [pageOrSection, setPageOrSection] = useState("");
   const [priority, setPriority] = useState<"low" | "normal" | "high">("normal");
+  const [changeSize, setChangeSize] = useState<"small" | "medium" | "large">("small");
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
@@ -95,6 +96,7 @@ export default function ChangeRequestsPage() {
             description: description.trim(),
             pageOrSection: pageOrSection.trim(),
             priority,
+            changeSize,
           }),
         });
         const data = await res.json().catch(() => ({}));
@@ -109,6 +111,7 @@ export default function ChangeRequestsPage() {
         setDescription("");
         setPageOrSection("");
         setPriority("normal");
+        setChangeSize("small");
         setSubmitted(true);
         setTimeout(() => setSubmitted(false), 4000);
         await refresh();
@@ -118,7 +121,7 @@ export default function ChangeRequestsPage() {
         setSubmitting(false);
       }
     },
-    [title, description, pageOrSection, priority, refresh]
+    [title, description, pageOrSection, priority, changeSize, refresh]
   );
 
   return (
@@ -138,17 +141,41 @@ export default function ChangeRequestsPage() {
         </p>
       </div>
 
-      {/* What counts as a small update — set expectations up front */}
-      <div className="rounded-2xl border border-blue-200 bg-blue-50 p-4 sm:p-5">
-        <p className="text-[13px] font-semibold text-blue-900">
-          What we can change for you
-        </p>
-        <p className="mt-1.5 text-[12px] leading-relaxed text-blue-800/80 sm:text-[13px]">
-          Text edits, image swaps, hours and contact info, holiday banners,
-          adding a special — anything under 30 minutes of work. Bigger changes
-          like new pages, redesigns, or new features need a separate quote —
-          mention it in your request and we&apos;ll get back to you with options.
-        </p>
+      {/* Three sizes of changes — set expectations up front */}
+      <div className="grid gap-3 sm:grid-cols-3">
+        <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
+          <p className="text-[12px] font-semibold uppercase tracking-wider text-emerald-700">
+            Small change
+          </p>
+          <p className="mt-1.5 text-[13px] font-semibold text-slate-900">
+            Included with your plan
+          </p>
+          <p className="mt-1 text-[12px] leading-relaxed text-slate-600">
+            Text edits, image swaps, hours, contact info, holiday banners — anything under 30 min of work.
+          </p>
+        </div>
+        <div className="rounded-2xl border border-blue-200 bg-blue-50 p-4">
+          <p className="text-[12px] font-semibold uppercase tracking-wider text-blue-700">
+            Medium change
+          </p>
+          <p className="mt-1.5 text-[13px] font-semibold text-slate-900">
+            We&apos;ll quote it back to you
+          </p>
+          <p className="mt-1 text-[12px] leading-relaxed text-slate-600">
+            New buttons, new sections, video swaps, layout tweaks — usually $50–$150. We&apos;ll confirm before any work.
+          </p>
+        </div>
+        <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4">
+          <p className="text-[12px] font-semibold uppercase tracking-wider text-amber-700">
+            Larger change
+          </p>
+          <p className="mt-1.5 text-[13px] font-semibold text-slate-900">
+            Quoted separately
+          </p>
+          <p className="mt-1 text-[12px] leading-relaxed text-slate-600">
+            New pages, full redesigns, new integrations — starting at $200. Tell us what you want and we&apos;ll send a quote.
+          </p>
+        </div>
       </div>
 
       {/* Request form */}
@@ -169,6 +196,40 @@ export default function ChangeRequestsPage() {
               required
               className={inputClasses}
             />
+          </div>
+
+          <div>
+            <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-slate-500 sm:text-[12px]">
+              How big is this change?
+            </label>
+            <div className="grid grid-cols-3 gap-2">
+              {(["small", "medium", "large"] as const).map((size) => {
+                const active = changeSize === size;
+                const labels = {
+                  small: { title: "Small", sub: "Included" },
+                  medium: { title: "Medium", sub: "Quoted" },
+                  large: { title: "Larger", sub: "Quoted" },
+                };
+                return (
+                  <button
+                    key={size}
+                    type="button"
+                    onClick={() => setChangeSize(size)}
+                    className={cn(
+                      "rounded-xl border px-3 py-3 text-left transition-colors",
+                      active
+                        ? "border-[#7c3aed] bg-[#7c3aed]/5"
+                        : "border-slate-200 bg-white hover:border-slate-300"
+                    )}
+                  >
+                    <p className={cn("text-[13px] font-semibold", active ? "text-[#7c3aed]" : "text-slate-900")}>
+                      {labels[size].title}
+                    </p>
+                    <p className="mt-0.5 text-[11px] text-slate-500">{labels[size].sub}</p>
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           <div>
