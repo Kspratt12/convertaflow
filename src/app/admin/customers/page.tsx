@@ -1,6 +1,7 @@
+import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Clock } from "lucide-react";
+import { Clock, ChevronRight } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 
 interface CustomerRow {
@@ -118,6 +119,7 @@ export default async function CustomersPage() {
                     <th className="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-white/30">
                       Joined
                     </th>
+                    <th className="w-8" />
                   </tr>
                 </thead>
                 <tbody>
@@ -127,15 +129,20 @@ export default async function CustomersPage() {
                     return (
                       <tr
                         key={c.id}
-                        className="border-b border-white/[0.04] hover:bg-white/[0.02]"
+                        className="group border-b border-white/[0.04] hover:bg-white/[0.02] cursor-pointer"
                       >
                         <td className="px-5 py-3.5">
-                          <p className="text-[13px] font-medium text-white/90">
-                            {c.business_name || "—"}
-                          </p>
-                          <p className="text-[11px] text-white/35">
-                            {c.business_email || "—"}
-                          </p>
+                          <Link
+                            href={`/admin/projects/${c.id}`}
+                            className="block"
+                          >
+                            <p className="text-[13px] font-medium text-white/90 group-hover:text-white">
+                              {c.business_name || "—"}
+                            </p>
+                            <p className="text-[11px] text-white/35">
+                              {c.business_email || "—"}
+                            </p>
+                          </Link>
                         </td>
                         <td className="px-5 py-3.5">
                           <Badge
@@ -163,6 +170,15 @@ export default async function CustomersPage() {
                             <Clock className="h-3 w-3" />
                             {formatDate(c.created_at)}
                           </span>
+                        </td>
+                        <td className="px-3 py-3.5">
+                          <Link
+                            href={`/admin/projects/${c.id}`}
+                            aria-label="Open project"
+                            className="flex items-center justify-end text-white/30 group-hover:text-white/70"
+                          >
+                            <ChevronRight className="h-4 w-4" />
+                          </Link>
                         </td>
                       </tr>
                     );

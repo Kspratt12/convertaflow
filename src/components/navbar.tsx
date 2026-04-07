@@ -4,15 +4,19 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Menu, X, ArrowRight } from "lucide-react";
+import { Menu, X, ArrowRight, LayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { NAV_LINKS, SITE } from "@/lib/constants";
 import { cn } from "@/lib/utils";
+import { createClient } from "@/lib/supabase/client";
 
 export function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [authState, setAuthState] = useState<"unknown" | "signed-in" | "signed-out">(
+    "unknown"
+  );
 
   useEffect(() => {
     let ticking = false;
@@ -28,6 +32,31 @@ export function Navbar() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // One-shot auth check on mount + listen for sign-in/sign-out so the
+  // navbar swaps between "Log in / Get Started" and "My Dashboard" without
+  // a page reload.
+  useEffect(() => {
+    const supabase = createClient();
+    let mounted = true;
+
+    supabase.auth.getUser().then(({ data }) => {
+      if (!mounted) return;
+      setAuthState(data.user ? "signed-in" : "signed-out");
+    });
+
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!mounted) return;
+      setAuthState(session?.user ? "signed-in" : "signed-out");
+    });
+
+    return () => {
+      mounted = false;
+      listener.subscription.unsubscribe();
+    };
+  }, []);
+
+  const isSignedIn = authState === "signed-in";
 
   return (
     <header
@@ -83,28 +112,45 @@ export function Navbar() {
         </nav>
 
         <div className="hidden items-center gap-2 md:flex">
-          <Link
-            href="/portal"
-            className="rounded-lg px-3.5 py-2 text-[13px] font-medium text-white/60 transition-colors hover:text-white"
-          >
-            Client Portal
-          </Link>
-          <Link
-            href="/login"
-            className="rounded-lg px-3.5 py-2 text-[13px] font-medium text-white/60 transition-colors hover:text-white"
-          >
-            Log in
-          </Link>
-          <Button
-            size="sm"
-            className="gap-1.5 px-4 bg-white/10 border border-white/15 text-white hover:bg-white/20 backdrop-blur-sm"
-            asChild
-          >
-            <Link href="/pricing">
-              Get Started
-              <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
-          </Button>
+          {isSignedIn ? (
+            <>
+              <Link
+                href="/portal"
+                className="rounded-lg px-3.5 py-2 text-[13px] font-medium text-white/60 transition-colors hover:text-white"
+              >
+                Client Portal
+              </Link>
+              <Button
+                size="sm"
+                className="gap-1.5 px-4 bg-white/10 border border-white/15 text-white hover:bg-white/20 backdrop-blur-sm"
+                asChild
+              >
+                <Link href="/dashboard">
+                  <LayoutDashboard className="h-3.5 w-3.5" />
+                  My Dashboard
+                </Link>
+              </Button>
+            </>
+          ) : (
+            <>
+              <Link
+                href="/login"
+                className="rounded-lg px-3.5 py-2 text-[13px] font-medium text-white/60 transition-colors hover:text-white"
+              >
+                Log in
+              </Link>
+              <Button
+                size="sm"
+                className="gap-1.5 px-4 bg-white/10 border border-white/15 text-white hover:bg-white/20 backdrop-blur-sm"
+                asChild
+              >
+                <Link href="/pricing">
+                  Get Started
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
+              </Button>
+            </>
+          )}
         </div>
 
         <button
@@ -135,27 +181,41 @@ export function Navbar() {
               </Link>
             ))}
             <div className="mt-4 flex flex-col gap-2 border-t border-white/[0.06] pt-4">
-              <Link
-                href="/portal"
-                onClick={() => setOpen(false)}
-                className="rounded-lg border border-white/15 px-3 py-2.5 text-center text-sm font-medium text-white/80"
-              >
-                Client Portal
-              </Link>
-              <Link
-                href="/login"
-                onClick={() => setOpen(false)}
-                className="rounded-lg border border-white/15 px-3 py-2.5 text-center text-sm font-medium text-white/80"
-              >
-                Log in
-              </Link>
-              <Link
-                href="/pricing"
-                onClick={() => setOpen(false)}
-                className="rounded-lg bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] px-3 py-2.5 text-center text-sm font-medium text-white"
-              >
-                Get Started
-              </Link>
+              {isSignedIn ? (
+                <>
+                  <Link
+                    href="/portal"
+                    onClick={() => setOpen(false)}
+                    className="rounded-lg border border-white/15 px-3 py-2.5 text-center text-sm font-medium text-white/80"
+                  >
+                    Client Portal
+                  </Link>
+                  <Link
+                    href="/dashboard"
+                    onClick={() => setOpen(false)}
+                    className="rounded-lg bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] px-3 py-2.5 text-center text-sm font-medium text-white"
+                  >
+                    My Dashboard
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/login"
+                    onClick={() => setOpen(false)}
+                    className="rounded-lg border border-white/15 px-3 py-2.5 text-center text-sm font-medium text-white/80"
+                  >
+                    Log in
+                  </Link>
+                  <Link
+                    href="/pricing"
+                    onClick={() => setOpen(false)}
+                    className="rounded-lg bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] px-3 py-2.5 text-center text-sm font-medium text-white"
+                  >
+                    Get Started
+                  </Link>
+                </>
+              )}
             </div>
           </nav>
         </div>
