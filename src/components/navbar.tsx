@@ -50,13 +50,13 @@ export function Navbar() {
       )} />
 
       <div className="relative mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-baseline">
+        <Link href="/" className="flex items-center">
           <Image
             src="/convertaflow-logo.png"
             alt={SITE.name}
-            width={40}
-            height={40}
-            className="h-[28px] w-[28px] sm:h-[34px] sm:w-[34px] object-contain mix-blend-screen -mr-1 sm:-mr-1.5 relative -top-[1px]"
+            width={56}
+            height={56}
+            className="h-[44px] w-[44px] sm:h-[52px] sm:w-[52px] object-contain mix-blend-screen -mr-[10px] sm:-mr-[12px] -my-2"
             priority
           />
           <span className="text-[22px] sm:text-[26px] font-bold tracking-tight">
