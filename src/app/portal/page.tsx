@@ -69,18 +69,18 @@ export default function PortalOverviewPage() {
     <div className="mx-auto max-w-6xl space-y-6">
       {/* Welcome */}
       <div>
-        <h1 className="text-2xl font-bold text-white/90">
+        <h1 className="text-xl font-bold text-white/90 sm:text-2xl">
           Welcome back, {businessName}
         </h1>
-        <p className="mt-1 text-[14px] text-white/50">
+        <p className="mt-1 text-[13px] text-white/45 sm:text-[14px]">
           Your project hub — everything you need in one place.
         </p>
       </div>
 
       {/* Top cards */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {/* Plan card */}
-        <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5">
+        <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#7c3aed]/20 to-[#3b82f6]/20">
               <Sparkles className="h-5 w-5 text-[#06b6d4]" />
@@ -106,7 +106,7 @@ export default function PortalOverviewPage() {
         </div>
 
         {/* Project Status card */}
-        <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5">
+        <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#7c3aed]/20 to-[#3b82f6]/20">
               <Clock className="h-5 w-5 text-[#06b6d4]" />
@@ -139,7 +139,7 @@ export default function PortalOverviewPage() {
         </div>
 
         {/* Onboarding Progress card */}
-        <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5">
+        <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#7c3aed]/20 to-[#3b82f6]/20">
               <CheckCircle2 className="h-5 w-5 text-[#06b6d4]" />
@@ -173,7 +173,7 @@ export default function PortalOverviewPage() {
         <h2 className="mb-4 text-[15px] font-semibold text-white/70">
           Quick Actions
         </h2>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {quickActions.map((action) => (
             <Link
               key={action.href}

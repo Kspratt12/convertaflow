@@ -33,21 +33,21 @@ export default function DeliveryPage() {
     <div className="mx-auto max-w-4xl space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-white/90">Delivery</h1>
-        <p className="mt-1 text-[14px] text-white/50">
+        <h1 className="text-xl font-bold text-white/90 sm:text-2xl">Delivery</h1>
+        <p className="mt-1 text-[13px] text-white/45 sm:text-[14px]">
           Access your project deliverables — preview links, live site, and dashboard access.
         </p>
       </div>
 
       {links.length === 0 ? (
         /* Empty state */
-        <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] py-20 text-center">
+        <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 py-20 text-center sm:p-6 sm:py-20">
           <div className="flex flex-col items-center gap-4">
             <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#7c3aed]/10 to-[#3b82f6]/10">
-              <Package className="h-7 w-7 text-white/20" />
+              <Package className="h-7 w-7 text-white/30" />
             </div>
             <div className="max-w-sm">
-              <p className="text-[16px] font-semibold text-white/60">
+              <p className="text-[15px] font-semibold text-white/50 sm:text-[16px]">
                 Your project hasn&apos;t been delivered yet
               </p>
               <p className="mt-2 text-[13px] leading-relaxed text-white/35">
@@ -58,7 +58,7 @@ export default function DeliveryPage() {
         </div>
       ) : (
         /* Delivery link cards */
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {links.map((link) => {
             const config = TYPE_CONFIG[link.link_type];
             return (
@@ -67,7 +67,7 @@ export default function DeliveryPage() {
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 transition-all hover:border-white/[0.12] hover:bg-white/[0.05]"
+                className="group rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 transition-all hover:border-white/[0.12] hover:bg-white/[0.05] sm:p-6"
               >
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">

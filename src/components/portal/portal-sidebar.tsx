@@ -65,7 +65,7 @@ export function PortalSidebar() {
               key={item.href}
               href={item.href}
               className={cn(
-                "flex items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] font-medium transition-colors",
+                "flex items-center gap-2.5 rounded-xl px-3 py-2 text-[13px] font-medium transition-colors",
                 active
                   ? "bg-white/[0.06] text-white"
                   : "text-white/50 hover:bg-white/[0.04] hover:text-white/80"
@@ -86,7 +86,7 @@ export function PortalSidebar() {
       <div className="border-t border-white/[0.06] p-4">
         <Link
           href="/dashboard"
-          className="flex items-center gap-2 rounded-lg px-3 py-2 text-[12px] font-medium text-white/40 transition-colors hover:bg-white/[0.04] hover:text-white/60"
+          className="flex items-center gap-2 rounded-xl px-3 py-2 text-[12px] font-medium text-white/40 transition-colors hover:bg-white/[0.04] hover:text-white/60"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           Growth Dashboard

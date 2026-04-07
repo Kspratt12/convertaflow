@@ -13,6 +13,7 @@ import {
   ImageIcon,
   Zap,
   CalendarDays,
+  Upload,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useBusiness } from "@/components/dashboard/business-provider";
@@ -126,6 +127,12 @@ const SECTIONS: OnboardingSection[] = [
   },
 ];
 
+const inputClasses =
+  "w-full rounded-xl bg-white/[0.04] border border-white/[0.08] px-4 py-3 text-[14px] text-white placeholder:text-white/30 focus:border-[#7c3aed]/40 focus:outline-none focus:ring-1 focus:ring-[#7c3aed]/20 transition-colors";
+
+const selectClasses =
+  "w-full rounded-xl bg-white/[0.04] border border-white/[0.08] px-4 py-3 text-[14px] text-white focus:border-[#7c3aed]/40 focus:outline-none focus:ring-1 focus:ring-[#7c3aed]/20 transition-colors [&>option]:bg-[#0a0a1a] [&>option]:text-white";
+
 export default function OnboardingPage() {
   const { businessName } = useBusiness();
   const [expandedSections, setExpandedSections] = useState<Set<string>>(
@@ -198,15 +205,15 @@ export default function OnboardingPage() {
     <div className="mx-auto max-w-3xl space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-white/90">Project Onboarding</h1>
-        <p className="mt-1 text-[14px] text-white/50">
+        <h1 className="text-xl font-bold text-white/90 sm:text-2xl">Project Onboarding</h1>
+        <p className="mt-1 text-[13px] text-white/45 sm:text-[14px]">
           Complete each section below so we can build exactly what {businessName} needs.
           Save as you go — no need to finish everything at once.
         </p>
       </div>
 
       {/* Progress bar */}
-      <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5">
+      <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6">
         <div className="flex items-center justify-between text-[13px]">
           <span className="font-medium text-white/70">
             {completedCount} of {totalCount} sections completed
@@ -233,12 +240,12 @@ export default function OnboardingPage() {
           return (
             <div
               key={section.id}
-              className="rounded-2xl border border-white/[0.06] bg-white/[0.03] overflow-hidden"
+              className="overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.03]"
             >
               {/* Section header */}
               <button
                 onClick={() => toggleSection(section.id)}
-                className="flex w-full items-center gap-3 p-5 text-left transition-colors hover:bg-white/[0.02]"
+                className="flex w-full items-center gap-3 p-5 text-left transition-colors hover:bg-white/[0.02] sm:p-6"
               >
                 <div
                   className={cn(
@@ -254,15 +261,15 @@ export default function OnboardingPage() {
                     <section.icon className="h-5 w-5 text-[#06b6d4]" />
                   )}
                 </div>
-                <div className="flex-1 min-w-0">
+                <div className="min-w-0 flex-1">
                   <p className="text-[14px] font-semibold text-white/90">
                     {section.title}
                   </p>
                   <p className="text-[12px] text-white/40">{section.description}</p>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex shrink-0 items-center gap-2">
                   {isCompleted && (
-                    <span className="rounded-full bg-emerald-500/10 px-2.5 py-1 text-[11px] font-medium text-emerald-400">
+                    <span className="rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-medium text-emerald-400">
                       Complete
                     </span>
                   )}
@@ -276,10 +283,10 @@ export default function OnboardingPage() {
 
               {/* Section body */}
               {isExpanded && (
-                <div className="border-t border-white/[0.06] px-5 pb-5 pt-4 space-y-5">
+                <div className="space-y-4 border-t border-white/[0.06] px-5 pb-5 pt-5 sm:px-6 sm:pb-6">
                   {section.fields.map((field) => (
                     <div key={field.name}>
-                      <label className="mb-1.5 block text-[12px] font-medium text-white/50">
+                      <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-white/30 sm:text-[12px]">
                         {field.label}
                       </label>
 
@@ -291,7 +298,7 @@ export default function OnboardingPage() {
                           onChange={(e) =>
                             updateField(section.id, field.name, e.target.value)
                           }
-                          className="h-9 w-full rounded-lg bg-white/[0.04] border border-white/[0.08] px-3 text-[13px] text-white placeholder:text-white/30 outline-none transition-colors focus:border-white/[0.15] focus:bg-white/[0.06]"
+                          className={inputClasses}
                         />
                       )}
 
@@ -303,7 +310,7 @@ export default function OnboardingPage() {
                           onChange={(e) =>
                             updateField(section.id, field.name, e.target.value)
                           }
-                          className="w-full rounded-lg bg-white/[0.04] border border-white/[0.08] px-3 py-2 text-[13px] text-white placeholder:text-white/30 outline-none transition-colors focus:border-white/[0.15] focus:bg-white/[0.06] resize-none"
+                          className={cn(inputClasses, "min-h-[100px] resize-none")}
                         />
                       )}
 
@@ -313,7 +320,7 @@ export default function OnboardingPage() {
                           onChange={(e) =>
                             updateField(section.id, field.name, e.target.value)
                           }
-                          className="h-9 w-full rounded-lg bg-white/[0.04] border border-white/[0.08] px-3 text-[13px] text-white outline-none transition-colors focus:border-white/[0.15] focus:bg-white/[0.06] [&>option]:bg-[#0a0a1a] [&>option]:text-white"
+                          className={selectClasses}
                         >
                           <option value="">Select an option</option>
                           {field.options.map((opt) => (
@@ -325,7 +332,7 @@ export default function OnboardingPage() {
                       )}
 
                       {field.type === "checkboxes" && (
-                        <div className="grid gap-2 sm:grid-cols-2">
+                        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                           {field.options.map((option) => {
                             const checked = (
                               (data[field.name] as string[]) || []
@@ -338,7 +345,7 @@ export default function OnboardingPage() {
                                   toggleCheckbox(section.id, field.name, option)
                                 }
                                 className={cn(
-                                  "flex items-center gap-2.5 rounded-lg border px-3 py-2 text-left text-[13px] transition-all",
+                                  "flex items-center gap-2.5 rounded-xl border px-3.5 py-2.5 text-left text-[13px] transition-all",
                                   checked
                                     ? "border-[#7c3aed]/40 bg-[#7c3aed]/10 text-white/90"
                                     : "border-white/[0.08] bg-white/[0.02] text-white/60 hover:bg-white/[0.04]"
@@ -364,15 +371,16 @@ export default function OnboardingPage() {
                       )}
 
                       {field.type === "file" && (
-                        <div className="flex items-center justify-center rounded-lg border border-dashed border-white/[0.1] bg-white/[0.02] px-4 py-6 text-center">
-                          <div>
+                        <div className="flex items-center justify-center rounded-xl border border-dashed border-white/[0.1] bg-white/[0.02] px-4 py-8 text-center transition-colors hover:border-white/[0.15] hover:bg-white/[0.03]">
+                          <div className="flex flex-col items-center gap-2">
+                            <Upload className="h-6 w-6 text-white/20" />
                             <p className="text-[13px] text-white/50">
                               Drag and drop files here, or{" "}
-                              <span className="font-medium text-[#06b6d4] cursor-pointer">
+                              <span className="cursor-pointer font-medium text-[#06b6d4]">
                                 browse
                               </span>
                             </p>
-                            <p className="mt-1 text-[11px] text-white/30">
+                            <p className="text-[11px] text-white/30">
                               PNG, JPG, SVG, PDF up to 10MB
                             </p>
                           </div>
@@ -386,7 +394,7 @@ export default function OnboardingPage() {
                     <button
                       onClick={() => saveSection(section.id)}
                       disabled={isSaving}
-                      className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] px-5 py-2 text-[13px] font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-60"
+                      className="inline-flex h-11 items-center gap-2 rounded-xl bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] border-0 px-6 text-[13px] font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-60"
                     >
                       {isSaving ? (
                         <>

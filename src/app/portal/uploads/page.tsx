@@ -28,14 +28,14 @@ export default function UploadsPage() {
     <div className="mx-auto max-w-5xl space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-white/90">Uploads</h1>
-        <p className="mt-1 text-[14px] text-white/50">
+        <h1 className="text-xl font-bold text-white/90 sm:text-2xl">Uploads</h1>
+        <p className="mt-1 text-[13px] text-white/45 sm:text-[14px]">
           Share your logos, photos, brand files, and any other assets our team needs to bring your project to life.
         </p>
       </div>
 
       {/* Upload area */}
-      <div className="rounded-2xl border-2 border-dashed border-white/[0.1] bg-white/[0.02] p-10 text-center transition-colors hover:border-white/[0.15] hover:bg-white/[0.03]">
+      <div className="rounded-2xl border-2 border-dashed border-white/[0.1] bg-white/[0.02] px-6 py-10 text-center transition-colors hover:border-white/[0.15] hover:bg-white/[0.03] sm:p-10">
         <div className="flex flex-col items-center gap-3">
           <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#7c3aed]/15 to-[#3b82f6]/15">
             <CloudUpload className="h-7 w-7 text-[#06b6d4]" />
@@ -77,13 +77,13 @@ export default function UploadsPage() {
       </div>
 
       {/* Empty state */}
-      <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] py-16 text-center">
+      <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 py-16 text-center sm:p-6 sm:py-16">
         <div className="flex flex-col items-center gap-3">
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/[0.04]">
-            <Upload className="h-6 w-6 text-white/20" />
+            <Upload className="h-6 w-6 text-white/30" />
           </div>
           <div>
-            <p className="text-[14px] font-medium text-white/60">No files uploaded yet</p>
+            <p className="text-[14px] font-medium text-white/50">No files uploaded yet</p>
             <p className="mt-1 text-[12px] text-white/35">
               Upload your brand assets, photos, and documents above to get started.
             </p>

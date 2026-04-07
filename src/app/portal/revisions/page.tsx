@@ -35,6 +35,12 @@ const STATUS_CONFIG = {
   completed: { label: "Completed", icon: Check, style: "bg-emerald-500/10 text-emerald-400" },
 };
 
+const inputClasses =
+  "w-full rounded-xl bg-white/[0.04] border border-white/[0.08] px-4 py-3 text-[14px] text-white placeholder:text-white/30 focus:border-[#7c3aed]/40 focus:outline-none focus:ring-1 focus:ring-[#7c3aed]/20 transition-colors";
+
+const selectClasses =
+  "w-full rounded-xl bg-white/[0.04] border border-white/[0.08] px-4 py-3 text-[14px] text-white focus:border-[#7c3aed]/40 focus:outline-none focus:ring-1 focus:ring-[#7c3aed]/20 transition-colors [&>option]:bg-[#0a0a1a] [&>option]:text-white";
+
 export default function RevisionsPage() {
   const { tier } = useBusiness();
   const tierConfig = TIERS[tier];
@@ -70,20 +76,20 @@ export default function RevisionsPage() {
     <div className="mx-auto max-w-4xl space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-white/90">Revisions</h1>
-        <p className="mt-1 text-[14px] text-white/50">
+        <h1 className="text-xl font-bold text-white/90 sm:text-2xl">Revisions</h1>
+        <p className="mt-1 text-[13px] text-white/45 sm:text-[14px]">
           Request changes to your design. You have {revisionsAvailable} revisions included with your plan.
         </p>
       </div>
 
       {/* Revision form */}
-      <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-6">
-        <h2 className="mb-4 text-[15px] font-semibold text-white/70">
+      <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6">
+        <h2 className="mb-5 text-[15px] font-semibold text-white/70">
           Submit a Revision Request
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="mb-1.5 block text-[12px] font-medium text-white/50">
+            <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-white/30 sm:text-[12px]">
               Title
             </label>
             <input
@@ -92,12 +98,12 @@ export default function RevisionsPage() {
               onChange={(e) => setTitle(e.target.value)}
               placeholder="e.g. Update hero section headline"
               required
-              className="h-9 w-full rounded-lg bg-white/[0.04] border border-white/[0.08] px-3 text-[13px] text-white placeholder:text-white/30 outline-none transition-colors focus:border-white/[0.15] focus:bg-white/[0.06]"
+              className={inputClasses}
             />
           </div>
 
           <div>
-            <label className="mb-1.5 block text-[12px] font-medium text-white/50">
+            <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-white/30 sm:text-[12px]">
               Description
             </label>
             <textarea
@@ -106,13 +112,13 @@ export default function RevisionsPage() {
               placeholder="Describe the change you'd like in detail. The more specific, the faster we can deliver."
               rows={4}
               required
-              className="w-full rounded-lg bg-white/[0.04] border border-white/[0.08] px-3 py-2 text-[13px] text-white placeholder:text-white/30 outline-none transition-colors focus:border-white/[0.15] focus:bg-white/[0.06] resize-none"
+              className={cn(inputClasses, "min-h-[100px] resize-none")}
             />
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
-              <label className="mb-1.5 block text-[12px] font-medium text-white/50">
+              <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-white/30 sm:text-[12px]">
                 Page or Section
               </label>
               <input
@@ -120,11 +126,11 @@ export default function RevisionsPage() {
                 value={pageOrSection}
                 onChange={(e) => setPageOrSection(e.target.value)}
                 placeholder="e.g. Home page, About section"
-                className="h-9 w-full rounded-lg bg-white/[0.04] border border-white/[0.08] px-3 text-[13px] text-white placeholder:text-white/30 outline-none transition-colors focus:border-white/[0.15] focus:bg-white/[0.06]"
+                className={inputClasses}
               />
             </div>
             <div>
-              <label className="mb-1.5 block text-[12px] font-medium text-white/50">
+              <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-white/30 sm:text-[12px]">
                 Priority
               </label>
               <select
@@ -132,7 +138,7 @@ export default function RevisionsPage() {
                 onChange={(e) =>
                   setPriority(e.target.value as "low" | "normal" | "high")
                 }
-                className="h-9 w-full rounded-lg bg-white/[0.04] border border-white/[0.08] px-3 text-[13px] text-white outline-none transition-colors focus:border-white/[0.15] focus:bg-white/[0.06] [&>option]:bg-[#0a0a1a] [&>option]:text-white"
+                className={selectClasses}
               >
                 <option value="low">Low</option>
                 <option value="normal">Normal</option>
@@ -141,17 +147,17 @@ export default function RevisionsPage() {
             </div>
           </div>
 
-          {/* File upload placeholder */}
+          {/* File upload */}
           <div>
-            <label className="mb-1.5 block text-[12px] font-medium text-white/50">
+            <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-white/30 sm:text-[12px]">
               Attach a Screenshot (optional)
             </label>
-            <div className="flex items-center justify-center rounded-lg border border-dashed border-white/[0.1] bg-white/[0.02] px-4 py-4 text-center">
-              <div className="flex items-center gap-2">
-                <Upload className="h-4 w-4 text-white/30" />
-                <p className="text-[12px] text-white/40">
+            <div className="flex items-center justify-center rounded-xl border border-dashed border-white/[0.1] bg-white/[0.02] px-4 py-6 text-center transition-colors hover:border-white/[0.15] hover:bg-white/[0.03]">
+              <div className="flex flex-col items-center gap-2">
+                <Upload className="h-5 w-5 text-white/20" />
+                <p className="text-[13px] text-white/40">
                   Drag and drop or{" "}
-                  <span className="font-medium text-[#06b6d4] cursor-pointer">
+                  <span className="cursor-pointer font-medium text-[#06b6d4]">
                     browse
                   </span>
                 </p>
@@ -159,11 +165,11 @@ export default function RevisionsPage() {
             </div>
           </div>
 
-          <div className="flex items-center gap-3 pt-1">
+          <div className="flex items-center gap-3 pt-2">
             <button
               type="submit"
               disabled={submitting || !title.trim() || !description.trim()}
-              className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] px-5 py-2 text-[13px] font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-60"
+              className="inline-flex h-11 items-center gap-2 rounded-xl bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] border-0 px-6 text-[13px] font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-60"
             >
               {submitting ? (
                 <>
@@ -193,13 +199,13 @@ export default function RevisionsPage() {
         </h2>
 
         {revisions.length === 0 ? (
-          <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] py-12 text-center">
+          <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 py-14 text-center sm:p-6 sm:py-14">
             <div className="flex flex-col items-center gap-3">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/[0.04]">
-                <Edit3 className="h-6 w-6 text-white/20" />
+                <Edit3 className="h-6 w-6 text-white/30" />
               </div>
               <div>
-                <p className="text-[14px] font-medium text-white/60">
+                <p className="text-[14px] font-medium text-white/50">
                   No revision requests yet
                 </p>
                 <p className="mt-1 text-[12px] text-white/35">
@@ -215,10 +221,10 @@ export default function RevisionsPage() {
               return (
                 <div
                   key={rev.id}
-                  className="rounded-xl border border-white/[0.06] bg-white/[0.03] p-4"
+                  className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6"
                 >
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                    <div className="min-w-0">
                       <p className="text-[14px] font-semibold text-white/90">
                         {rev.title}
                       </p>
@@ -234,7 +240,7 @@ export default function RevisionsPage() {
                     <div className="flex items-center gap-2 shrink-0">
                       <span
                         className={cn(
-                          "rounded-full px-2.5 py-1 text-[11px] font-medium",
+                          "rounded-full px-2.5 py-0.5 text-[11px] font-medium",
                           PRIORITY_STYLES[rev.priority]
                         )}
                       >
@@ -242,7 +248,7 @@ export default function RevisionsPage() {
                       </span>
                       <span
                         className={cn(
-                          "inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium",
+                          "inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-medium",
                           statusConfig.style
                         )}
                       >

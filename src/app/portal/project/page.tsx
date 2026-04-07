@@ -40,15 +40,15 @@ export default function ProjectStatusPage() {
     <div className="mx-auto max-w-4xl space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-white/90">Project Status</h1>
-        <p className="mt-1 text-[14px] text-white/50">
+        <h1 className="text-xl font-bold text-white/90 sm:text-2xl">Project Status</h1>
+        <p className="mt-1 text-[13px] text-white/45 sm:text-[14px]">
           Track your project from start to finish. We keep this updated in real time.
         </p>
       </div>
 
       {/* Info cards */}
-      <div className="grid gap-4 sm:grid-cols-3">
-        <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6">
           <div className="flex items-center gap-2.5">
             <Sparkles className="h-4 w-4 text-[#06b6d4]" />
             <p className="text-[11px] font-medium uppercase tracking-wider text-white/30">
@@ -61,7 +61,7 @@ export default function ProjectStatusPage() {
           <p className="text-[12px] text-white/40">{tierConfig.price}</p>
         </div>
 
-        <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5">
+        <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6">
           <div className="flex items-center gap-2.5">
             <Clock className="h-4 w-4 text-[#06b6d4]" />
             <p className="text-[11px] font-medium uppercase tracking-wider text-white/30">
@@ -74,7 +74,7 @@ export default function ProjectStatusPage() {
           <p className="text-[12px] text-white/40">from onboarding submission</p>
         </div>
 
-        <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5">
+        <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6">
           <div className="flex items-center gap-2.5">
             <Edit3 className="h-4 w-4 text-[#06b6d4]" />
             <p className="text-[11px] font-medium uppercase tracking-wider text-white/30">
@@ -91,7 +91,7 @@ export default function ProjectStatusPage() {
       </div>
 
       {/* Timeline */}
-      <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-6">
+      <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6">
         <h2 className="mb-6 text-[15px] font-semibold text-white/70">
           Project Timeline
         </h2>
@@ -181,7 +181,7 @@ export default function ProjectStatusPage() {
       </div>
 
       {/* Notes */}
-      <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5">
+      <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 sm:p-6">
         <h2 className="mb-3 text-[15px] font-semibold text-white/70">
           Latest Update
         </h2>
