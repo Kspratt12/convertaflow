@@ -1,42 +1,66 @@
-"use client";
-
-import { useState } from "react";
-import {
-  Search,
-  Filter,
-  Download,
-  Clock,
-  Globe,
-  Users,
-  CheckCircle2,
-  UserPlus,
-} from "lucide-react";
+import { Clock, Users, UserPlus, CheckCircle2 } from "lucide-react";
+import { redirect } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { getSession } from "@/lib/auth";
+import { createClient } from "@/lib/supabase/server";
+import { canAccessFeature } from "@/lib/tier";
+import { TierGate } from "@/components/dashboard/tier-gate";
+import type { TierId } from "@/lib/types";
 
-const leads = [
-  { id: 1, name: "David Park", email: "david@parkservices.com", phone: "(555) 123-4567", source: "Website", status: "New", date: "Apr 6, 2026", message: "Interested in commercial cleaning services" },
-  { id: 2, name: "Lisa Chen", email: "lisa@chengroup.com", phone: "(555) 234-5678", source: "Google", status: "New", date: "Apr 6, 2026", message: "Looking for a quote on office renovation" },
-  { id: 3, name: "Mike Torres", email: "mike@torresconstruction.com", phone: "(555) 345-6789", source: "Referral", status: "Contacted", date: "Apr 5, 2026", message: "Need help with a residential project" },
-  { id: 4, name: "Rachel Adams", email: "rachel@adamslaw.com", phone: "(555) 456-7890", source: "Website", status: "Contacted", date: "Apr 5, 2026", message: "Want to discuss website redesign" },
-  { id: 5, name: "James Wilson", email: "james@wilsonplumbing.com", phone: "(555) 567-8901", source: "Google", status: "Converted", date: "Apr 4, 2026", message: "Ready to start with Premium Website tier" },
-  { id: 6, name: "Amanda Foster", email: "amanda@fosterdental.com", phone: "(555) 678-9012", source: "Website", status: "Converted", date: "Apr 3, 2026", message: "Interested in Reviews + Dashboard plan" },
-  { id: 7, name: "Robert Kim", email: "robert@kimrealty.com", phone: "(555) 789-0123", source: "Facebook", status: "New", date: "Apr 3, 2026", message: "Want to generate more real estate leads" },
-  { id: 8, name: "Patricia Nguyen", email: "patricia@nguyenlaw.com", phone: "(555) 890-1234", source: "Google", status: "Contacted", date: "Apr 2, 2026", message: "Looking for full growth bundle info" },
-];
+interface LeadRow {
+  id: string;
+  name: string;
+  email: string;
+  phone: string | null;
+  source: string | null;
+  status: "New" | "Contacted" | "Converted" | "Lost";
+  message: string | null;
+  created_at: string;
+}
 
-export default function LeadsPage() {
-  const [filter, setFilter] = useState("all");
-  const filtered = filter === "all" ? leads : leads.filter((l) => l.status.toLowerCase() === filter);
+function formatRelative(iso: string): string {
+  const minutes = Math.floor((Date.now() - new Date(iso).getTime()) / 60000);
+  if (minutes < 1) return "just now";
+  if (minutes < 60) return `${minutes} min ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}h ago`;
+  const days = Math.floor(hours / 24);
+  if (days < 30) return `${days}d ago`;
+  return new Date(iso).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+async function loadLeads(businessId: string): Promise<LeadRow[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("leads")
+    .select("id, name, email, phone, source, status, message, created_at")
+    .eq("business_id", businessId)
+    .order("created_at", { ascending: false })
+    .limit(100);
+  return (data ?? []) as LeadRow[];
+}
+
+export default async function LeadsPage() {
+  const session = await getSession();
+  if (!session) redirect("/login");
+
+  const tier = session.profile.plan_tier as TierId;
+  if (!canAccessFeature(tier, "leads")) {
+    return (
+      <TierGate
+        requiredTier="growth"
+        featureName="Lead Tracking"
+        featureDescription="Capture every lead from your website, track their status, and never let one slip through. Included with Growth and above."
+      />
+    );
+  }
+
+  const leads = await loadLeads(session.profile.id);
 
   const counts = {
     total: leads.length,
@@ -47,108 +71,114 @@ export default function LeadsPage() {
 
   return (
     <div className="space-y-5">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-xl font-bold tracking-tight">Leads</h1>
-          <p className="mt-0.5 text-[13px] text-muted-foreground">
-            Track and manage all incoming leads.
-          </p>
-        </div>
-        <Button variant="outline" size="sm" className="gap-1.5">
-          <Download className="h-3.5 w-3.5" />
-          Export
-        </Button>
+      <div>
+        <h1 className="text-xl font-bold tracking-tight">Leads</h1>
+        <p className="mt-0.5 text-[13px] text-muted-foreground">
+          Every lead from your website forms — captured, tracked, ready to follow up.
+        </p>
       </div>
 
-      {/* Stats */}
-      <div className="grid gap-3 grid-cols-2 sm:grid-cols-4">
-        {[
-          { label: "Total", value: counts.total, icon: Users },
-          { label: "New", value: counts.new, icon: UserPlus },
-          { label: "Contacted", value: counts.contacted, icon: Clock },
-          { label: "Converted", value: counts.converted, icon: CheckCircle2 },
-        ].map((s) => (
-          <Card key={s.label} className="border-border/50">
-            <CardContent className="p-4">
-              <s.icon className="h-3.5 w-3.5 text-muted-foreground/60" />
-              <p className="mt-2 text-2xl font-bold tracking-tight">{s.value}</p>
-              <p className="text-[12px] text-muted-foreground">{s.label}</p>
-            </CardContent>
-          </Card>
-        ))}
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <SummaryCard label="Total" value={counts.total} icon={Users} />
+        <SummaryCard label="New" value={counts.new} icon={UserPlus} />
+        <SummaryCard label="Contacted" value={counts.contacted} icon={Clock} />
+        <SummaryCard label="Converted" value={counts.converted} icon={CheckCircle2} />
       </div>
 
-      {/* Filters */}
-      <div className="flex flex-col gap-2 sm:flex-row">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
-          <Input placeholder="Search leads..." className="pl-9" />
-        </div>
-        <Select value={filter} onValueChange={(v) => setFilter(v ?? "all")}>
-          <SelectTrigger className="w-full sm:w-36">
-            <Filter className="mr-1.5 h-3.5 w-3.5" />
-            <SelectValue placeholder="Filter" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Leads</SelectItem>
-            <SelectItem value="new">New</SelectItem>
-            <SelectItem value="contacted">Contacted</SelectItem>
-            <SelectItem value="converted">Converted</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      {/* Table */}
       <Card className="border-border/50">
         <CardContent className="p-0">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-border/40">
-                  <th className="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60">Name</th>
-                  <th className="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60">Source</th>
-                  <th className="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60">Status</th>
-                  <th className="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60">Date</th>
-                  <th className="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60">Message</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filtered.map((lead) => (
-                  <tr key={lead.id} className="border-b border-border/30 transition-colors hover:bg-muted/30 last:border-0">
-                    <td className="px-5 py-3.5">
-                      <p className="text-[13px] font-medium">{lead.name}</p>
-                      <p className="text-[12px] text-muted-foreground">{lead.email}</p>
-                    </td>
-                    <td className="px-5 py-3.5">
-                      <div className="flex items-center gap-1.5 text-[13px] text-muted-foreground">
-                        <Globe className="h-3 w-3" />
-                        {lead.source}
-                      </div>
-                    </td>
-                    <td className="px-5 py-3.5">
-                      <Badge
-                        variant={lead.status === "Converted" ? "default" : lead.status === "Contacted" ? "secondary" : "outline"}
-                        className="text-[11px] px-2 py-0.5"
-                      >
-                        {lead.status}
-                      </Badge>
-                    </td>
-                    <td className="px-5 py-3.5">
-                      <span className="flex items-center gap-1 text-[12px] text-muted-foreground">
-                        <Clock className="h-3 w-3" />
-                        {lead.date}
-                      </span>
-                    </td>
-                    <td className="max-w-[200px] px-5 py-3.5">
-                      <p className="truncate text-[12px] text-muted-foreground">{lead.message}</p>
-                    </td>
+          {leads.length === 0 ? (
+            <div className="p-12 text-center">
+              <p className="text-[14px] text-muted-foreground">No leads yet.</p>
+              <p className="mt-1 text-[12px] text-muted-foreground/70">
+                As soon as someone fills out a form on your site, they&apos;ll show up here.
+              </p>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b border-border/50 text-left">
+                    <th className="px-5 py-3 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60">
+                      Name
+                    </th>
+                    <th className="px-5 py-3 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60">
+                      Source
+                    </th>
+                    <th className="px-5 py-3 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60">
+                      Status
+                    </th>
+                    <th className="px-5 py-3 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60">
+                      Received
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {leads.map((lead) => (
+                    <tr
+                      key={lead.id}
+                      className="border-b border-border/30 hover:bg-muted/30"
+                    >
+                      <td className="px-5 py-3.5">
+                        <p className="text-[13px] font-medium">{lead.name}</p>
+                        <p className="text-[12px] text-muted-foreground">{lead.email}</p>
+                        {lead.message && (
+                          <p className="mt-0.5 text-[11px] text-muted-foreground/80 max-w-md truncate">
+                            {lead.message}
+                          </p>
+                        )}
+                      </td>
+                      <td className="px-5 py-3.5 text-[12px] text-muted-foreground">
+                        {lead.source || "—"}
+                      </td>
+                      <td className="px-5 py-3.5">
+                        <Badge
+                          variant={
+                            lead.status === "Converted"
+                              ? "default"
+                              : lead.status === "Contacted"
+                              ? "secondary"
+                              : "outline"
+                          }
+                          className="text-[11px]"
+                        >
+                          {lead.status}
+                        </Badge>
+                      </td>
+                      <td className="px-5 py-3.5 text-[11px] text-muted-foreground">
+                        <span className="flex items-center gap-1">
+                          <Clock className="h-3 w-3" />
+                          {formatRelative(lead.created_at)}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+function SummaryCard({
+  label,
+  value,
+  icon: Icon,
+}: {
+  label: string;
+  value: number;
+  icon: typeof Users;
+}) {
+  return (
+    <Card className="border-border/50">
+      <CardContent className="p-4">
+        <Icon className="h-3.5 w-3.5 text-muted-foreground" />
+        <p className="mt-2 text-2xl font-bold tracking-tight">{value}</p>
+        <p className="text-[12px] text-muted-foreground">{label}</p>
+      </CardContent>
+    </Card>
   );
 }
