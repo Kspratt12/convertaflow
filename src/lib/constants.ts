@@ -38,13 +38,23 @@ export const PLAN_SLUGS = {
   starter: "tier1",
   growth: "tier2",
   scale: "tier3",
-  system_upgrade: "system-upgrade",
+  system_upgrade: "tier2-single",
+  scale_single: "tier3-single",
 } as const;
 
 export const PLAN_FROM_SLUG: Record<string, TierId> = {
+  // canonical
   tier1: "starter",
   tier2: "growth",
   tier3: "scale",
+  "tier2-single": "system_upgrade",
+  "tier3-single": "scale_single",
+  // friendly aliases
+  tier1_bundle: "starter",
+  tier2_bundle: "growth",
+  tier3_bundle: "scale",
+  tier2_single: "system_upgrade",
+  tier3_single: "scale_single",
   "system-upgrade": "system_upgrade",
 };
 
@@ -126,6 +136,31 @@ export const TIERS: Record<TierId, TierConfig> = {
     ],
     highlighted: false,
     microcopy: "No rebuild required. Cancel anytime.",
+  },
+  scale_single: {
+    id: "scale_single",
+    name: "Full Growth Engine",
+    shortName: "Engine",
+    price: "$3,497",
+    priceNote: "one-time setup",
+    monthly: "$399/mo",
+    monthlyNote: "full system access",
+    monthlyRequired: true,
+    description:
+      "All of our advanced systems plugged into your current website. Social automation, lead attribution, and ongoing strategy — no rebuild needed.",
+    audience: "Advanced systems on your existing site",
+    deliveryDays: "7–10 business days",
+    revisions: 5,
+    features: [
+      "Everything in System Upgrade",
+      "Social media automation",
+      "Instagram & ManyChat workflows",
+      "Advanced conversion analytics",
+      "Multi-channel lead attribution",
+      "Dedicated strategy support",
+    ],
+    highlighted: false,
+    microcopy: "All systems. No rebuild required.",
   },
   scale: {
     id: "scale",

@@ -1,4 +1,7 @@
-export type TierId = "starter" | "growth" | "scale" | "system_upgrade";
+export type TierId = "starter" | "growth" | "scale" | "system_upgrade" | "scale_single";
+
+/** Bundle plans include a website build. Single plans plug into an existing site. */
+export type PlanKind = "bundle" | "single";
 export type UserRole = "owner" | "admin";
 export type PlanStatus = "active" | "trial" | "past_due" | "canceled";
 

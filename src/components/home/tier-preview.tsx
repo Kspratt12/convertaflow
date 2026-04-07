@@ -47,7 +47,7 @@ function SystemUpgrades() {
         "Dedicated strategy support",
       ],
       cta: "Get the Full Engine",
-      href: "/signup?plan=system-upgrade",
+      href: "/signup?plan=tier3-single",
     },
   ];
 

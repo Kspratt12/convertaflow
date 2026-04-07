@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { sendProjectEvent } from "@/lib/email-events";
+import { TIERS } from "@/lib/constants";
 import type { TierId } from "@/lib/types";
 
-const VALID_TIERS: TierId[] = ["starter", "growth", "scale", "system_upgrade"];
+const VALID_TIERS: TierId[] = ["starter", "growth", "scale", "system_upgrade", "scale_single"];
 
 export async function POST(request: NextRequest) {
   try {
@@ -96,6 +98,18 @@ export async function POST(request: NextRequest) {
         },
         { onConflict: "business_id" }
       );
+
+      // Fire welcome email (logs to email_events even if Resend not configured)
+      await sendProjectEvent({
+        event: "welcome",
+        businessId: profile.id,
+        to: email,
+        vars: {
+          businessName: businessName,
+          contactName: contactName,
+          planName: TIERS[planTier]?.name,
+        },
+      }).catch((e) => console.error("Welcome email failed:", e));
     }
 
     return NextResponse.json({ success: true, plan: planTier });

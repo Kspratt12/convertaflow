@@ -16,6 +16,7 @@ const tierIcons: Record<TierId, typeof Star> = {
   starter: Lock,
   system_upgrade: Star,
   growth: Star,
+  scale_single: Rocket,
   scale: Rocket,
 };
 

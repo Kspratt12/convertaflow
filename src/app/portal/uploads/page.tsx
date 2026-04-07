@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Upload,
   Image as ImageIcon,
@@ -9,28 +9,58 @@ import {
   Palette,
   FolderOpen,
   CloudUpload,
+  Video,
+  Crown,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useBusiness } from "@/components/dashboard/business-provider";
+import { hasVideoUploads } from "@/lib/tier";
+import { TIERS } from "@/lib/constants";
 
-const CATEGORIES = [
-  { id: "all", label: "All Files", icon: FolderOpen },
-  { id: "logos", label: "Logos", icon: Palette },
-  { id: "photos", label: "Photos", icon: ImageIcon },
-  { id: "documents", label: "Documents", icon: FileText },
-  { id: "brand", label: "Brand Files", icon: File },
-  { id: "other", label: "Other", icon: File },
+interface CategoryDef {
+  id: string;
+  label: string;
+  icon: typeof FolderOpen;
+  /** If true, only available on plans where hasVideoUploads is true */
+  videoTier?: boolean;
+  description: string;
+  accept: string;
+}
+
+const ALL_CATEGORIES: CategoryDef[] = [
+  { id: "all", label: "All Files", icon: FolderOpen, description: "Everything you've uploaded so far.", accept: "*" },
+  { id: "logos", label: "Logos", icon: Palette, description: "Vector or high-res logo files.", accept: "image/*,.svg,.ai,.eps,.pdf" },
+  { id: "photos", label: "Photos", icon: ImageIcon, description: "Product, location, team, and lifestyle photos.", accept: "image/*" },
+  { id: "documents", label: "Documents", icon: FileText, description: "Written copy, brand guidelines, briefs.", accept: ".pdf,.doc,.docx,.txt,.md" },
+  { id: "brand", label: "Brand Files", icon: File, description: "Style guides, source files, design exports.", accept: "*" },
+  { id: "videos", label: "Videos", icon: Video, videoTier: true, description: "Footage and reference clips for social automation.", accept: "video/*" },
+  { id: "other", label: "Other", icon: File, description: "Anything else we should have.", accept: "*" },
 ];
 
 export default function UploadsPage() {
+  const { tier } = useBusiness();
+  const videosAllowed = hasVideoUploads(tier);
+
+  const categories = useMemo(
+    () => ALL_CATEGORIES.filter((c) => !c.videoTier || videosAllowed),
+    [videosAllowed]
+  );
+
   const [activeCategory, setActiveCategory] = useState("all");
+  const active = categories.find((c) => c.id === activeCategory) || categories[0];
 
   return (
     <div className="mx-auto max-w-5xl space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-xl font-bold text-white/90 sm:text-2xl">Uploads</h1>
-        <p className="mt-1 text-[13px] text-white/45 sm:text-[14px]">
-          Share your logos, photos, brand files, and any other assets our team needs to bring your project to life.
+        <div className="flex flex-wrap items-center gap-2">
+          <h1 className="text-xl font-bold text-white/90 sm:text-2xl">Uploads</h1>
+          <span className="rounded-full border border-[#7c3aed]/30 bg-[#7c3aed]/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[#a78bfa]">
+            {TIERS[tier].shortName} plan
+          </span>
+        </div>
+        <p className="mt-1.5 text-[13px] text-white/45 sm:text-[14px]">
+          Share your logos, photos, brand files, {videosAllowed ? "videos, " : ""}and any other assets our team needs.
         </p>
       </div>
 
@@ -42,7 +72,7 @@ export default function UploadsPage() {
           </div>
           <div>
             <p className="text-[15px] font-semibold text-white/80">
-              Drag and drop files here
+              Drag and drop {active.label.toLowerCase()} here
             </p>
             <p className="mt-1 text-[13px] text-white/40">
               or{" "}
@@ -52,28 +82,34 @@ export default function UploadsPage() {
             </p>
           </div>
           <p className="text-[11px] text-white/30">
-            Supports PNG, JPG, SVG, PDF, AI, PSD, ZIP up to 50MB per file
+            {active.description}
           </p>
         </div>
       </div>
 
       {/* Category tabs */}
       <div className="flex flex-wrap gap-2">
-        {CATEGORIES.map((cat) => (
-          <button
-            key={cat.id}
-            onClick={() => setActiveCategory(cat.id)}
-            className={cn(
-              "inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[12px] font-medium transition-all",
-              activeCategory === cat.id
-                ? "bg-white/[0.1] text-white border border-white/[0.12]"
-                : "bg-white/[0.03] text-white/50 border border-white/[0.06] hover:bg-white/[0.06] hover:text-white/70"
-            )}
-          >
-            <cat.icon className="h-3.5 w-3.5" />
-            {cat.label}
-          </button>
-        ))}
+        {categories.map((cat) => {
+          const isActive = activeCategory === cat.id;
+          return (
+            <button
+              key={cat.id}
+              onClick={() => setActiveCategory(cat.id)}
+              className={cn(
+                "inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[12px] font-medium transition-all",
+                isActive
+                  ? "bg-white/[0.1] text-white border border-white/[0.12]"
+                  : "bg-white/[0.03] text-white/50 border border-white/[0.06] hover:bg-white/[0.06] hover:text-white/70"
+              )}
+            >
+              <cat.icon className="h-3.5 w-3.5" />
+              {cat.label}
+              {cat.videoTier && (
+                <Crown className="h-3 w-3 text-[#f59e0b]" />
+              )}
+            </button>
+          );
+        })}
       </div>
 
       {/* Empty state */}
@@ -85,11 +121,30 @@ export default function UploadsPage() {
           <div>
             <p className="text-[14px] font-medium text-white/50">No files uploaded yet</p>
             <p className="mt-1 text-[12px] text-white/35">
-              Upload your brand assets, photos, and documents above to get started.
+              Upload your assets above to get started.
             </p>
           </div>
         </div>
       </div>
+
+      {/* Upgrade nudge for non-video tiers */}
+      {!videosAllowed && (
+        <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-4 sm:p-5">
+          <div className="flex items-start gap-3">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#7c3aed]/10">
+              <Video className="h-4 w-4 text-[#a78bfa]" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-[13px] font-semibold text-white/80">
+                Want to upload video content?
+              </p>
+              <p className="mt-0.5 text-[12px] text-white/45">
+                Video uploads are part of the Scale and Engine plans for clients running social automation.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

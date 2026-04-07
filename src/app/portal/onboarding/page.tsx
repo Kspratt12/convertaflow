@@ -14,6 +14,8 @@ import {
   Zap,
   CalendarDays,
   Upload,
+  Video,
+  Share2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useBusiness } from "@/components/dashboard/business-provider";
@@ -57,7 +59,7 @@ const SECTIONS: OnboardingSection[] = [
     title: "Brand Direction",
     description: "Help us capture your visual identity and design preferences.",
     icon: Palette,
-    tiers: ["starter", "growth", "scale"],
+    tiers: ["starter", "growth", "scale", "system_upgrade", "scale_single"],
     fields: [
       { type: "select", name: "style", label: "Preferred Design Style", options: ["Modern & Minimal", "Bold & Vibrant", "Elegant & Luxurious", "Warm & Friendly", "Corporate & Professional", "Creative & Artistic"] },
       { type: "text", name: "primary_color", label: "Primary Brand Color (hex or description)", placeholder: "e.g. #7c3aed or deep purple" },
@@ -81,6 +83,7 @@ const SECTIONS: OnboardingSection[] = [
     title: "Pages Needed",
     description: "Select which pages you need for your website.",
     icon: FileText,
+    // Bundle plans only — singles plug into an existing site
     tiers: ["starter", "growth", "scale"],
     fields: [
       { type: "checkboxes", name: "pages", label: "Pages to Include", options: ["Home", "About", "Services", "Gallery / Portfolio", "Contact", "FAQ", "Booking / Schedule", "Blog", "Custom Page (describe below)"] },
@@ -92,7 +95,8 @@ const SECTIONS: OnboardingSection[] = [
     title: "Existing Site Integration",
     description: "Tell us about the website we'll be plugging our system into.",
     icon: Zap,
-    tiers: ["system_upgrade"],
+    // Single plans only
+    tiers: ["system_upgrade", "scale_single"],
     fields: [
       { type: "text", name: "current_site_url", label: "Your Current Website URL", placeholder: "https://yourbusiness.com" },
       { type: "select", name: "site_platform", label: "What platform is it built on?", options: ["WordPress", "Squarespace", "Wix", "Shopify", "Webflow", "Custom / Not sure", "Other"] },
@@ -105,6 +109,7 @@ const SECTIONS: OnboardingSection[] = [
     title: "Domain & Existing Site",
     description: "Let us know about your current web presence.",
     icon: Globe,
+    // Bundle plans only — singles already have a site
     tiers: ["starter", "growth", "scale"],
     fields: [
       { type: "select", name: "has_domain", label: "Do you have a domain name?", options: ["Yes, I own a domain", "No, I need to purchase one", "Not sure"] },
@@ -129,10 +134,37 @@ const SECTIONS: OnboardingSection[] = [
     title: "Feature Needs",
     description: "Select which features and integrations matter to your business.",
     icon: Zap,
-    tiers: ["growth", "scale", "system_upgrade"],
+    // Any plan with the systems layer (everything except starter)
+    tiers: ["growth", "scale", "system_upgrade", "scale_single"],
     fields: [
       { type: "checkboxes", name: "features", label: "Features Needed", options: ["Online booking / scheduling", "Contact forms", "Google Analytics", "Review collection / display", "Email automation", "Social media integration", "Live chat widget", "Payment processing", "Custom forms"] },
       { type: "textarea", name: "feature_notes", label: "Additional feature requests or notes", placeholder: "Any specific tools or integrations you currently use?" },
+    ],
+  },
+  {
+    id: "social_automation",
+    title: "Social & Automation",
+    description: "Tell us about the channels and workflows we'll wire up for you.",
+    icon: Share2,
+    tiers: ["scale", "scale_single"],
+    fields: [
+      { type: "checkboxes", name: "social_channels", label: "Active channels", options: ["Instagram", "Facebook", "TikTok", "LinkedIn", "YouTube", "X / Twitter", "None yet"] },
+      { type: "select", name: "posting_cadence", label: "Desired posting cadence", options: ["Daily", "3-5x per week", "Weekly", "A few times per month", "Not sure"] },
+      { type: "checkboxes", name: "automation_goals", label: "What should the automations do?", options: ["Auto-DM new followers", "Capture leads from comments", "Route inquiries to email", "Run review request flows", "Cross-post content", "Custom workflow"] },
+      { type: "textarea", name: "automation_notes", label: "Anything specific to set up?", placeholder: "ManyChat flows, Instagram lead forms, content pillars, brand voice, etc." },
+    ],
+  },
+  {
+    id: "video_content",
+    title: "Video Content",
+    description: "Upload videos and reference content for your social automation.",
+    icon: Video,
+    tiers: ["scale", "scale_single"],
+    fields: [
+      { type: "select", name: "video_style", label: "Preferred video style", options: ["Talking-head / personal", "B-roll over voiceover", "Tutorial / educational", "Behind the scenes", "Customer testimonials", "Product showcase", "Mixed"] },
+      { type: "textarea", name: "video_topics", label: "Topics & themes to cover", placeholder: "What kind of content should we be deploying for you?" },
+      { type: "file", name: "video_upload", label: "Upload videos or references" },
+      { type: "textarea", name: "video_notes", label: "Anything else we should know?", placeholder: "Existing footage, brand voice, do's and don'ts" },
     ],
   },
   {
