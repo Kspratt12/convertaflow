@@ -45,7 +45,7 @@ export default function AboutPage() {
                 About
               </span>
               <h1 className="text-2xl font-bold tracking-tight sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
-                We build growth systems for businesses{" "}
+                We help local businesses{" "}
                 <span className="bg-gradient-to-r from-[#8b5cf6] via-[#3b82f6] to-[#06b6d4] bg-clip-text text-transparent">
                   ready to scale
                 </span>

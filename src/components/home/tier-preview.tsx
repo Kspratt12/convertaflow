@@ -55,6 +55,13 @@ export function TierPreview() {
                 viewport={{ once: true, margin: "20px" }}
                 transition={{ duration: 0.3, delay: i * 0.04 }}
               >
+                {/* Radial halo behind the highlighted (Tier 2) card */}
+                {tier.highlighted && (
+                  <div
+                    aria-hidden
+                    className="pointer-events-none absolute -inset-x-6 -top-12 -bottom-6 -z-10 rounded-3xl bg-[radial-gradient(ellipse_at_center,_rgba(124,58,237,0.18)_0%,_rgba(124,58,237,0.08)_35%,_transparent_70%)] blur-2xl"
+                  />
+                )}
                 {tier.highlighted && (
                   <Badge className="absolute -top-2.5 left-5 text-[11px] font-semibold tracking-wide bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] text-white border-0">
                     Most Popular
@@ -103,12 +110,38 @@ export function TierPreview() {
                 </p>
 
                 <ul className="mt-3 space-y-1.5">
-                  {tier.features.slice(0, 5).map((f) => (
-                    <li key={f} className="flex items-center gap-2 text-[11px] sm:text-[12px] text-white/70">
-                      <Check className="h-3 w-3 shrink-0 text-[#06b6d4]" />
-                      {f}
-                    </li>
-                  ))}
+                  {tier.features.slice(0, 5).map((f, idx) => {
+                    // Highlight the magic feature in lime green so the
+                    // standout line in each tier grabs attention.
+                    const startsWithSparkle = f.trim().startsWith("✨");
+                    const tierHasSparkle = tier.features.some((feat) =>
+                      feat.trim().startsWith("✨")
+                    );
+                    const isFirstRealFeature =
+                      !tierHasSparkle &&
+                      !f.startsWith("Everything in") &&
+                      idx <= 1;
+                    const isMagic = startsWithSparkle || isFirstRealFeature;
+                    return (
+                      <li
+                        key={f}
+                        className={cn(
+                          "flex items-center gap-2 text-[11px] sm:text-[12px]",
+                          isMagic
+                            ? "font-semibold text-[#a3e635] [text-shadow:0_0_18px_rgba(163,230,53,0.18)]"
+                            : "text-white/70"
+                        )}
+                      >
+                        <Check
+                          className={cn(
+                            "h-3 w-3 shrink-0",
+                            isMagic ? "text-[#a3e635]" : "text-[#06b6d4]"
+                          )}
+                        />
+                        {f}
+                      </li>
+                    );
+                  })}
                   {tier.features.length > 5 && (
                     <li className="text-[11px] text-white/30">+{tier.features.length - 5} more</li>
                   )}

@@ -45,7 +45,7 @@ export default function PreviewPage() {
                 Every Convertaflow website is custom-designed to make your business look established, professional, and trustworthy. Mobile-optimized, fast-loading, and built with strategic conversion points.
               </p>
               <ul className="mt-5 space-y-2">
-                {["Custom brand-aligned design", "Conversion-optimized hero sections", "Strategic lead capture placement", "Professional service showcases", "Trust-building proof sections"].map((item) => (
+                {["Custom design built around your brand", "Hero section that grabs attention", "Clear contact forms placed where they work", "Professional service showcases", "Real proof of why people should trust you"].map((item) => (
                   <li key={item} className="flex items-center gap-2 text-[13px] text-white/60 sm:text-[14px]">
                     <CheckCircle2 className="h-3.5 w-3.5 text-[#06b6d4]" />{item}
                   </li>

@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
   title: "How It Works",
-  description: "Learn how Convertaflow takes your business from an outdated website to a complete growth system in three clear steps.",
+  description: "Learn how Convertaflow takes your business from an outdated website to a steady stream of new customers in three clear steps.",
 };
 
 const steps = [
@@ -18,7 +18,7 @@ const steps = [
     description: "We start by building a high-end website that makes your business look established and trustworthy. Custom design built around your brand, your services, and your customers.",
     details: [
       { icon: Globe, label: "Custom premium website design that reflects your brand" },
-      { icon: Target, label: "Strategic lead capture forms and conversion points" },
+      { icon: Target, label: "Clear contact forms placed where they actually work" },
       { icon: Mail, label: "Contact form with instant email notifications" },
       { icon: CheckCircle2, label: "Mobile-optimized, fast, and SEO-ready from day one" },
     ],
@@ -65,7 +65,7 @@ export default function HowItWorksPage() {
             <h1 className="text-2xl font-bold tracking-tight sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
               From outdated website to{" "}
               <span className="bg-gradient-to-r from-[#8b5cf6] via-[#3b82f6] to-[#06b6d4] bg-clip-text text-transparent">
-                business growth system
+                a customer machine
               </span>
             </h1>
             <p className="mt-4 text-[15px] leading-relaxed text-white/50 sm:text-[16px]">
@@ -112,7 +112,7 @@ export default function HowItWorksPage() {
 
       <section className="bg-[#060613] py-12 text-white sm:py-16 border-t border-white/[0.04]">
         <div className="mx-auto max-w-xl text-center px-4">
-          <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">Ready to launch your growth system?</h2>
+          <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">Ready to bring in more customers?</h2>
           <p className="mt-3 text-[15px] text-white/50">Choose the tier that matches your business stage.</p>
           <div className="mt-7 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-center">
             <Button size="lg" className="gap-1.5 bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] text-white border-0 hover:opacity-90 h-11 sm:h-12 w-full sm:w-auto" asChild>

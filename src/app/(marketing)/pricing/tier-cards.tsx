@@ -99,6 +99,15 @@ export function PricingTierCards({ tierIds }: TierCardsProps) {
                 : "border-white/[0.06] bg-white/[0.03]"
             )}
           >
+            {/* Subtle radial halo behind the highlighted (Tier 2) card.
+                Pure CSS, no animation, no perf cost. Pulls the eye without
+                feeling busy. */}
+            {tier.highlighted && (
+              <div
+                aria-hidden
+                className="pointer-events-none absolute -inset-x-6 -top-12 -bottom-6 -z-10 rounded-3xl bg-[radial-gradient(ellipse_at_center,_rgba(124,58,237,0.18)_0%,_rgba(124,58,237,0.08)_35%,_transparent_70%)] blur-2xl"
+              />
+            )}
             {tier.highlighted && (
               <Badge className="absolute -top-2.5 left-5 gap-1 text-[11px] font-semibold tracking-wide bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] text-white border-0">
                 <Star className="h-3 w-3" />
@@ -201,17 +210,49 @@ export function PricingTierCards({ tierIds }: TierCardsProps) {
               {tier.description}
             </p>
 
-            {/* What you get with the build */}
+            {/* What you get with the build. The 'magic' / standout feature
+                in each tier (sparkle line for Tier 3, custom website / growth
+                tools line for Tier 1 and Tier 2) gets a lime-green highlight
+                so the eye lands on the most important thing. */}
             <ul className="mt-4 space-y-2 border-t border-white/[0.06] pt-4">
-              {tier.features.map((feature) => (
-                <li
-                  key={feature}
-                  className="flex items-start gap-2 text-[12px] sm:text-[13px] text-white/70"
-                >
-                  <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#06b6d4]" />
-                  {feature}
-                </li>
-              ))}
+              {tier.features.map((feature, idx) => {
+                // Feature is "magic" if it starts with the sparkle emoji,
+                // OR if it's the second feature on a tier without a sparkle
+                // (the one right after the 'Everything in lower tier' anchor).
+                const startsWithSparkle = feature.trim().startsWith("✨");
+                const tierHasSparkle = tier.features.some((f) =>
+                  f.trim().startsWith("✨")
+                );
+                // For tiers without a sparkle line, highlight the first
+                // feature that isn't an 'Everything in...' anchor.
+                const isFirstRealFeature =
+                  !tierHasSparkle &&
+                  !feature.startsWith("Everything in") &&
+                  tier.features
+                    .filter((f) => !f.startsWith("Everything in"))
+                    .indexOf(feature) === 0 &&
+                  idx <= 1;
+                const isMagic = startsWithSparkle || isFirstRealFeature;
+                return (
+                  <li
+                    key={feature}
+                    className={cn(
+                      "flex items-start gap-2 text-[12px] sm:text-[13px]",
+                      isMagic
+                        ? "font-semibold text-[#a3e635] [text-shadow:0_0_18px_rgba(163,230,53,0.18)]"
+                        : "text-white/70"
+                    )}
+                  >
+                    <Check
+                      className={cn(
+                        "mt-0.5 h-3.5 w-3.5 shrink-0",
+                        isMagic ? "text-[#a3e635]" : "text-[#06b6d4]"
+                      )}
+                    />
+                    {feature}
+                  </li>
+                );
+              })}
             </ul>
 
             {/* Flexible spacer — absorbs height differences between tiers

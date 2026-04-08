@@ -23,11 +23,11 @@ const tierColors: Record<string, string> = {
 };
 
 const tierLabels: Record<string, string> = {
-  starter: "Foundation",
-  growth: "Growth",
-  scale: "Scale",
-  scale_single: "Scale (one-time)",
-  system_upgrade: "System Upgrade",
+  starter: "Just the Website",
+  growth: "Website + Growth Tools",
+  scale: "Everything Done For You",
+  scale_single: "Everything Done For You · Tools Only",
+  system_upgrade: "Website + Growth Tools · Tools Only",
 };
 
 const statusStyles: Record<string, string> = {

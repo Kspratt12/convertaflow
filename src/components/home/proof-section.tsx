@@ -36,7 +36,7 @@ const pillars = [
 ];
 
 const promises = [
-  { icon: Users, label: "Strategic lead capture", value: "Built in" },
+  { icon: Users, label: "Inquiry forms that work", value: "Built in" },
   { icon: Mail, label: "Branded email system", value: "Included" },
   { icon: Star, label: "Review request tools", value: "Growth+" },
   { icon: TrendingUp, label: "Lead tracking dashboard", value: "Growth+" },
