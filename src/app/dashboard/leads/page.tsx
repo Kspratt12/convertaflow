@@ -50,7 +50,7 @@ export default async function LeadsPage() {
   if (!session) redirect("/login");
 
   const tier = session.profile.plan_tier as TierId;
-  if (!canAccessFeature(tier, "leads")) {
+  if (!canAccessFeature(tier, "leads") && session.profile.role !== "admin") {
     return (
       <TierGate
         requiredTier="growth"

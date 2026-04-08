@@ -66,9 +66,10 @@ export function DashboardSidebar() {
           Menu
         </p>
         {navigation
-          .filter((item) => can(item.feature))
+          .filter((item) => isAdmin || can(item.feature))
           .map((item) => {
             const active = pathname === item.href;
+            const adminOnly = isAdmin && !can(item.feature);
             return (
               <Link
                 key={item.href}
@@ -82,6 +83,11 @@ export function DashboardSidebar() {
               >
                 <item.icon className="h-4 w-4" />
                 {item.label}
+                {adminOnly && (
+                  <span className="ml-auto rounded bg-amber-500/15 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-amber-300">
+                    Admin
+                  </span>
+                )}
               </Link>
             );
           })}

@@ -89,7 +89,7 @@ export default async function EmailPage() {
   if (!session) redirect("/login");
 
   const tier = session.profile.plan_tier as TierId;
-  if (!canAccessFeature(tier, "email")) {
+  if (!canAccessFeature(tier, "email") && session.profile.role !== "admin") {
     return (
       <TierGate
         requiredTier="growth"

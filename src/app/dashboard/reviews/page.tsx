@@ -42,7 +42,7 @@ export default async function ReviewsPage() {
   if (!session) redirect("/login");
 
   const tier = session.profile.plan_tier as TierId;
-  if (!canAccessFeature(tier, "reviews")) {
+  if (!canAccessFeature(tier, "reviews") && session.profile.role !== "admin") {
     return (
       <TierGate
         requiredTier="growth"

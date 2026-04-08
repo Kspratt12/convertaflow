@@ -39,7 +39,7 @@ export default async function SocialPage() {
   if (!session) redirect("/login");
 
   const tier = session.profile.plan_tier as TierId;
-  if (!canAccessFeature(tier, "social")) {
+  if (!canAccessFeature(tier, "social") && session.profile.role !== "admin") {
     return (
       <TierGate
         requiredTier="scale"
