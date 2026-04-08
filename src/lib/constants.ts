@@ -178,6 +178,7 @@ export const TIERS: Record<TierId, TierConfig> = {
     revisions: 5,
     features: [
       "All growth tools running 24/7 on your existing site",
+      "✨ Custom Build, you tell us what (we meet you where you are)",
       "Custom Business Dashboard built for your workflow",
       "SMS / Missed-Call Recovery (auto-text customers when you miss a call)",
       "Customer CRM (track every customer from inquiry to repeat business)",
@@ -218,6 +219,7 @@ export const TIERS: Record<TierId, TierConfig> = {
     revisions: 10,
     features: [
       "Everything in Website + Growth Tools",
+      "✨ Custom Build, you tell us what (we meet you where you are)",
       "Custom Business Dashboard built for your workflow",
       "SMS / Missed-Call Recovery (auto-text customers when you miss a call)",
       "Customer CRM (track every customer from inquiry to repeat business)",
