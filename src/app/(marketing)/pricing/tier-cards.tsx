@@ -67,6 +67,54 @@ function InfoPill({
 }
 
 /**
+ * GuaranteePill — tappable explainer for the refund + satisfaction
+ * combo badge. Same click-to-open pattern as InfoPill but styled
+ * emerald to match its parent badge text.
+ */
+function GuaranteePill() {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    function handleOutside(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleOutside);
+    return () => document.removeEventListener("mousedown", handleOutside);
+  }, [open]);
+
+  return (
+    <div className="relative" ref={ref}>
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="group flex items-center gap-1.5 text-[11px] text-emerald-400/85 hover:text-emerald-400 transition-colors"
+      >
+        <ShieldCheck className="h-3.5 w-3.5" />
+        <span>48-hour deposit refund · 7-day satisfaction guarantee</span>
+        <Info className="h-3 w-3 opacity-50 group-hover:opacity-100 transition-opacity" />
+      </button>
+      {open && (
+        <div className="absolute left-1/2 top-full z-20 mt-2 w-72 -translate-x-1/2 rounded-xl border border-emerald-500/20 bg-[#0e0e2a] p-3.5 text-[11px] leading-relaxed text-white/80 shadow-xl shadow-black/40">
+          <p className="font-semibold text-emerald-400">48-hour deposit refund</p>
+          <p className="mt-1">
+            Change your mind in the first 48 hours? Full refund of your deposit, no questions. After we start building, the deposit becomes non-refundable so we can protect the time we&apos;ve already invested.
+          </p>
+          <div className="my-2.5 h-px bg-white/[0.08]" />
+          <p className="font-semibold text-emerald-400">7-day satisfaction guarantee</p>
+          <p className="mt-1">
+            Once we deliver your build, you have 7 days to inspect it. If you&apos;re not happy and we can&apos;t make it right, you get 100% of your deposit back. We just want you to love what we built.
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/**
  * Pricing tier cards with a per-card "include a website?" toggle for
  * Tier 2 and Tier 3. The toggle swaps the displayed tier data between
  * the with-website variant (growth/scale) and the tools-only variant
@@ -312,8 +360,6 @@ export function PricingTierCards({ tierIds }: TierCardsProps) {
             {/* Flexible spacer — absorbs height differences between tiers
                 so the monthly-includes box and Get Started button line up
                 across all three cards. */}
-            <div className="flex-1 min-h-[8px]" />
-
             {/* What the monthly fee covers — explicit */}
             <div className="mt-4 rounded-xl border border-[#7c3aed]/20 bg-[#7c3aed]/[0.05] px-3 py-3">
               <p className="text-[10px] font-semibold uppercase tracking-widest text-[#c4b5fd]">
@@ -331,6 +377,10 @@ export function PricingTierCards({ tierIds }: TierCardsProps) {
                 ))}
               </ul>
             </div>
+
+            {/* Flexible spacer — absorbs height differences below the
+                covers box so the Get Started button lines up across cards. */}
+            <div className="flex-1 min-h-[8px]" />
 
             <p className="mt-3 text-center text-[10px] text-white/25">
               {tier.microcopy}
@@ -352,12 +402,9 @@ export function PricingTierCards({ tierIds }: TierCardsProps) {
               </Link>
             </Button>
 
-            {/* Refund + satisfaction guarantee */}
-            <div className="mt-3 flex flex-col items-center gap-1 text-[11px] text-emerald-400/85">
-              <div className="flex items-center gap-1.5">
-                <ShieldCheck className="h-3.5 w-3.5" />
-                <span>48-hour deposit refund · 7-day satisfaction guarantee</span>
-              </div>
+            {/* Refund + satisfaction guarantee — tappable explainer */}
+            <div className="mt-3 flex justify-center">
+              <GuaranteePill />
             </div>
           </div>
         );

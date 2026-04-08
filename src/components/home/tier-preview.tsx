@@ -67,6 +67,56 @@ function MiniInfoPill({
   );
 }
 
+/**
+ * Mini guarantee pill — combined refund + satisfaction explainer
+ * for the homepage cards.
+ */
+function MiniGuaranteePill() {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    function handleOutside(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleOutside);
+    return () => document.removeEventListener("mousedown", handleOutside);
+  }, [open]);
+
+  return (
+    <div className="relative" ref={ref}>
+      <button
+        type="button"
+        onClick={(e) => {
+          e.preventDefault();
+          setOpen((v) => !v);
+        }}
+        className="group flex items-center gap-1 text-[10px] text-emerald-400/85 hover:text-emerald-400 transition-colors"
+      >
+        <ShieldCheck className="h-3 w-3" />
+        <span>48-hr deposit refund · 7-day guarantee</span>
+        <Info className="h-2.5 w-2.5 opacity-50 group-hover:opacity-100 transition-opacity" />
+      </button>
+      {open && (
+        <div className="absolute left-1/2 top-full z-30 mt-1.5 w-64 -translate-x-1/2 rounded-lg border border-emerald-500/20 bg-[#0e0e2a] p-3 text-[10px] leading-relaxed text-white/80 shadow-xl shadow-black/40">
+          <p className="font-semibold text-emerald-400">48-hour deposit refund</p>
+          <p className="mt-1">
+            Change your mind in the first 48 hours? Full refund of your deposit. After work starts, deposit is non-refundable so we can protect the time invested.
+          </p>
+          <div className="my-2 h-px bg-white/[0.08]" />
+          <p className="font-semibold text-emerald-400">7-day satisfaction guarantee</p>
+          <p className="mt-1">
+            After delivery you have 7 days to inspect. If you&apos;re not happy and we can&apos;t make it right, 100% of your deposit back.
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function TierPreview() {
   const tiers = MAIN_TIER_IDS.map((id) => TIERS[id]);
 
@@ -222,10 +272,9 @@ export function TierPreview() {
                   </Link>
                 </Button>
 
-                {/* Refund + satisfaction guarantee */}
-                <div className="mt-2.5 flex items-center justify-center gap-1 text-[10px] text-emerald-400/85">
-                  <ShieldCheck className="h-3 w-3" />
-                  <span className="text-center">48-hr deposit refund · 7-day guarantee</span>
+                {/* Refund + satisfaction guarantee — tappable explainer */}
+                <div className="mt-2.5 flex justify-center">
+                  <MiniGuaranteePill />
                 </div>
 
                 {/* Microcopy */}
