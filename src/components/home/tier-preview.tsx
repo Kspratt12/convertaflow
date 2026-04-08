@@ -6,8 +6,9 @@ import { motion } from "framer-motion";
 import { Globe, Star, Rocket, Check, ArrowRight, Clock, RotateCcw, Info, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { TIERS, PLAN_SLUGS } from "@/lib/constants";
+import { TIERS, PLAN_SLUGS, type TierConfig } from "@/lib/constants";
 import { MAIN_TIER_IDS } from "@/lib/tier";
+import type { TierId } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 const tierIcons: Record<string, typeof Globe> = {
@@ -118,7 +119,43 @@ function MiniGuaranteePill() {
 }
 
 export function TierPreview() {
-  const tiers = MAIN_TIER_IDS.map((id) => TIERS[id]);
+  // Per-tier "include website" state. Default = true (with website).
+  // Tier 1 has no toggle. Tier 2/3 swap to system_upgrade / scale_single.
+  const [includeWebsite, setIncludeWebsite] = useState<Record<string, boolean>>({});
+
+  function getDisplayTier(canonicalId: TierId): {
+    tier: TierConfig;
+    slug: string;
+    hasToggle: boolean;
+  } {
+    if (canonicalId === "starter") {
+      return { tier: TIERS.starter, slug: PLAN_SLUGS.starter, hasToggle: false };
+    }
+    if (canonicalId === "growth") {
+      const withWebsite = includeWebsite.growth ?? true;
+      return {
+        tier: withWebsite ? TIERS.growth : TIERS.system_upgrade,
+        slug: withWebsite ? PLAN_SLUGS.growth : PLAN_SLUGS.system_upgrade,
+        hasToggle: true,
+      };
+    }
+    if (canonicalId === "scale") {
+      const withWebsite = includeWebsite.scale ?? true;
+      return {
+        tier: withWebsite ? TIERS.scale : TIERS.scale_single,
+        slug: withWebsite ? PLAN_SLUGS.scale : PLAN_SLUGS.scale_single,
+        hasToggle: true,
+      };
+    }
+    return { tier: TIERS[canonicalId], slug: PLAN_SLUGS[canonicalId], hasToggle: false };
+  }
+
+  function toggle(canonicalId: string) {
+    setIncludeWebsite((prev) => ({
+      ...prev,
+      [canonicalId]: !(prev[canonicalId] ?? true),
+    }));
+  }
 
   return (
     <section className="relative overflow-hidden bg-[#060613] py-12 text-white sm:py-16">
@@ -141,11 +178,13 @@ export function TierPreview() {
         </div>
 
         <div className="grid gap-4 lg:grid-cols-3">
-          {tiers.map((tier, i) => {
-            const Icon = tierIcons[tier.id];
+          {MAIN_TIER_IDS.map((canonicalId, i) => {
+            const { tier, slug, hasToggle } = getDisplayTier(canonicalId);
+            const withWebsite = includeWebsite[canonicalId] ?? true;
+            const Icon = tierIcons[canonicalId];
             return (
               <motion.div
-                key={tier.id}
+                key={canonicalId}
                 className={cn(
                   "motion-fade relative flex flex-col rounded-2xl border p-5 sm:p-6",
                   tier.highlighted
@@ -182,6 +221,39 @@ export function TierPreview() {
                     <p className="text-[11px] sm:text-[12px] text-[#8b5cf6] font-medium">{tier.audience}</p>
                   </div>
                 </div>
+
+                {/* Website include / exclude toggle (Tier 2 + Tier 3 only) */}
+                {hasToggle && (
+                  <div className="mt-3 rounded-xl border border-white/[0.06] bg-white/[0.02] p-1">
+                    <div className="grid grid-cols-2 gap-1">
+                      <button
+                        type="button"
+                        onClick={() => withWebsite || toggle(canonicalId)}
+                        className={cn(
+                          "flex items-center justify-center gap-1.5 rounded-lg px-2 py-1.5 text-[10px] sm:text-[11px] font-medium transition-all",
+                          withWebsite
+                            ? "bg-[#7c3aed] text-white shadow-md shadow-purple-500/20"
+                            : "text-white/50 hover:text-white/80"
+                        )}
+                      >
+                        <Globe className="h-3 w-3" />
+                        Build me a website
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => !withWebsite || toggle(canonicalId)}
+                        className={cn(
+                          "flex items-center justify-center rounded-lg px-2 py-1.5 text-[10px] sm:text-[11px] font-medium transition-all",
+                          !withWebsite
+                            ? "bg-[#7c3aed] text-white shadow-md shadow-purple-500/20"
+                            : "text-white/50 hover:text-white/80"
+                        )}
+                      >
+                        I have a site
+                      </button>
+                    </div>
+                  </div>
+                )}
 
                 {/* Pricing */}
                 <div className="mt-4">
@@ -266,7 +338,7 @@ export function TierPreview() {
                   )}
                   asChild
                 >
-                  <Link href={`/signup?plan=${PLAN_SLUGS[tier.id]}`}>
+                  <Link href={`/signup?plan=${slug}`}>
                     Get Started
                     <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
