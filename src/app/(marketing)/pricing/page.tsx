@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, HelpCircle } from "lucide-react";
+import { ArrowRight, HelpCircle, ShieldCheck, RefreshCcw, BadgeCheck, Lock } from "lucide-react";
 import { Section, SectionHeader } from "@/components/section";
 import { Button } from "@/components/ui/button";
 import { MAIN_TIER_IDS } from "@/lib/tier";
@@ -76,6 +76,49 @@ export default function PricingPage() {
           </div>
 
           <PricingTierCards tierIds={[...MAIN_TIER_IDS]} />
+
+          {/* Trust badges — make our guarantees impossible to miss */}
+          <div className="mx-auto mt-10 sm:mt-14 max-w-5xl">
+            <div className="grid gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {[
+                {
+                  icon: ShieldCheck,
+                  title: "Only 50% to start",
+                  body: "You pay the rest after we deliver and you love it.",
+                },
+                {
+                  icon: RefreshCcw,
+                  title: "48-hour deposit refund",
+                  body: "Change your mind in 48 hours? Full refund, no questions.",
+                },
+                {
+                  icon: BadgeCheck,
+                  title: "7-day satisfaction guarantee",
+                  body: "Don't love what we built? You get 100% of your deposit back.",
+                },
+                {
+                  icon: Lock,
+                  title: "No contracts, ever",
+                  body: "Monthly support is month-to-month. Cancel anytime.",
+                },
+              ].map((b) => (
+                <div
+                  key={b.title}
+                  className="flex flex-col items-start rounded-2xl border border-emerald-400/15 bg-emerald-400/[0.04] p-5 sm:p-6"
+                >
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-400/10 border border-emerald-400/20">
+                    <b.icon className="h-5 w-5 text-emerald-300" />
+                  </div>
+                  <h3 className="mt-4 text-[15px] sm:text-base font-bold text-white">
+                    {b.title}
+                  </h3>
+                  <p className="mt-1.5 text-[12px] sm:text-[13px] leading-relaxed text-white/60">
+                    {b.body}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 

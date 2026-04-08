@@ -10,7 +10,6 @@ import {
   Mail,
   Share2,
   Settings,
-  Lock,
   ArrowUpRight,
   FolderOpen,
   Shield,
@@ -66,29 +65,26 @@ export function DashboardSidebar() {
         <p className="mb-2 px-3 text-[11px] font-semibold uppercase tracking-widest text-muted-foreground/60">
           Menu
         </p>
-        {navigation.map((item) => {
-          const active = pathname === item.href;
-          const locked = !can(item.feature);
-
-          return (
-            <Link
-              key={item.href}
-              href={locked ? "#" : item.href}
-              className={cn(
-                "flex items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] font-medium transition-colors",
-                active
-                  ? "bg-primary/[0.07] text-primary"
-                  : locked
-                  ? "text-muted-foreground/35 cursor-not-allowed"
-                  : "text-muted-foreground hover:bg-accent hover:text-foreground"
-              )}
-            >
-              <item.icon className="h-4 w-4" />
-              {item.label}
-              {locked && <Lock className="ml-auto h-3 w-3 opacity-50" />}
-            </Link>
-          );
-        })}
+        {navigation
+          .filter((item) => can(item.feature))
+          .map((item) => {
+            const active = pathname === item.href;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  "flex items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] font-medium transition-colors",
+                  active
+                    ? "bg-primary/[0.07] text-primary"
+                    : "text-muted-foreground hover:bg-accent hover:text-foreground"
+                )}
+              >
+                <item.icon className="h-4 w-4" />
+                {item.label}
+              </Link>
+            );
+          })}
         <div className="my-2 h-px mx-3 bg-border/30" />
         <p className="mb-2 px-3 text-[11px] font-semibold uppercase tracking-widest text-muted-foreground/60">
           Project

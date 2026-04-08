@@ -15,43 +15,43 @@ import {
 const features = [
   {
     icon: Palette,
-    title: "Premium Web Design",
-    description: "Custom-built sites that make your business look established. No templates, no cookie-cutter layouts.",
+    title: "A website you'll be proud of",
+    description: "Built from scratch around your business. No templates. Looks great on every phone and laptop.",
   },
   {
     icon: Target,
-    title: "Smart Lead Capture",
-    description: "Strategic forms and CTAs placed where they convert. Turn visitors into real business opportunities.",
+    title: "Easy ways to contact you",
+    description: "Big call buttons, simple forms, and a 'get a quote' box right where people are looking.",
   },
   {
     icon: Star,
-    title: "Review Automation",
-    description: "Send review requests automatically after service. Build the social proof that wins new customers.",
+    title: "More 5-star Google reviews",
+    description: "We text your happy customers and ask them to leave a review. You don't have to remember a thing.",
   },
   {
     icon: Mail,
-    title: "Instant Notifications",
-    description: "Get notified the moment a lead comes in. Follow up while they're still browsing your site.",
+    title: "A text the second a lead comes in",
+    description: "Someone fills out your form? Your phone buzzes. Call them back before they call your competitor.",
   },
   {
     icon: LayoutDashboard,
-    title: "Business Dashboard",
-    description: "See leads, reviews, and email activity in one clean interface. Know what's driving results.",
+    title: "One simple screen",
+    description: "See new customers, new reviews, and what your website is doing. No spreadsheets. No guessing.",
   },
   {
     icon: TrendingUp,
-    title: "Growth Analytics",
-    description: "Track lead sources, conversion rates, and trends over time. Make decisions with real data.",
+    title: "Know what's actually working",
+    description: "We show you which page brought in the customer and how much new work your site brought you.",
   },
   {
     icon: Share2,
-    title: "Social Integration",
-    description: "Connect your profiles, track clicks, and understand how social drives business growth.",
+    title: "Your Facebook and Instagram, hooked up",
+    description: "Profiles linked, click tracking on, and an easy way to see which posts bring in real jobs.",
   },
   {
     icon: Zap,
-    title: "Workflow Automation",
-    description: "Set up triggers that run automatically. From follow-ups to review requests, save hours every week.",
+    title: "Stuff that runs while you sleep",
+    description: "Auto follow-ups, review requests, appointment reminders. Saves you hours every single week.",
   },
 ];
 

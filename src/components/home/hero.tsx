@@ -99,29 +99,29 @@ function DashboardMockup() {
             </div>
             <div className="grid gap-1.5 sm:gap-3 grid-cols-3">
               <div className="rounded-lg sm:rounded-xl border border-white/[0.06] bg-white/[0.02] p-2 sm:p-4">
-                <p className="text-[8px] sm:text-[11px] font-medium tracking-wide text-white/35 uppercase">New inquiries</p>
+                <p className="text-[8px] sm:text-[11px] font-medium tracking-wide text-white/35 uppercase">New customers</p>
                 <div className="mt-0.5 flex items-baseline gap-1">
                   <span className="text-[15px] sm:text-2xl font-bold text-white/90"><DashCountUp end={47} /></span>
-                  <span className="text-[8px] sm:text-xs font-medium text-emerald-400">+12%</span>
+                  <span className="text-[8px] sm:text-xs font-medium text-emerald-400">this month</span>
                 </div>
               </div>
               <div className="rounded-lg sm:rounded-xl border border-white/[0.06] bg-white/[0.02] p-2 sm:p-4">
-                <p className="text-[8px] sm:text-[11px] font-medium tracking-wide text-white/35 uppercase">Reviews</p>
+                <p className="text-[8px] sm:text-[11px] font-medium tracking-wide text-white/35 uppercase">5-star reviews</p>
                 <div className="mt-0.5 flex items-baseline gap-1">
                   <span className="text-[15px] sm:text-2xl font-bold text-white/90"><DashCountUp end={23} /></span>
-                  <span className="text-[8px] sm:text-xs font-medium text-emerald-400">+8%</span>
+                  <span className="text-[8px] sm:text-xs font-medium text-emerald-400">+6 new</span>
                 </div>
               </div>
               <div className="rounded-lg sm:rounded-xl border border-white/[0.06] bg-white/[0.02] p-2 sm:p-4">
-                <p className="text-[8px] sm:text-[11px] font-medium tracking-wide text-white/35 uppercase">Booked</p>
+                <p className="text-[8px] sm:text-[11px] font-medium tracking-wide text-white/35 uppercase">New revenue</p>
                 <div className="mt-0.5 flex items-baseline gap-1">
-                  <span className="text-[15px] sm:text-2xl font-bold text-white/90"><DashCountUp end={42} decimal suffix="%" /></span>
-                  <span className="text-[8px] sm:text-xs font-medium text-emerald-400">+0.6%</span>
+                  <span className="text-[15px] sm:text-2xl font-bold text-white/90">$<DashCountUp end={18} />k</span>
+                  <span className="text-[8px] sm:text-xs font-medium text-emerald-400">from your site</span>
                 </div>
               </div>
             </div>
             <div className="mt-1.5 sm:mt-5 rounded-lg sm:rounded-xl border border-white/[0.06] bg-white/[0.02] p-2 sm:p-4">
-              <p className="mb-1 sm:mb-3 text-[9px] sm:text-[13px] font-medium text-white/50">Inquiries this month</p>
+              <p className="mb-1 sm:mb-3 text-[9px] sm:text-[13px] font-medium text-white/50">New customers this month</p>
               <div className="flex items-end gap-[1.5px] sm:gap-[3px] h-8 sm:h-20">
                 {barHeights.map((h, i) => (
                   <div
@@ -224,16 +224,16 @@ export function HeroSection() {
                 animate={{ y: [-4, 4, -4] }}
                 transition={{ duration: 7, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
               >
-                <p className="text-[10px] font-medium tracking-wide text-white/40 uppercase">New inquiries</p>
-                <p className="mt-0.5 text-lg font-bold">+47</p>
+                <p className="text-[10px] font-medium tracking-wide text-white/40 uppercase">New customers</p>
+                <p className="mt-0.5 text-lg font-bold">47 this month</p>
               </motion.div>
               <motion.div
                 className="absolute -bottom-4 right-0 rounded-xl border border-white/[0.06] bg-[#0e0e2a]/90 px-3 py-2.5 shadow-lg shadow-emerald-500/10 z-20 will-change-transform"
                 animate={{ y: [4, -4, 4] }}
                 transition={{ duration: 8, repeat: Infinity, repeatType: "mirror", ease: "easeInOut", delay: 0.6 }}
               >
-                <p className="text-[10px] font-medium tracking-wide text-white/40 uppercase">Booked</p>
-                <p className="mt-0.5 text-lg font-bold text-emerald-400">4.2%</p>
+                <p className="text-[10px] font-medium tracking-wide text-white/40 uppercase">New revenue</p>
+                <p className="mt-0.5 text-lg font-bold text-emerald-400">+$18k</p>
               </motion.div>
               <motion.div
                 className="absolute top-[38%] -right-24 rounded-xl border border-white/[0.06] bg-[#0e0e2a]/90 px-3 py-2.5 shadow-lg shadow-yellow-500/10 z-20 will-change-transform"
@@ -241,7 +241,7 @@ export function HeroSection() {
                 transition={{ duration: 6.5, repeat: Infinity, repeatType: "mirror", ease: "easeInOut", delay: 1.2 }}
               >
                 <div className="flex items-center gap-0.5">{[1,2,3,4,5].map((n)=>(<div key={n} className="h-2 w-2 rounded-full bg-yellow-400/70" />))}</div>
-                <p className="mt-1 text-[10px] font-medium text-white/40">23 reviews</p>
+                <p className="mt-1 text-[10px] font-medium text-white/40">23 happy customers</p>
               </motion.div>
             </div>
           </motion.div>
