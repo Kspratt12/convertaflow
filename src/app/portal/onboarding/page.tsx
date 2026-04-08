@@ -129,7 +129,7 @@ const SECTIONS: OnboardingSection[] = [
     icon: ImageIcon,
     fields: [
       { type: "checkboxes", name: "existing_assets", label: "What do you have ready?", options: ["Professional photos", "Product / service photos", "Video content", "Customer testimonials", "Written copy / text", "Brand guidelines"] },
-      { type: "select", name: "need_copywriting", label: "Do you need copywriting help?", options: ["Yes, write everything for me", "Partial — I have some content", "No, I will provide all copy"] },
+      { type: "select", name: "need_copywriting", label: "Do you need copywriting help?", options: ["Yes, write everything for me", "Partial, I have some content", "No, I will provide all copy"] },
       { type: "file", name: "assets_upload", label: "Upload Any Assets" },
     ],
   },
@@ -421,7 +421,7 @@ export default function OnboardingPage() {
         </div>
         <p className="mt-1.5 text-[13px] text-slate-900/45 sm:text-[14px]">
           Tailored to your <span className="text-slate-900/65">{TIERS[tier].name}</span> build for {businessName}.
-          Save as you go — no need to finish everything at once.
+          Save as you go. No need to finish everything at once.
         </p>
       </div>
 

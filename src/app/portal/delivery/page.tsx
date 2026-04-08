@@ -45,7 +45,7 @@ export default async function DeliveryPage() {
       <div>
         <h1 className="text-xl font-bold text-slate-900 sm:text-2xl">Delivery</h1>
         <p className="mt-1 text-[13px] text-slate-900/45 sm:text-[14px]">
-          Access your project deliverables — preview links, live site, and dashboard access.
+          Access your project deliverables. Preview links, live site, and dashboard access.
         </p>
       </div>
 

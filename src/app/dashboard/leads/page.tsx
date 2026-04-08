@@ -74,7 +74,7 @@ export default async function LeadsPage() {
       <div>
         <h1 className="text-xl font-bold tracking-tight">Leads</h1>
         <p className="mt-0.5 text-[13px] text-muted-foreground">
-          Every lead from your website forms — captured, tracked, ready to follow up.
+          Every lead from your website forms. Captured, tracked, ready to follow up.
         </p>
       </div>
 

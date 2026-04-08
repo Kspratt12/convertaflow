@@ -187,7 +187,7 @@ export default async function BillingPage() {
       {/* Trust strip */}
       <div className="flex items-start gap-2 rounded-xl border border-white/[0.05] bg-slate-50 px-4 py-3 text-[11.5px] text-slate-500">
         <ShieldCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#06b6d4]" />
-        All payments are processed securely. We never store your card details — billing is handled by our payment provider.
+        All payments are processed securely. We never store your card details. Billing is handled by our payment provider.
       </div>
     </div>
   );

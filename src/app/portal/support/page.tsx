@@ -166,7 +166,7 @@ export default function SupportPage() {
             </button>
             {submitted && (
               <span className="text-[12px] text-emerald-400">
-                Sent — we&apos;ll respond within one business day
+                Sent. We&apos;ll respond within one business day
               </span>
             )}
           </div>

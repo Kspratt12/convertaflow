@@ -136,7 +136,7 @@ export default function ChangeRequestsPage() {
         </div>
         <p className="mt-1.5 text-[13px] text-slate-500 sm:text-[14px]">
           Need to update your hours, swap a photo, add a holiday banner, or
-          tweak some text? Submit a request below — we&apos;ll handle it{" "}
+          tweak some text? Submit a request below and we&apos;ll handle it{" "}
           <span className="font-semibold text-slate-700">{tierConfig.sla.toLowerCase()}</span>.
         </p>
       </div>
@@ -151,7 +151,7 @@ export default function ChangeRequestsPage() {
             Included with your plan
           </p>
           <p className="mt-1 text-[12px] leading-relaxed text-slate-600">
-            Text edits, image swaps, hours, contact info, holiday banners — anything under 30 min of work.
+            Text edits, image swaps, hours, contact info, holiday banners. Anything under 30 min of work.
           </p>
         </div>
         <div className="rounded-2xl border border-blue-200 bg-blue-50 p-4">
@@ -162,7 +162,7 @@ export default function ChangeRequestsPage() {
             We&apos;ll quote it back to you
           </p>
           <p className="mt-1 text-[12px] leading-relaxed text-slate-600">
-            New buttons, new sections, video swaps, layout tweaks — usually $50–$150. We&apos;ll confirm before any work.
+            New buttons, new sections, video swaps, layout tweaks. Usually $50 to $150. We&apos;ll confirm before any work.
           </p>
         </div>
         <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4">
@@ -173,7 +173,7 @@ export default function ChangeRequestsPage() {
             Quoted separately
           </p>
           <p className="mt-1 text-[12px] leading-relaxed text-slate-600">
-            New pages, full redesigns, new integrations — starting at $200. Tell us what you want and we&apos;ll send a quote.
+            New pages, full redesigns, new integrations. Starting at $200. Tell us what you want and we&apos;ll send a quote.
           </p>
         </div>
       </div>
@@ -270,9 +270,9 @@ export default function ChangeRequestsPage() {
                 }
                 className={selectClasses}
               >
-                <option value="low">Low — whenever you can</option>
-                <option value="normal">Normal — within SLA</option>
-                <option value="high">High — time-sensitive</option>
+                <option value="low">Low, whenever you can</option>
+                <option value="normal">Normal, within SLA</option>
+                <option value="high">High, time-sensitive</option>
               </select>
             </div>
           </div>
@@ -303,7 +303,7 @@ export default function ChangeRequestsPage() {
             </button>
             {submitted && (
               <span className="text-[12px] font-medium text-emerald-600">
-                ✓ Got it — we&apos;ll get back to you {tierConfig.sla.toLowerCase()}
+                ✓ Got it. We&apos;ll get back to you {tierConfig.sla.toLowerCase()}
               </span>
             )}
           </div>

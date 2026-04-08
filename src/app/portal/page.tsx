@@ -78,7 +78,7 @@ function WelcomeBanner({ planName }: { planName: string }) {
         </div>
         <div className="min-w-0">
           <h3 className="text-[15px] font-semibold text-slate-900/95">
-            Welcome — your <span className="text-emerald-300">{planName}</span> account is ready
+            Welcome. Your <span className="text-emerald-300">{planName}</span> account is ready
           </h3>
           <p className="mt-1 text-[13px] text-slate-900/55">
             Next step: complete your project onboarding so our team has everything we need to start your build.
@@ -115,7 +115,7 @@ export default function PortalOverviewPage() {
           Welcome back, {businessName}
         </h1>
         <p className="mt-1 text-[13px] text-slate-900/45 sm:text-[14px]">
-          Your project hub — everything you need in one place.
+          Your project hub. Everything you need in one place.
         </p>
       </div>
 

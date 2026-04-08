@@ -94,7 +94,7 @@ export default async function EmailPage() {
       <TierGate
         requiredTier="growth"
         featureName="Email Activity"
-        featureDescription="Track every email your site sends — lead notifications, review requests, follow-ups, and project updates. See deliverability, opens, and clicks. Included with Growth and above."
+        featureDescription="Track every email your site sends. Lead notifications, review requests, follow-ups, and project updates. See deliverability, opens, and clicks. Included with Growth and above."
       />
     );
   }

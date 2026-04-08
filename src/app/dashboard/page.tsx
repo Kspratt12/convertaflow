@@ -496,7 +496,7 @@ export default async function DashboardOverview() {
                     <p className="text-[13px]">
                       <span className="font-medium">{activity.action}</span>
                       {activity.target && (
-                        <span className="text-muted-foreground"> — {activity.target}</span>
+                        <span className="text-muted-foreground"> · {activity.target}</span>
                       )}
                     </p>
                     <p className="text-[11px] text-muted-foreground">

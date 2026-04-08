@@ -32,11 +32,11 @@ const STAGE_META: Record<ProjectStatus, { label: string; icon: typeof ClipboardL
   in_progress: { label: "Building", icon: Paintbrush, description: "Your build is actively underway." },
   milestone_25: { label: "25% Complete", icon: TrendingUp, description: "First quarter complete." },
   milestone_50: { label: "50% Complete", icon: TrendingUp, description: "Halfway through your build." },
-  milestone_75: { label: "75% Complete", icon: TrendingUp, description: "Final stretch — almost ready." },
+  milestone_75: { label: "75% Complete", icon: TrendingUp, description: "Final stretch. Almost ready." },
   revision_round: { label: "Revisions", icon: Edit3, description: "Review the build and request changes." },
   final_review: { label: "Final Review", icon: Eye, description: "Last look before we hand it over." },
   delivered: { label: "Delivered", icon: Package, description: "Your project is live and ready." },
-  completed: { label: "Completed", icon: CheckCircle2, description: "Project wrapped — portal stays open for changes." },
+  completed: { label: "Completed", icon: CheckCircle2, description: "Project wrapped. Portal stays open for changes." },
 };
 
 export default async function ProjectStatusPage() {
