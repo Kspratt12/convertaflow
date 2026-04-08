@@ -135,7 +135,7 @@ export default function PricingPage() {
             </span>
           </h2>
           <p className="mt-3 text-[13px] sm:text-[14px] leading-relaxed text-white/55 max-w-2xl mx-auto">
-            Tier 3 includes one custom-built system from the menu below — designed
+            Tier 3 includes one custom-built system from the menu below, designed
             to do the job of an employee you don&apos;t have time to hire. We build it,
             brand it, plug it into your business, and it runs every day on its own.
           </p>
@@ -171,7 +171,7 @@ export default function PricingPage() {
               name: "Lead Qualifier + Router",
               replaces: "Replaces an office manager",
               who: "Real Estate · Lawyers · Contractors",
-              how: "New leads are sorted by job size, location, and urgency, then routed to the right person on your team — instantly.",
+              how: "New leads are sorted by job size, location, and urgency, then routed to the right person on your team. Instantly.",
             },
             {
               name: "Reactivation Campaign",
@@ -202,7 +202,7 @@ export default function PricingPage() {
         </div>
 
         <p className="mt-6 text-center text-[12px] text-white/40 max-w-2xl mx-auto">
-          Need something off-menu? Tell us in your portal after signup — we&apos;ll
+          Need something off-menu? Tell us in your portal after signup and we&apos;ll
           quote a custom scope on top of Tier 3.
         </p>
       </Section>

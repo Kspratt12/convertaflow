@@ -217,7 +217,7 @@ export const TIERS: Record<TierId, TierConfig> = {
     monthlyNote: "full system + custom build + dedicated support",
     monthlyRequired: true,
     description:
-      "Everything in Growth Tools, plus one custom system from our menu — built to do the job of an employee you don't have time to hire. Missed-call recovery, review bot, follow-up sequences, and more. You pick, we build, it runs on its own.",
+      "Everything in Growth Tools, plus one custom system from our menu. Built to do the job of an employee you don't have time to hire. Missed-call recovery, review bot, follow-up sequences, and more. You pick, we build, it runs on its own.",
     audience: "I want everything, plus something custom built for my business",
     deliveryDays: "10–14 business days",
     revisions: 10,
