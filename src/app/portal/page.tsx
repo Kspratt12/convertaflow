@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { useBusiness } from "@/components/dashboard/business-provider";
 import { TIERS } from "@/lib/constants";
+import { DepositBanner } from "@/components/portal/deposit-banner";
 
 const PROJECT_STAGES = [
   "Onboarding",
@@ -108,6 +109,8 @@ export default function PortalOverviewPage() {
       <Suspense fallback={null}>
         <WelcomeBanner planName={tierConfig.name} />
       </Suspense>
+
+      <DepositBanner />
 
       {/* Welcome */}
       <div>

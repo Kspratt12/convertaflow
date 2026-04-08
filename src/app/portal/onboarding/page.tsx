@@ -636,19 +636,27 @@ export default function OnboardingPage() {
 
       {/* Submit for review */}
       {submitted ? (
-        <div className="rounded-2xl border border-emerald-500/20 bg-gradient-to-br from-emerald-500/[0.06] to-[#06b6d4]/[0.04] p-5 sm:p-6">
-          <div className="flex items-start gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-500/15">
-              <Check className="h-5 w-5 text-emerald-400" />
+        <div className="rounded-2xl border border-emerald-500/30 bg-gradient-to-br from-emerald-500/[0.08] to-[#06b6d4]/[0.05] p-5 sm:p-6">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div className="flex items-start gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-500/15">
+                <Check className="h-5 w-5 text-emerald-500" />
+              </div>
+              <div className="min-w-0">
+                <p className="text-[15px] font-semibold text-slate-900">
+                  Onboarding submitted. One step left.
+                </p>
+                <p className="mt-1 text-[13px] text-slate-700">
+                  Pay your 50% deposit and your build is officially queued. Refundable in the first 48 hours, plus a 7-day satisfaction guarantee.
+                </p>
+              </div>
             </div>
-            <div className="min-w-0">
-              <p className="text-[15px] font-semibold text-slate-900/95">
-                Onboarding submitted
-              </p>
-              <p className="mt-1 text-[13px] text-slate-900/55">
-                Our team is reviewing everything you sent us. You&apos;ll get an email update as soon as we kick off the planning phase. You can still come back here anytime to update answers.
-              </p>
-            </div>
+            <a
+              href="/portal/deposit"
+              className="inline-flex h-11 shrink-0 items-center justify-center gap-2 self-start rounded-xl bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] px-5 text-[13px] font-semibold text-white transition-opacity hover:opacity-90"
+            >
+              Continue to deposit
+            </a>
           </div>
         </div>
       ) : (
