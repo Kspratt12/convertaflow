@@ -217,13 +217,13 @@ export const TIERS: Record<TierId, TierConfig> = {
     monthlyNote: "full system + custom build + dedicated support",
     monthlyRequired: true,
     description:
-      "Everything in Growth Tools, plus a custom build catered to your business. Plumber, dentist, yoga instructor, real estate, lawyer, hair stylist. We meet you where you are. Tell us what you need in your portal, we build it.",
+      "Everything in Growth Tools, plus one custom system from our menu — built to do the job of an employee you don't have time to hire. Missed-call recovery, review bot, follow-up sequences, and more. You pick, we build, it runs on its own.",
     audience: "I want everything, plus something custom built for my business",
     deliveryDays: "10–14 business days",
     revisions: 10,
     features: [
       "Everything in Website + Growth Tools",
-      "✨ Custom Build, you tell us what (we meet you where you are)",
+      "✨ One custom system built for your business (pick from our menu of 6)",
       "Custom Business Dashboard built for your workflow",
       "SMS / Missed-Call Recovery (auto-text customers when you miss a call)",
       "Customer CRM (track every customer from inquiry to repeat business)",

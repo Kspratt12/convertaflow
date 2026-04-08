@@ -122,63 +122,88 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* Real builds — examples of what we can build for you (Tier 3 grounding) */}
+      {/* Tier 3 menu — the 6 custom systems */}
       <Section>
         <div className="mx-auto max-w-3xl text-center mb-6 sm:mb-8">
           <p className="text-[11px] font-semibold uppercase tracking-widest text-[#06b6d4]/80">
-            Everything Done For You · Examples
+            Everything Done For You · Pick Your System
           </p>
           <h2 className="mt-2 text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight text-white/90">
-            We meet you where you are
+            Replace your biggest headache.{" "}
+            <span className="bg-gradient-to-r from-[#8b5cf6] via-[#3b82f6] to-[#06b6d4] bg-clip-text text-transparent">
+              Pick one system, we build it.
+            </span>
           </h2>
-          <p className="mt-2 text-[13px] sm:text-[14px] leading-relaxed text-white/45 max-w-xl mx-auto">
-            Tier 3 includes a custom build catered to your business. Here&apos;s a few examples of what we&apos;ve built (or can build) for different industries.
+          <p className="mt-3 text-[13px] sm:text-[14px] leading-relaxed text-white/55 max-w-2xl mx-auto">
+            Tier 3 includes one custom-built system from the menu below — designed
+            to do the job of an employee you don&apos;t have time to hire. We build it,
+            brand it, plug it into your business, and it runs every day on its own.
           </p>
         </div>
 
-        <div className="mx-auto max-w-5xl grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mx-auto max-w-5xl grid gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {[
             {
-              industry: "Plumber",
-              build: "Emergency call routing form that pages whoever's on call, plus a service-area map so customers know if you cover them.",
+              name: "Missed-Call Text-Back",
+              replaces: "Replaces a receptionist",
+              who: "Plumbers · HVAC · Electricians · Roofers",
+              how: "Anyone who calls and gets voicemail instantly gets a friendly text from you. Recovers the 4 in 10 jobs you're losing every week without knowing.",
             },
             {
-              industry: "Real Estate Agent",
-              build: "Listing showcase with a separate lead capture per property, auto-following up the moment someone asks.",
+              name: "Review Recovery Bot",
+              replaces: "Replaces chasing reviews by hand",
+              who: "Salons · Dentists · Med Spas · Gyms",
+              how: "After every appointment, we automatically text the customer and ask for a Google review. Most owners go from 20 reviews to 80+ in 90 days.",
             },
             {
-              industry: "Dentist",
-              build: "New patient intake with insurance verification fields and appointment booking that syncs to your calendar.",
+              name: "Quote-to-Close Follow-Up",
+              replaces: "Replaces a sales rep",
+              who: "Solar · Roofers · Contractors · Painters",
+              how: "Sent a quote? We follow up at day 1, 3, and 7 with a friendly nudge. Closes 20–30% more deals from quotes you already gave.",
             },
             {
-              industry: "Yoga / Pilates Studio",
-              build: "Class schedule with recurring booking, member portal, and SMS reminders the day before each class.",
+              name: "No-Show Recovery",
+              replaces: "Replaces a front desk",
+              who: "Dentists · Salons · Med Spas · Trainers",
+              how: "Auto SMS reminders 48h and 2h before. If they no-show, an instant rebook link goes out. Cuts no-shows in half.",
             },
             {
-              industry: "Lawyer",
-              build: "Case intake form with conditional logic, plus secure document upload so clients can send you sensitive paperwork safely.",
+              name: "Lead Qualifier + Router",
+              replaces: "Replaces an office manager",
+              who: "Real Estate · Lawyers · Contractors",
+              how: "New leads are sorted by job size, location, and urgency, then routed to the right person on your team — instantly.",
             },
             {
-              industry: "Hair Stylist",
-              build: "Stylist-specific booking page so clients can pick by name, with portfolio gallery and Instagram embed.",
+              name: "Reactivation Campaign",
+              replaces: "Replaces a marketing person",
+              who: "Salons · Gyms · Dentists · Restaurants",
+              how: "We pull your old customer list and run a 'we miss you' SMS sequence with a comeback offer. Wakes up dead revenue in your CRM.",
             },
-          ].map((ex) => (
+          ].map((sys) => (
             <div
-              key={ex.industry}
-              className="flex flex-col rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5"
+              key={sys.name}
+              className="flex flex-col rounded-2xl border border-white/[0.06] bg-white/[0.03] p-5 hover:border-[#7c3aed]/30 hover:bg-white/[0.05] transition-colors"
             >
-              <p className="text-[11px] font-semibold uppercase tracking-wider text-[#06b6d4]">
-                {ex.industry}
+              <p className="text-[14px] sm:text-[15px] font-bold text-white">
+                {sys.name}
               </p>
-              <p className="mt-2 text-[13px] leading-relaxed text-white/65 sm:text-[14px]">
-                {ex.build}
+              <p className="mt-1 text-[11px] font-semibold uppercase tracking-wider text-[#a3e635]">
+                {sys.replaces}
               </p>
+              <p className="mt-3 text-[12px] leading-relaxed text-white/60 sm:text-[13px]">
+                {sys.how}
+              </p>
+              <div className="mt-4 border-t border-white/[0.06] pt-3">
+                <p className="text-[10px] uppercase tracking-wider text-white/35">Best for</p>
+                <p className="mt-1 text-[11px] text-white/55">{sys.who}</p>
+              </div>
             </div>
           ))}
         </div>
 
-        <p className="mt-5 text-center text-[12px] text-white/35 max-w-2xl mx-auto">
-          These are examples, not a fixed menu. After you sign up, you fill out a form in your portal describing exactly what you need. We build it.
+        <p className="mt-6 text-center text-[12px] text-white/40 max-w-2xl mx-auto">
+          Need something off-menu? Tell us in your portal after signup — we&apos;ll
+          quote a custom scope on top of Tier 3.
         </p>
       </Section>
 
