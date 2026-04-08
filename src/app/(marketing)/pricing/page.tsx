@@ -33,8 +33,12 @@ const faqs = [
     a: "The design and build is a one-time investment. The monthly fee covers hosting, support, system access, and ongoing maintenance. Cancel anytime.",
   },
   {
+    q: "How does payment work?",
+    a: "You only pay 50% upfront to get started. We build your project, deliver it for review, and you pay the remaining 50% once you've seen it and approved it. No paying in full for something that doesn't exist yet. Same way every legitimate done-for-you service works.",
+  },
+  {
     q: "What if I'm not happy with the build?",
-    a: "Every plan comes with a 7-day satisfaction guarantee. After we deliver your build, you have 7 days to tell us if something isn't right. If we can't make it right, you get 100% of your one-time build fee back. No questions, no awkward conversations. We just want you to love what we built.",
+    a: "Every plan comes with a 7-day satisfaction guarantee. After we deliver your build, you have 7 days to tell us if something isn't right. If we can't make it right, you get 100% of your deposit back. No questions, no awkward conversations. We just want you to love what we built.",
   },
   {
     q: "Do you work with my industry?",

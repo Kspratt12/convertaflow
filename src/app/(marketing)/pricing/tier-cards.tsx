@@ -213,6 +213,9 @@ export function PricingTierCards({ tierIds }: TierCardsProps) {
               <p className="mt-0.5 text-[12px] sm:text-[13px] text-white/40">
                 {tier.priceNote}
               </p>
+              <p className="mt-1.5 inline-flex items-center gap-1 rounded-md bg-emerald-500/[0.08] border border-emerald-500/20 px-2 py-0.5 text-[10px] sm:text-[11px] font-medium text-emerald-400">
+                50% to start. 50% when you&apos;re happy.
+              </p>
             </div>
 
             {/* Monthly fee — clearly separated. Tier 1 gets a softer

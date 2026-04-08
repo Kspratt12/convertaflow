@@ -143,6 +143,9 @@ export function TierPreview() {
                     <span className="text-[14px] sm:text-base font-bold text-white/70">{tier.monthly}</span>
                     <span className="text-[11px] sm:text-[12px] text-white/35">{tier.monthlyNote}</span>
                   </div>
+                  <p className="mt-2 inline-flex items-center gap-1 rounded-md bg-emerald-500/[0.08] border border-emerald-500/20 px-2 py-0.5 text-[10px] font-medium text-emerald-400">
+                    50% to start · 50% when you&apos;re happy
+                  </p>
                 </div>
 
                 {/* Delivery + Edit rounds — tappable explainers */}
