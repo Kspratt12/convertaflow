@@ -183,7 +183,7 @@ export function PricingTierCards({ tierIds }: TierCardsProps) {
   }
 
   return (
-    <div className="grid gap-4 lg:grid-cols-3">
+    <div className="grid items-start gap-4 lg:grid-cols-3">
       {tierIds.map((canonicalId) => {
         const { tier, slug, hasToggle } = getDisplayTier(canonicalId);
         const withWebsite = includeWebsite[canonicalId] ?? true;
@@ -316,7 +316,7 @@ export function PricingTierCards({ tierIds }: TierCardsProps) {
                 in each tier (sparkle line for Tier 3, custom website / growth
                 tools line for Tier 1 and Tier 2) gets a lime-green highlight
                 so the eye lands on the most important thing. */}
-            <ul className="mt-4 flex-1 space-y-2 border-t border-white/[0.06] pt-4">
+            <ul className="mt-4 space-y-2 border-t border-white/[0.06] pt-4">
               {tier.features.map((feature, idx) => {
                 // Feature is "magic" if it starts with the sparkle emoji,
                 // OR if it's the second feature on a tier without a sparkle
