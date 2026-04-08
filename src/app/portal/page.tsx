@@ -85,7 +85,7 @@ function WelcomeBanner({ planName }: { planName: string }) {
           </p>
           <Link
             href="/portal/onboarding"
-            className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] px-3.5 py-2 text-[12.5px] font-semibold text-slate-900 transition-opacity hover:opacity-90"
+            className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] px-3.5 py-2 text-[12.5px] font-semibold text-white transition-opacity hover:opacity-90"
           >
             Start onboarding
           </Link>

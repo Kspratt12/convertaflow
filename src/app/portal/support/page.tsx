@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import {
   Send,
   Upload,
@@ -40,27 +40,70 @@ const selectClasses =
   "w-full rounded-xl bg-white border border-slate-200 px-4 py-3 text-[14px] text-slate-900 focus:border-[#7c3aed]/40 focus:outline-none focus:ring-1 focus:ring-[#7c3aed]/20 transition-colors [&>option]:bg-[#0a0a1a] [&>option]:text-slate-900";
 
 export default function SupportPage() {
-  const [requests] = useState<SupportRequest[]>([]);
+  const [requests, setRequests] = useState<SupportRequest[]>([]);
+  const [loadingList, setLoadingList] = useState(true);
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [category, setCategory] = useState<"question" | "issue" | "request" | "feedback">("question");
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
+
+  const refresh = useCallback(async () => {
+    try {
+      const res = await fetch("/api/support", { cache: "no-store" });
+      const data = await res.json();
+      if (res.ok) setRequests(data.requests ?? []);
+    } catch {
+      // silent — empty state will show
+    } finally {
+      setLoadingList(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    refresh();
+  }, [refresh]);
 
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault();
       if (!subject.trim() || !message.trim()) return;
+
       setSubmitting(true);
-      await new Promise((r) => setTimeout(r, 600));
-      setSubmitting(false);
-      setSubmitted(true);
-      setSubject("");
-      setMessage("");
-      setCategory("question");
-      setTimeout(() => setSubmitted(false), 3000);
+      setError("");
+
+      try {
+        const res = await fetch("/api/support", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            subject: subject.trim(),
+            message: message.trim(),
+            category,
+          }),
+        });
+        const data = await res.json().catch(() => ({}));
+
+        if (!res.ok) {
+          setError(data.error || "Couldn't send your message. Please try again.");
+          setSubmitting(false);
+          return;
+        }
+
+        setSubject("");
+        setMessage("");
+        setCategory("question");
+        setSubmitted(true);
+        setTimeout(() => setSubmitted(false), 4000);
+        await refresh();
+      } catch {
+        setError("Connection issue. Please check your internet and try again.");
+      } finally {
+        setSubmitting(false);
+      }
     },
-    [subject, message]
+    [subject, message, category, refresh]
   );
 
   return (
@@ -146,11 +189,17 @@ export default function SupportPage() {
             </div>
           </div>
 
-          <div className="flex items-center gap-3 pt-2">
+          {error && (
+            <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-[13px] text-red-700">
+              {error}
+            </div>
+          )}
+
+          <div className="flex flex-wrap items-center gap-3 pt-2">
             <button
               type="submit"
               disabled={submitting || !subject.trim() || !message.trim()}
-              className="inline-flex h-11 items-center gap-2 rounded-xl bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] border-0 px-6 text-[13px] font-semibold text-slate-900 transition-opacity hover:opacity-90 disabled:opacity-60"
+              className="inline-flex h-11 items-center gap-2 rounded-xl bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] border-0 px-6 text-[13px] font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-60"
             >
               {submitting ? (
                 <>
@@ -165,8 +214,8 @@ export default function SupportPage() {
               )}
             </button>
             {submitted && (
-              <span className="text-[12px] text-emerald-400">
-                Sent. We&apos;ll respond within one business day
+              <span className="text-[12px] font-medium text-emerald-600">
+                ✓ Sent. We&apos;ll respond within one business day.
               </span>
             )}
           </div>
@@ -179,7 +228,11 @@ export default function SupportPage() {
           Past Requests
         </h2>
 
-        {requests.length === 0 ? (
+        {loadingList ? (
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-8 text-center">
+            <p className="text-[13px] text-slate-500">Loading…</p>
+          </div>
+        ) : requests.length === 0 ? (
           <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 py-14 text-center sm:p-6 sm:py-14">
             <div className="flex flex-col items-center gap-3">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white">

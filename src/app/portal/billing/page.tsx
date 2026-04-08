@@ -6,7 +6,6 @@ import {
   ExternalLink,
   ShieldCheck,
   Sparkles,
-  AlertCircle,
 } from "lucide-react";
 import { getSession } from "@/lib/auth";
 import { TIERS } from "@/lib/constants";
@@ -113,7 +112,7 @@ export default async function BillingPage() {
                 </p>
                 <Link
                   href="/api/billing/portal"
-                  className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] px-4 py-2 text-[13px] font-semibold text-slate-900 transition-opacity hover:opacity-90"
+                  className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] px-4 py-2 text-[13px] font-semibold text-white transition-opacity hover:opacity-90"
                 >
                   Open Billing Portal
                   <ExternalLink className="h-3.5 w-3.5" />
@@ -127,7 +126,7 @@ export default async function BillingPage() {
                 <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center">
                   <Link
                     href="/portal/onboarding"
-                    className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] px-4 py-2 text-[13px] font-semibold text-slate-900 transition-opacity hover:opacity-90"
+                    className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] px-4 py-2 text-[13px] font-semibold text-white transition-opacity hover:opacity-90"
                   >
                     Continue Onboarding
                     <ExternalLink className="h-3.5 w-3.5" />
@@ -163,7 +162,7 @@ export default async function BillingPage() {
         <div className="rounded-2xl border border-[#7c3aed]/20 bg-gradient-to-br from-[#7c3aed]/[0.06] to-[#3b82f6]/[0.04] p-5 sm:p-6">
           <div className="flex items-start gap-3">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#7c3aed] to-[#3b82f6]">
-              <Sparkles className="h-5 w-5 text-slate-900" />
+              <Sparkles className="h-5 w-5 text-white" />
             </div>
             <div className="min-w-0 flex-1">
               <h3 className="text-[14px] font-semibold text-slate-900 sm:text-[15px]">
