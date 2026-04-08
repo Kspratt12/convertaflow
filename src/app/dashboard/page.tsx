@@ -247,6 +247,12 @@ export default async function DashboardOverview() {
 
   const maxBucket = Math.max(...data.leadActivity, 1);
 
+  // Fresh-account state — true when the customer has zero data yet.
+  const isFreshAccount =
+    data.stats.newLeads === 0 &&
+    data.stats.reviews === 0 &&
+    data.stats.emails === 0;
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -255,16 +261,96 @@ export default async function DashboardOverview() {
             Welcome back, {data.firstName}
           </h1>
           <p className="mt-0.5 text-[13px] text-muted-foreground">
-            Here&apos;s how your business is performing this month.
+            {isFreshAccount
+              ? "Welcome to your dashboard. Here's what's next."
+              : "Here's how your business is performing this month."}
           </p>
         </div>
-        <Button size="sm" className="gap-1.5" asChild>
-          <Link href="/dashboard/leads">
-            View All Leads
-            <ArrowRight className="h-3.5 w-3.5" />
-          </Link>
-        </Button>
+        {!isFreshAccount && (
+          <Button size="sm" className="gap-1.5" asChild>
+            <Link href="/dashboard/leads">
+              View All Leads
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </Button>
+        )}
       </div>
+
+      {/* Fresh account walkthrough — only shown to new customers with zero data */}
+      {isFreshAccount && (
+        <Card className="border-primary/30 bg-gradient-to-br from-primary/[0.04] to-transparent">
+          <CardContent className="p-5 sm:p-6">
+            <div className="flex items-start gap-4">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                <Star className="h-5 w-5" />
+              </div>
+              <div className="flex-1">
+                <h2 className="text-[15px] font-bold tracking-tight">
+                  You&apos;re all set up. Here&apos;s how this works.
+                </h2>
+                <ol className="mt-3 space-y-2 text-[13px] text-muted-foreground">
+                  <li className="flex items-start gap-2">
+                    <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-primary/15 text-[10px] font-bold text-primary">
+                      1
+                    </span>
+                    <span>
+                      Finish your project intake in the{" "}
+                      <Link
+                        href="/portal/onboarding"
+                        className="font-semibold text-primary hover:underline"
+                      >
+                        Client Portal
+                      </Link>{" "}
+                      so we know what to build.
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-primary/15 text-[10px] font-bold text-primary">
+                      2
+                    </span>
+                    <span>
+                      Track your build progress in{" "}
+                      <Link
+                        href="/dashboard/project"
+                        className="font-semibold text-primary hover:underline"
+                      >
+                        Project
+                      </Link>{" "}
+                      as we move through each milestone.
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-primary/15 text-[10px] font-bold text-primary">
+                      3
+                    </span>
+                    <span>
+                      Need a change after launch? Submit it in{" "}
+                      <Link
+                        href="/portal/revisions"
+                        className="font-semibold text-primary hover:underline"
+                      >
+                        Request a Change
+                      </Link>{" "}
+                      and we&apos;ll handle it.
+                    </span>
+                  </li>
+                </ol>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  <Button size="sm" className="gap-1.5" asChild>
+                    <Link href="/portal/onboarding">
+                      Continue Onboarding
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </Link>
+                  </Button>
+                  <Button size="sm" variant="outline" asChild>
+                    <Link href="/portal/uploads">Upload Brand Assets</Link>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Stats */}
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">

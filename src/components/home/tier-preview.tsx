@@ -86,7 +86,7 @@ export function TierPreview() {
                   </div>
                 </div>
 
-                {/* Delivery + Revisions */}
+                {/* Delivery + Edit rounds */}
                 <div className="mt-3 flex gap-3">
                   <div className="flex items-center gap-1 text-[10px] sm:text-[11px] text-white/50">
                     <Clock className="h-3 w-3 text-[#06b6d4]" />
@@ -94,7 +94,7 @@ export function TierPreview() {
                   </div>
                   <div className="flex items-center gap-1 text-[10px] sm:text-[11px] text-white/50">
                     <RotateCcw className="h-3 w-3 text-[#06b6d4]" />
-                    {tier.revisions} revisions
+                    {tier.revisions} rounds of edits
                   </div>
                 </div>
 

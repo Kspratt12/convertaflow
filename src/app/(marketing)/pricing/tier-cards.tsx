@@ -156,19 +156,32 @@ export function PricingTierCards({ tierIds }: TierCardsProps) {
               </p>
             </div>
 
-            {/* Monthly fee — clearly separated */}
-            <div className="mt-3 rounded-xl border border-[#06b6d4]/15 bg-[#06b6d4]/[0.04] px-3 py-2.5">
-              <div className="flex items-baseline gap-1.5">
+            {/* Monthly fee — clearly separated. Tier 1 gets a softer
+                visual treatment because the monthly is OPTIONAL for them. */}
+            <div
+              className={cn(
+                "mt-3 rounded-xl border px-3 py-2.5",
+                tier.monthlyRequired
+                  ? "border-[#06b6d4]/15 bg-[#06b6d4]/[0.04]"
+                  : "border-dashed border-white/[0.10] bg-white/[0.02]"
+              )}
+            >
+              <div className="flex flex-wrap items-baseline gap-1.5">
                 <span className="text-base sm:text-lg font-bold text-white">
                   {tier.monthly}
                 </span>
-                <span className="text-[11px] sm:text-[12px] text-white/45">
+                <span className="text-[11px] sm:text-[12px] text-white/55">
                   {tier.monthlyNote}
                 </span>
               </div>
+              {!tier.monthlyRequired && (
+                <p className="mt-1 text-[10px] text-white/40">
+                  Add it now or later, no contract.
+                </p>
+              )}
             </div>
 
-            {/* Delivery + Revisions */}
+            {/* Delivery + Edit rounds */}
             <div className="mt-3 flex gap-3 rounded-xl bg-white/[0.03] border border-white/[0.04] px-3 py-2.5">
               <div className="flex items-center gap-1.5 text-[11px] sm:text-[12px] text-white/60">
                 <Clock className="h-3.5 w-3.5 text-[#06b6d4]" />
@@ -177,9 +190,12 @@ export function PricingTierCards({ tierIds }: TierCardsProps) {
               <div className="h-4 w-px bg-white/[0.08]" />
               <div className="flex items-center gap-1.5 text-[11px] sm:text-[12px] text-white/60">
                 <RotateCcw className="h-3.5 w-3.5 text-[#06b6d4]" />
-                {tier.revisions} revisions
+                {tier.revisions} rounds of edits
               </div>
             </div>
+            <p className="mt-1.5 px-1 text-[10px] text-white/35">
+              Edit rounds are during the build. After launch you can request changes anytime in your portal.
+            </p>
 
             <p className="mt-3 text-[13px] leading-relaxed text-white/45">
               {tier.description}

@@ -70,7 +70,7 @@ export const TIERS: Record<TierId, TierConfig> = {
     price: "$2,497",
     priceNote: "one-time build",
     monthly: "$79/mo",
-    monthlyNote: "hosting, support & 2 updates/mo",
+    monthlyNote: "OPTIONAL: hosting, support & 2 updates/mo",
     monthlyRequired: false,
     description:
       "A custom website that makes your business look established and gives new customers a clear way to reach you. No templates, no DIY.",
@@ -81,7 +81,7 @@ export const TIERS: Record<TierId, TierConfig> = {
       "Custom website design (no templates)",
       "Looks great on phones and tablets",
       "Contact form that emails you instantly",
-      "Hosting, SSL, and security included",
+      "SSL and security setup included",
       "Easy for Google to find",
       "Fast loading on every device",
       "Visitor tracking so you know who's looking",
@@ -94,7 +94,7 @@ export const TIERS: Record<TierId, TierConfig> = {
     ],
     sla: "Within 3 business days",
     highlighted: false,
-    microcopy: "Cancel anytime. Your site stays yours.",
+    microcopy: "Skip the monthly fee or add it anytime. Your site is yours.",
   },
   growth: {
     id: "growth",
