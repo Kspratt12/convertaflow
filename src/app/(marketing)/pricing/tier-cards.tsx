@@ -10,6 +10,7 @@ import {
   RotateCcw,
   Globe,
   Info,
+  ShieldCheck,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -347,6 +348,12 @@ export function PricingTierCards({ tierIds }: TierCardsProps) {
                 <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             </Button>
+
+            {/* 7-day satisfaction guarantee badge */}
+            <div className="mt-3 flex items-center justify-center gap-1.5 text-[11px] text-emerald-400/85">
+              <ShieldCheck className="h-3.5 w-3.5" />
+              <span>7-day satisfaction guarantee</span>
+            </div>
           </div>
         );
       })}

@@ -33,6 +33,10 @@ const faqs = [
     a: "The design and build is a one-time investment. The monthly fee covers hosting, support, system access, and ongoing maintenance. Cancel anytime.",
   },
   {
+    q: "What if I'm not happy with the build?",
+    a: "Every plan comes with a 7-day satisfaction guarantee. After we deliver your build, you have 7 days to tell us if something isn't right. If we can't make it right, you get 100% of your one-time build fee back. No questions, no awkward conversations. We just want you to love what we built.",
+  },
+  {
     q: "Do you work with my industry?",
     a: "We work with service businesses, professional practices, local businesses, and growing companies. Plumbers, dentists, yoga instructors, real estate agents, lawyers, hair stylists, and many more. If you need to look established and bring in more customers online, we can help.",
   },

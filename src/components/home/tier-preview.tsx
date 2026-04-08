@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Globe, Star, Rocket, Check, ArrowRight, Clock, RotateCcw, Info } from "lucide-react";
+import { Globe, Star, Rocket, Check, ArrowRight, Clock, RotateCcw, Info, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { TIERS, PLAN_SLUGS } from "@/lib/constants";
@@ -219,8 +219,14 @@ export function TierPreview() {
                   </Link>
                 </Button>
 
+                {/* 7-day satisfaction guarantee */}
+                <div className="mt-2.5 flex items-center justify-center gap-1 text-[10px] text-emerald-400/85">
+                  <ShieldCheck className="h-3 w-3" />
+                  <span>7-day satisfaction guarantee</span>
+                </div>
+
                 {/* Microcopy */}
-                <p className="mt-2 text-center text-[10px] text-white/25">{tier.microcopy}</p>
+                <p className="mt-1.5 text-center text-[10px] text-white/25">{tier.microcopy}</p>
               </motion.div>
             );
           })}
