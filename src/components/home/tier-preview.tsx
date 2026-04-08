@@ -1,8 +1,9 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Globe, Star, Rocket, Check, ArrowRight, Clock, RotateCcw } from "lucide-react";
+import { Globe, Star, Rocket, Check, ArrowRight, Clock, RotateCcw, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { TIERS, PLAN_SLUGS } from "@/lib/constants";
@@ -14,6 +15,57 @@ const tierIcons: Record<string, typeof Globe> = {
   growth: Star,
   scale: Rocket,
 };
+
+/**
+ * Mini explainer pill — same pattern as the pricing page InfoPill but
+ * sized for the homepage tier preview cards. Tap-to-open on mobile,
+ * click-to-open on desktop, click-outside to close.
+ */
+function MiniInfoPill({
+  label,
+  Icon,
+  explanation,
+}: {
+  label: string;
+  Icon: typeof Clock;
+  explanation: string;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    function handleOutside(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleOutside);
+    return () => document.removeEventListener("mousedown", handleOutside);
+  }, [open]);
+
+  return (
+    <div className="relative" ref={ref}>
+      <button
+        type="button"
+        onClick={(e) => {
+          e.preventDefault();
+          setOpen((v) => !v);
+        }}
+        className="group flex items-center gap-1 text-[10px] sm:text-[11px] text-white/50 hover:text-white/80 transition-colors"
+      >
+        <Icon className="h-3 w-3 text-[#06b6d4]" />
+        <span>{label}</span>
+        <Info className="h-2.5 w-2.5 text-white/25 group-hover:text-white/50 transition-colors" />
+      </button>
+      {open && (
+        <div className="absolute left-0 top-full z-30 mt-1.5 w-56 rounded-lg border border-white/[0.10] bg-[#0e0e2a] p-2.5 text-[10px] leading-relaxed text-white/75 shadow-xl shadow-black/40">
+          {explanation}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export function TierPreview() {
   const tiers = MAIN_TIER_IDS.map((id) => TIERS[id]);
@@ -93,16 +145,18 @@ export function TierPreview() {
                   </div>
                 </div>
 
-                {/* Delivery + Edit rounds */}
-                <div className="mt-3 flex gap-3">
-                  <div className="flex items-center gap-1 text-[10px] sm:text-[11px] text-white/50">
-                    <Clock className="h-3 w-3 text-[#06b6d4]" />
-                    {tier.deliveryDays}
-                  </div>
-                  <div className="flex items-center gap-1 text-[10px] sm:text-[11px] text-white/50">
-                    <RotateCcw className="h-3 w-3 text-[#06b6d4]" />
-                    {tier.revisions} rounds of edits
-                  </div>
+                {/* Delivery + Edit rounds — tappable explainers */}
+                <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5">
+                  <MiniInfoPill
+                    Icon={Clock}
+                    label={tier.deliveryDays}
+                    explanation={`Once we have everything we need from onboarding, your build is delivered within ${tier.deliveryDays}. We move fast without cutting corners.`}
+                  />
+                  <MiniInfoPill
+                    Icon={RotateCcw}
+                    label={`${tier.revisions} rounds of edits`}
+                    explanation={`You get ${tier.revisions} rounds of edits during the build (before launch). Each round is your chance to review what we built and tell us what to change. After launch, you can request changes anytime through your portal.`}
+                  />
                 </div>
 
                 <p className="mt-3 text-[12px] sm:text-[13px] leading-relaxed text-white/40">

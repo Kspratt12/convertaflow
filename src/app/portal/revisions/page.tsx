@@ -51,6 +51,7 @@ function formatDate(iso: string): string {
 export default function ChangeRequestsPage() {
   const { tier } = useBusiness();
   const tierConfig = TIERS[tier];
+  const editRoundsAllowed = tierConfig.revisions;
 
   const [requests, setRequests] = useState<ChangeRequest[]>([]);
   const [loadingList, setLoadingList] = useState(true);
@@ -124,6 +125,35 @@ export default function ChangeRequestsPage() {
     [title, description, pageOrSection, priority, changeSize, refresh]
   );
 
+  // Only count "small" requests against the edit-rounds limit. Medium and
+  // large are quoted separately and don't burn an included round. The size
+  // is stored in the description field as a header line we wrote when
+  // submitting (see /api/revisions).
+  const smallUsed = requests.filter((r) =>
+    r.description.toLowerCase().startsWith("[small change]")
+  ).length;
+  const usageRatio =
+    editRoundsAllowed > 0 ? Math.min(smallUsed / editRoundsAllowed, 1) : 0;
+  const limitReached = smallUsed >= editRoundsAllowed && editRoundsAllowed > 0;
+  const closeToLimit = usageRatio >= 0.66 && !limitReached;
+
+  // Color the usage bar based on how close they are to the limit
+  const usageBarColor = limitReached
+    ? "bg-rose-500"
+    : closeToLimit
+    ? "bg-amber-500"
+    : "bg-[#7c3aed]";
+  const usageRingColor = limitReached
+    ? "border-rose-200 bg-rose-50"
+    : closeToLimit
+    ? "border-amber-200 bg-amber-50"
+    : "border-[#7c3aed]/20 bg-[#7c3aed]/[0.04]";
+  const usageTextColor = limitReached
+    ? "text-rose-700"
+    : closeToLimit
+    ? "text-amber-700"
+    : "text-[#7c3aed]";
+
   return (
     <div className="mx-auto max-w-4xl space-y-6">
       {/* Header */}
@@ -138,6 +168,44 @@ export default function ChangeRequestsPage() {
           Need to update your hours, swap a photo, add a holiday banner, or
           tweak some text? Submit a request below and we&apos;ll handle it{" "}
           <span className="font-semibold text-slate-700">{tierConfig.sla.toLowerCase()}</span>.
+        </p>
+      </div>
+
+      {/* Usage tracker — shows X of Y small edit rounds used */}
+      <div className={cn("rounded-2xl border p-4 sm:p-5", usageRingColor)}>
+        <div className="flex items-baseline justify-between gap-3">
+          <p className={cn("text-[12px] font-semibold uppercase tracking-wider", usageTextColor)}>
+            Edit Rounds Used
+          </p>
+          <p className={cn("text-[14px] font-bold", usageTextColor)}>
+            {smallUsed} of {editRoundsAllowed} used
+          </p>
+        </div>
+        <div className="mt-2.5 h-2 w-full overflow-hidden rounded-full bg-white">
+          <div
+            className={cn("h-full rounded-full transition-all", usageBarColor)}
+            style={{ width: `${Math.max(usageRatio * 100, smallUsed > 0 ? 6 : 0)}%` }}
+          />
+        </div>
+        <p className="mt-2.5 text-[12px] leading-relaxed text-slate-600">
+          {limitReached ? (
+            <>
+              You&apos;ve used all your included edit rounds. You can still
+              request more for <strong>$99 each</strong>, or upgrade your plan
+              for unlimited edits.
+            </>
+          ) : closeToLimit ? (
+            <>
+              You&apos;re close to your limit. Save your last round for
+              something important, or upgrade for unlimited edits.
+            </>
+          ) : (
+            <>
+              Small changes (text, images, hours, banners) count toward your
+              limit. Medium and Larger changes are quoted separately and
+              don&apos;t use a round.
+            </>
+          )}
         </p>
       </div>
 
@@ -283,11 +351,26 @@ export default function ChangeRequestsPage() {
             </div>
           )}
 
+          {/* Block submitting a small change when limit reached. Medium /
+              Larger changes are quoted separately so they're always allowed. */}
+          {limitReached && changeSize === "small" && (
+            <div className="rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-[13px] text-rose-700">
+              You&apos;ve hit your edit round limit. Pick <strong>Medium</strong> or
+              <strong> Larger</strong> above for a quoted request, or contact us about
+              upgrading your plan.
+            </div>
+          )}
+
           <div className="flex flex-wrap items-center gap-3 pt-2">
             <button
               type="submit"
-              disabled={submitting || !title.trim() || !description.trim()}
-              className="inline-flex h-11 items-center gap-2 rounded-xl bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] border-0 px-6 text-[13px] font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-60"
+              disabled={
+                submitting ||
+                !title.trim() ||
+                !description.trim() ||
+                (limitReached && changeSize === "small")
+              }
+              className="inline-flex h-11 items-center gap-2 rounded-xl bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] border-0 px-6 text-[13px] font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {submitting ? (
                 <>

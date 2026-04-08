@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import {
   Check,
@@ -9,12 +9,61 @@ import {
   Clock,
   RotateCcw,
   Globe,
+  Info,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { TIERS, PLAN_SLUGS, type TierConfig } from "@/lib/constants";
 import type { TierId } from "@/lib/types";
 import { cn } from "@/lib/utils";
+
+/**
+ * InfoPill — a small explainer popover that opens on click. Works on
+ * mobile (tap to open, tap outside to close) and desktop (click to open).
+ * Uses no external library so it stays light.
+ */
+function InfoPill({
+  label,
+  Icon,
+  explanation,
+}: {
+  label: string;
+  Icon: typeof Clock;
+  explanation: string;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    function handleOutside(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleOutside);
+    return () => document.removeEventListener("mousedown", handleOutside);
+  }, [open]);
+
+  return (
+    <div className="relative" ref={ref}>
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="group flex items-center gap-1.5 text-[11px] sm:text-[12px] text-white/60 hover:text-white/85 transition-colors"
+      >
+        <Icon className="h-3.5 w-3.5 text-[#06b6d4]" />
+        <span>{label}</span>
+        <Info className="h-3 w-3 text-white/30 group-hover:text-white/55 transition-colors" />
+      </button>
+      {open && (
+        <div className="absolute left-0 top-full z-20 mt-2 w-60 rounded-xl border border-white/[0.10] bg-[#0e0e2a] p-3 text-[11px] leading-relaxed text-white/75 shadow-xl shadow-black/40">
+          {explanation}
+        </div>
+      )}
+    </div>
+  );
+}
 
 /**
  * Pricing tier cards with a per-card "include a website?" toggle for
@@ -190,21 +239,22 @@ export function PricingTierCards({ tierIds }: TierCardsProps) {
               )}
             </div>
 
-            {/* Delivery + Edit rounds */}
-            <div className="mt-3 flex gap-3 rounded-xl bg-white/[0.03] border border-white/[0.04] px-3 py-2.5">
-              <div className="flex items-center gap-1.5 text-[11px] sm:text-[12px] text-white/60">
-                <Clock className="h-3.5 w-3.5 text-[#06b6d4]" />
-                {tier.deliveryDays}
-              </div>
+            {/* Delivery + Edit rounds — each pill is now a tappable
+                explainer popover so customers can find out what the numbers
+                mean without us writing a wall of text on the card. */}
+            <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 rounded-xl bg-white/[0.03] border border-white/[0.04] px-3 py-2.5">
+              <InfoPill
+                Icon={Clock}
+                label={tier.deliveryDays}
+                explanation={`Once you finish onboarding and we have everything we need, your ${tier.name.toLowerCase()} build is delivered within ${tier.deliveryDays}. We move fast without cutting corners.`}
+              />
               <div className="h-4 w-px bg-white/[0.08]" />
-              <div className="flex items-center gap-1.5 text-[11px] sm:text-[12px] text-white/60">
-                <RotateCcw className="h-3.5 w-3.5 text-[#06b6d4]" />
-                {tier.revisions} rounds of edits
-              </div>
+              <InfoPill
+                Icon={RotateCcw}
+                label={`${tier.revisions} rounds of edits`}
+                explanation={`You get ${tier.revisions} rounds of edits during the build (before launch). Each round is your chance to review what we built and tell us what to change. After launch, you can request changes anytime through your portal.`}
+              />
             </div>
-            <p className="mt-1.5 px-1 text-[10px] text-white/35">
-              Edit rounds are during the build. After launch you can request changes anytime in your portal.
-            </p>
 
             <p className="mt-3 text-[13px] leading-relaxed text-white/45">
               {tier.description}
