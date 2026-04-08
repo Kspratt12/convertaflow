@@ -37,6 +37,10 @@ const faqs = [
     a: "You only pay 50% upfront to get started. We build your project, deliver it for review, and you pay the remaining 50% once you've seen it and approved it. No paying in full for something that doesn't exist yet. Same way every legitimate done-for-you service works.",
   },
   {
+    q: "What if I change my mind after paying the deposit?",
+    a: "Your 50% deposit is fully refundable within 48 hours of payment, before any work begins. After that, once we've started building, the deposit becomes non-refundable so we can protect the time we've already invested. But our 7-day satisfaction guarantee still applies after delivery: if you're not happy with what we built, you get 100% of your deposit back. We just want you to win.",
+  },
+  {
     q: "What if I'm not happy with the build?",
     a: "Every plan comes with a 7-day satisfaction guarantee. After we deliver your build, you have 7 days to tell us if something isn't right. If we can't make it right, you get 100% of your deposit back. No questions, no awkward conversations. We just want you to love what we built.",
   },

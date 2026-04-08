@@ -222,10 +222,10 @@ export function TierPreview() {
                   </Link>
                 </Button>
 
-                {/* 7-day satisfaction guarantee */}
+                {/* Refund + satisfaction guarantee */}
                 <div className="mt-2.5 flex items-center justify-center gap-1 text-[10px] text-emerald-400/85">
                   <ShieldCheck className="h-3 w-3" />
-                  <span>7-day satisfaction guarantee</span>
+                  <span className="text-center">48-hr deposit refund · 7-day guarantee</span>
                 </div>
 
                 {/* Microcopy */}
