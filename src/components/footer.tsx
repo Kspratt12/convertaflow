@@ -96,12 +96,23 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-6 flex flex-col items-center justify-between gap-2 pt-4 border-t border-white/[0.06] sm:flex-row">
+        {/* Founder strip */}
+        <div className="mt-6 flex flex-col items-center gap-3 pt-4 border-t border-white/[0.06] sm:flex-row sm:justify-between">
+          <div className="flex items-center gap-3">
+            <Image
+              src="/kelvin.jpg"
+              alt="Kelvin Spratt"
+              width={36}
+              height={36}
+              className="h-9 w-9 rounded-full object-cover border border-white/10"
+            />
+            <div>
+              <p className="text-[12px] font-medium text-white/70">Built by Kelvin Spratt</p>
+              <p className="text-[11px] text-white/30">Apex, NC &middot; UNC Chapel Hill &middot; (980) 395-1212</p>
+            </div>
+          </div>
           <p className="text-[11px] text-white/25">
             &copy; {new Date().getFullYear()} {SITE.name}. All rights reserved.
-          </p>
-          <p className="text-[11px] text-white/25">
-            Built for growth.
           </p>
         </div>
       </div>

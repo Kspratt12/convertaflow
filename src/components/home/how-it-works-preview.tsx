@@ -9,28 +9,28 @@ const steps = [
   {
     step: "01",
     icon: Rocket,
-    title: "Launch",
-    subtitle: "Your luxury website, live in days",
+    title: "Pick Your Plan",
+    subtitle: "Takes 2 minutes",
     description:
-      "We design and build a custom website for your brand in 5–14 business days. Lead capture, booking, and SEO baked in from the start.",
+      "Choose the plan that fits your business. Answer a few simple questions about what you need. That's it for now.",
     color: "from-[#7c3aed] to-[#6c3aed]",
   },
   {
     step: "02",
     icon: BarChart3,
-    title: "Track",
-    subtitle: "Systems that work while you sleep",
+    title: "We Build Everything",
+    subtitle: "Delivered in 5 to 10 days",
     description:
-      "Automated review requests, instant lead notifications, and a dashboard showing exactly who's reaching out and what's converting.",
+      "We design your website, set up online booking, lead capture, and review automation. You review it, request changes, and approve when you're happy.",
     color: "from-[#3b82f6] to-[#2563eb]",
   },
   {
     step: "03",
     icon: TrendingUp,
-    title: "Scale",
-    subtitle: "Data-driven decisions, real growth",
+    title: "Customers Find You",
+    subtitle: "Your business grows on autopilot",
     description:
-      "Advanced analytics, social automation, and ManyChat workflows turn your online presence into a growth engine with clear ROI.",
+      "Your site goes live. Customers find you on Google, book online, and leave reviews automatically. You focus on the work you love.",
     color: "from-[#06b6d4] to-[#0891b2]",
   },
 ];
@@ -44,7 +44,7 @@ export function HowItWorksPreview() {
             Process
           </span>
           <h2 className="text-2xl font-bold tracking-tight sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
-            Launch. Track. Scale. <span className="bg-gradient-to-r from-[#8b5cf6] via-[#3b82f6] to-[#06b6d4] bg-clip-text text-transparent">Repeat.</span>
+            Three steps to{" "}<span className="bg-gradient-to-r from-[#8b5cf6] via-[#3b82f6] to-[#06b6d4] bg-clip-text text-transparent">more customers.</span>
           </h2>
         </div>
 

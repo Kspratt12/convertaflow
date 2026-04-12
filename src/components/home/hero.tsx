@@ -102,21 +102,21 @@ function DashboardMockup() {
                 <p className="text-[8px] sm:text-[11px] font-medium tracking-wide text-white/35 uppercase">New inquiries</p>
                 <div className="mt-0.5 flex items-baseline gap-1">
                   <span className="text-[15px] sm:text-2xl font-bold text-white/90"><DashCountUp end={47} /></span>
-                  <span className="text-[8px] sm:text-xs font-medium text-emerald-400">example</span>
+                  <span className="text-[8px] sm:text-xs font-medium text-emerald-400">preview</span>
                 </div>
               </div>
               <div className="rounded-lg sm:rounded-xl border border-white/[0.06] bg-white/[0.02] p-2 sm:p-4">
                 <p className="text-[8px] sm:text-[11px] font-medium tracking-wide text-white/35 uppercase">5-star reviews</p>
                 <div className="mt-0.5 flex items-baseline gap-1">
                   <span className="text-[15px] sm:text-2xl font-bold text-white/90"><DashCountUp end={23} /></span>
-                  <span className="text-[8px] sm:text-xs font-medium text-emerald-400">example</span>
+                  <span className="text-[8px] sm:text-xs font-medium text-emerald-400">preview</span>
                 </div>
               </div>
               <div className="rounded-lg sm:rounded-xl border border-white/[0.06] bg-white/[0.02] p-2 sm:p-4">
                 <p className="text-[8px] sm:text-[11px] font-medium tracking-wide text-white/35 uppercase">Revenue tracked</p>
                 <div className="mt-0.5 flex items-baseline gap-1">
                   <span className="text-[15px] sm:text-2xl font-bold text-white/90">$<DashCountUp end={18} />k</span>
-                  <span className="text-[8px] sm:text-xs font-medium text-emerald-400">example</span>
+                  <span className="text-[8px] sm:text-xs font-medium text-emerald-400">preview</span>
                 </div>
               </div>
             </div>

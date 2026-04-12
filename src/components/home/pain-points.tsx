@@ -61,7 +61,7 @@ export function PainPoints() {
             <span className="text-red-400/80">cost their owners money</span>
           </h2>
           <p className="mt-3 text-[14px] leading-relaxed text-white/40 sm:mt-4 sm:text-[16px]">
-            Whether you&apos;re a plumber, a yoga instructor, or a dentist, these gaps hurt every business the same way. We built Convertaflow to close all five.
+            Whether you run a cleaning business, a bakery, a detailing service, or any local business, these gaps hurt the same way. We built Convertaflow to close all five.
           </p>
         </div>
 

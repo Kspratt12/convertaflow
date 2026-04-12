@@ -4,7 +4,7 @@ export const SITE = {
   name: "Convertaflow",
   tagline: "A website that actually brings you customers",
   description:
-    "Convertaflow builds custom websites and gets local businesses more customers every month. For plumbers, dentists, yoga instructors, real estate agents, and any local business that depends on showing up first.",
+    "Convertaflow builds custom websites and booking systems for cleaning businesses, bakeries, detailers, and local service companies. More customers, more reviews, more bookings, delivered in days.",
   url: "https://convertaflow.co",
 } as const;
 

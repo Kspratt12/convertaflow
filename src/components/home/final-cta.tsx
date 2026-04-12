@@ -49,8 +49,8 @@ export function FinalCTA() {
         </motion.h2>
 
         <motion.p className="motion-fade mx-auto mt-3 max-w-md text-[14px] leading-relaxed text-white/50 sm:text-[15px]" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: 0.06 }}>
-          Luxury website. Automated systems. Delivered in days.
-          Let&apos;s build something your customers will remember.
+          Built for cleaning businesses, bakeries, detailers, and local service companies.
+          Your website, booking system, and growth tools, delivered in days.
         </motion.p>
 
         <motion.div className="motion-fade mt-6 flex flex-col items-stretch gap-2.5 sm:flex-row sm:items-center sm:justify-center" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: 0.12 }}>
