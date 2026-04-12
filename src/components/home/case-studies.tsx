@@ -6,27 +6,27 @@ import { TrendingUp, Phone, Star } from "lucide-react";
 const scenarios = [
   {
     icon: Phone,
-    industry: "Plumbing / HVAC",
-    headline: "Stop missing the calls you're already getting",
+    industry: "Cleaning Businesses",
+    headline: "Stop losing clients who DM and never hear back",
     body:
-      "The average service business misses 4 in 10 calls. With Missed-Call Text-Back, every missed call gets an instant reply on your behalf so the customer doesn't go to the next shop on the list.",
-    math: "Recover even 4 jobs/month and the system pays for itself 3x over.",
+      "You're busy cleaning houses. A potential customer messages you on Facebook asking for a quote. By the time you reply 3 hours later, they already booked someone else. With online booking, they schedule themselves instantly.",
+    math: "Even 2 extra bookings a month pays for the entire system.",
   },
   {
     icon: Star,
-    industry: "Salons / Dentists / Med Spas",
-    headline: "Turn happy customers into more 5-star reviews",
+    industry: "Bakeries / Custom Cakes",
+    headline: "Turn your Instagram followers into paying orders",
     body:
-      "Most owners forget to ask for reviews. Our Auto Review System texts every customer right after their appointment. You go from a handful of reviews to dozens without lifting a finger.",
-    math: "More reviews = more trust = more customers booking from Google.",
+      "Your cake photos get likes and comments, but ordering still means DMing you and going back and forth on flavors, sizes, and dates. A website with an order form turns followers into customers without the DM chains.",
+    math: "More orders with less back and forth. Your time goes back to baking.",
   },
   {
     icon: TrendingUp,
-    industry: "Contractors / Solar / Roofing",
-    headline: "Close more of the quotes you're already sending",
+    industry: "Detailing / Pressure Washing",
+    headline: "Show up on Google when people search near me",
     body:
-      "Most quotes go cold because nobody follows up. Our Quote-to-Close sequence sends a friendly nudge at day 1, 3, and 7 — the difference between a maybe and a yes.",
-    math: "Even a 20% lift on a $10k quote pays for the whole system in one job.",
+      "Right now someone in your area is searching 'pressure washing near me' or 'mobile detailing near me' and finding your competitors because they have a website and you don't. A site with your reviews and booking changes that overnight.",
+    math: "One extra job a week from Google search pays for the system 4x over.",
   },
 ];
 
