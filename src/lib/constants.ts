@@ -67,7 +67,7 @@ export const TIERS: Record<TierId, TierConfig> = {
     id: "starter",
     name: "Just the Website",
     shortName: "Foundation",
-    price: "$2,497",
+    price: "$997",
     priceNote: "one-time build",
     monthly: "$79/mo",
     monthlyNote: "OPTIONAL: hosting, support & 2 updates/mo",
@@ -75,7 +75,7 @@ export const TIERS: Record<TierId, TierConfig> = {
     description:
       "A custom website that makes your business look established and gives new customers a clear way to reach you. No templates, no DIY.",
     audience: "I just need a great-looking website",
-    deliveryDays: "5–7 business days",
+    deliveryDays: "5 business days",
     revisions: 3,
     features: [
       "Custom website design (no templates)",
@@ -102,7 +102,7 @@ export const TIERS: Record<TierId, TierConfig> = {
     id: "growth",
     name: "Website + Growth Tools",
     shortName: "Growth",
-    price: "$3,997",
+    price: "$1,997",
     priceNote: "one-time build",
     monthly: "$199/mo",
     monthlyNote: "growth tools running 24/7 + unlimited updates",
@@ -110,7 +110,7 @@ export const TIERS: Record<TierId, TierConfig> = {
     description:
       "Everything in Just the Website, plus three tools that catch and convert your customers automatically. Pick extras in your portal and we build them for you.",
     audience: "I want my website to bring in customers",
-    deliveryDays: "7–10 business days",
+    deliveryDays: "7 business days",
     revisions: 5,
     features: [
       "Everything in Just the Website",
@@ -137,7 +137,7 @@ export const TIERS: Record<TierId, TierConfig> = {
     id: "system_upgrade",
     name: "Website + Growth Tools",
     shortName: "Growth",
-    price: "$1,997",
+    price: "$997",
     priceNote: "one-time setup, no website rebuild",
     monthly: "$199/mo",
     monthlyNote: "growth tools running 24/7 on your existing site",
@@ -170,7 +170,7 @@ export const TIERS: Record<TierId, TierConfig> = {
     id: "scale_single",
     name: "Everything Done For You",
     shortName: "Scale",
-    price: "$3,497",
+    price: "$1,997",
     priceNote: "one-time setup, no website rebuild",
     monthly: "$399/mo",
     monthlyNote: "full system + custom build + dedicated support",
@@ -211,7 +211,7 @@ export const TIERS: Record<TierId, TierConfig> = {
     id: "scale",
     name: "Everything Done For You",
     shortName: "Scale",
-    price: "$5,997",
+    price: "$3,997",
     priceNote: "one-time build",
     monthly: "$399/mo",
     monthlyNote: "full system + custom build + dedicated support",
@@ -219,7 +219,7 @@ export const TIERS: Record<TierId, TierConfig> = {
     description:
       "Everything in Growth Tools, plus one custom system from our menu. Built to do the job of an employee you don't have time to hire. Missed-call recovery, review bot, follow-up sequences, and more. You pick, we build, it runs on its own.",
     audience: "I want everything, plus something custom built for my business",
-    deliveryDays: "10–14 business days",
+    deliveryDays: "10 business days",
     revisions: 10,
     features: [
       "Everything in Website + Growth Tools",
