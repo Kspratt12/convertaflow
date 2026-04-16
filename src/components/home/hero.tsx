@@ -208,7 +208,13 @@ export function HeroSection() {
               </Button>
             </div>
 
-            <div className="mt-5 flex items-center gap-3 sm:gap-5 text-[11px] sm:text-[13px] text-white/30 justify-center lg:justify-start flex-wrap">
+            <p className="mt-4 text-center lg:text-left">
+              <Link href="/quiz" className="text-[13px] sm:text-[14px] font-medium text-[#8b5cf6] hover:text-[#a78bfa] transition-colors hover:underline">
+                Not sure which plan? Take our 60-second quiz &rarr;
+              </Link>
+            </p>
+
+            <div className="mt-4 flex items-center gap-3 sm:gap-5 text-[11px] sm:text-[13px] text-white/30 justify-center lg:justify-start flex-wrap">
               {["No contracts", "Delivered in days", "Cancel anytime"].map((t) => (
                 <span key={t} className="flex items-center gap-1.5"><span className="h-1 w-1 rounded-full bg-emerald-400/60" />{t}</span>
               ))}

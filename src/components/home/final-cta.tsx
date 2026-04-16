@@ -58,9 +58,12 @@ export function FinalCTA() {
             <Link href="/pricing">View Plans & Pricing <ArrowRight className="ml-2 h-4 w-4" /></Link>
           </Button>
           <Button size="lg" variant="outline" className="h-11 sm:h-12 border-white/[0.08] bg-white/[0.03] px-6 sm:px-7 text-[14px] sm:text-[15px] text-white/80 hover:bg-white/[0.06] hover:text-white w-full sm:w-auto" asChild>
-            <Link href="/contact">Talk to Our Team</Link>
+            <Link href="/quiz">Find Your Plan</Link>
           </Button>
         </motion.div>
+        <motion.p className="motion-fade mt-4 text-[13px] text-white/40" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: 0.18 }}>
+          Or <Link href="/contact" className="font-medium text-[#8b5cf6] hover:underline">talk to our team</Link> if you have questions.
+        </motion.p>
       </div>
     </section>
   );
