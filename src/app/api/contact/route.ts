@@ -1,15 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { sendEmail, newLeadEmail, contactConfirmationEmail, isEmailConfigured } from "@/lib/email";
+import { verifyTurnstileToken } from "@/lib/turnstile";
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, email, businessType, interest, message } = body;
+    const { name, email, businessType, interest, message, turnstileToken } = body;
 
     if (!name || !email) {
       return NextResponse.json(
         { error: "Name and email are required" },
+        { status: 400 }
+      );
+    }
+
+    // Verify Turnstile spam protection
+    if (!turnstileToken || !(await verifyTurnstileToken(turnstileToken))) {
+      return NextResponse.json(
+        { error: "Spam check failed. Please try again." },
         { status: 400 }
       );
     }

@@ -21,7 +21,7 @@ const steps = [
     title: "We Build Everything",
     subtitle: "Delivered in 5 to 10 days",
     description:
-      "We design your website, set up online booking, lead capture, and review automation. You review it, request changes, and approve when you're happy.",
+      "We design your website, set up online booking, contact forms, and automatic review requests. You review it, request changes, and approve when you're happy.",
     color: "from-[#3b82f6] to-[#2563eb]",
   },
   {

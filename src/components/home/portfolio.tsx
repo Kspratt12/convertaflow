@@ -13,8 +13,8 @@ const projects = [
     image: "/listing-flare.png",
     category: "Real Estate SaaS",
     description:
-      "AI-powered property websites for listing agents with 24/7 chatbot, automated lead capture, and follow-up emails.",
-    stats: ["AI chatbot", "Lead capture", "Analytics"],
+      "AI-powered property websites for listing agents with 24/7 chatbot, instant inquiry alerts, and follow-up emails.",
+    stats: ["AI chatbot", "Instant alerts", "Analytics"],
     accent: "#3b82f6",
   },
   {

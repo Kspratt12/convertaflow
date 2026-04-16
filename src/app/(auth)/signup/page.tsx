@@ -1,9 +1,10 @@
 "use client";
 
-import { Suspense, useMemo, useState } from "react";
+import { Suspense, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import { ArrowRight, Loader2, Check, Clock, RotateCcw, ShieldCheck, Info, FileText, MessageSquare, Rocket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,6 +29,8 @@ function SignupInner() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const turnstileRef = useRef<TurnstileInstance>(null);
 
   const intakeFields = useMemo(
     () => [
@@ -54,6 +57,7 @@ function SignupInner() {
       password: String(fd.get("password") || ""),
       description: String(fd.get("description") || ""),
       goal: String(fd.get("goal") || ""),
+      turnstileToken,
     };
 
     if (!payload.email || !payload.password || !payload.businessName || !payload.contactName) {
@@ -84,6 +88,8 @@ function SignupInner() {
     } catch {
       setError("Something went wrong. Please try again.");
       setLoading(false);
+    } finally {
+      turnstileRef.current?.reset();
     }
   }
 
@@ -291,10 +297,20 @@ function SignupInner() {
               </div>
             )}
 
+            {process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && (
+              <Turnstile
+                ref={turnstileRef}
+                siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+                onSuccess={setTurnstileToken}
+                onExpire={() => setTurnstileToken(null)}
+                options={{ theme: "dark", size: "normal" }}
+              />
+            )}
+
             <Button
               type="submit"
               size="lg"
-              disabled={loading}
+              disabled={loading || (!!process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && !turnstileToken)}
               className="h-11 w-full gap-1.5 border-0 bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] text-white hover:opacity-90"
             >
               {loading ? (

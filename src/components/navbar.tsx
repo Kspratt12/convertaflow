@@ -144,7 +144,7 @@ export function Navbar() {
                 className="gap-1.5 px-4 bg-white/10 border border-white/15 text-white hover:bg-white/20 backdrop-blur-sm"
                 asChild
               >
-                <Link href="/pricing">
+                <Link href="/quiz">
                   Get Started
                   <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
@@ -208,7 +208,7 @@ export function Navbar() {
                     Log in
                   </Link>
                   <Link
-                    href="/pricing"
+                    href="/quiz"
                     onClick={() => setOpen(false)}
                     className="rounded-lg bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] px-3 py-2.5 text-center text-sm font-medium text-white"
                   >

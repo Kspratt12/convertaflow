@@ -75,8 +75,8 @@ export function FeatureHighlights() {
             </span>
           </h2>
           <p className="mt-4 text-[15px] leading-relaxed text-white/50 sm:text-[16px]">
-            Each feature is built around one goal. Helping you look better,
-            convert more, and grow faster.
+            Each feature is built around one goal: helping you look better,
+            get more customers, and grow faster.
           </p>
         </div>
 

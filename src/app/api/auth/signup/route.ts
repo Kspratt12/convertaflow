@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { sendEmail, adminNewSignupEmail, isEmailConfigured } from "@/lib/email";
+import { verifyTurnstileToken } from "@/lib/turnstile";
 import { TIERS } from "@/lib/constants";
 import type { TierId } from "@/lib/types";
 
@@ -18,11 +19,20 @@ export async function POST(request: NextRequest) {
       description,
       goal,
       plan,
+      turnstileToken,
     } = body;
 
     if (!email || !password || !businessName || !contactName) {
       return NextResponse.json(
         { error: "Email, password, business name, and contact name are required" },
+        { status: 400 }
+      );
+    }
+
+    // Verify Turnstile spam protection
+    if (!turnstileToken || !(await verifyTurnstileToken(turnstileToken))) {
+      return NextResponse.json(
+        { error: "Spam check failed. Please try again." },
         { status: 400 }
       );
     }

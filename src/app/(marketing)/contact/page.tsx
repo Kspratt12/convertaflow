@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import { ArrowRight, CheckCircle2, Loader2, Mail, Phone, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,6 +29,8 @@ const interests = [
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const turnstileRef = useRef<TurnstileInstance>(null);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -37,11 +40,15 @@ export default function ContactPage() {
       name: formData.get("name"), email: formData.get("email"),
       businessType: formData.get("businessType"), interest: formData.get("interest"),
       message: formData.get("message"),
+      turnstileToken,
     };
     try {
       await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
       setSubmitted(true);
-    } catch { setSubmitted(true); } finally { setLoading(false); }
+    } catch { setSubmitted(true); } finally {
+      setLoading(false);
+      turnstileRef.current?.reset();
+    }
   }
 
   if (submitted) {
@@ -146,7 +153,17 @@ export default function ContactPage() {
                 <Textarea id="message" name="message" placeholder="What are you looking to achieve?" rows={4} className="bg-white/[0.04] border-white/[0.08] text-white placeholder:text-white/25" />
               </div>
 
-              <Button type="submit" size="lg" className="w-full sm:w-auto gap-1.5 bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] text-white border-0 hover:opacity-90 h-11 sm:h-12 px-8" disabled={loading}>
+              {process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && (
+                <Turnstile
+                  ref={turnstileRef}
+                  siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+                  onSuccess={setTurnstileToken}
+                  onExpire={() => setTurnstileToken(null)}
+                  options={{ theme: "dark", size: "normal" }}
+                />
+              )}
+
+              <Button type="submit" size="lg" className="w-full sm:w-auto gap-1.5 bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] text-white border-0 hover:opacity-90 h-11 sm:h-12 px-8" disabled={loading || (!!process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && !turnstileToken)}>
                 {loading ? (
                   <><Loader2 className="h-4 w-4 animate-spin" />Sending...</>
                 ) : (

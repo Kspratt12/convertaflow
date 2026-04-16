@@ -25,8 +25,8 @@ const pillars = [
   },
   {
     icon: Zap,
-    title: "Built to convert",
-    body: "Clear contact forms, strong calls to action, and a hero that grabs attention. We don't build websites that just look pretty and sit there. We build the ones that actually bring in customers.",
+    title: "Built to bring you customers",
+    body: "Clear contact forms, big call buttons, and a homepage that grabs attention. We don't build websites that just look pretty and sit there. We build the ones that actually get your phone ringing.",
   },
   {
     icon: ShieldCheck,
@@ -36,10 +36,10 @@ const pillars = [
 ];
 
 const promises = [
-  { icon: Users, label: "Inquiry forms that work", value: "Built in" },
-  { icon: Mail, label: "Branded email system", value: "Included" },
-  { icon: Star, label: "Review request tools", value: "Growth+" },
-  { icon: TrendingUp, label: "Lead tracking dashboard", value: "Growth+" },
+  { icon: Users, label: "Contact forms that get you calls", value: "Built in" },
+  { icon: Mail, label: "Professional email for your business", value: "Included" },
+  { icon: Star, label: "Automatic review requests", value: "Growth+" },
+  { icon: TrendingUp, label: "See where your customers come from", value: "Growth+" },
 ];
 
 export function ProofSection() {

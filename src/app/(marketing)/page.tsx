@@ -21,11 +21,11 @@ export default function HomePage() {
       <HeroSection />
       <TrustBar />
       <PainPoints />
+      <CaseStudies />
       <IntegrationMarquee />
       <TierPreview />
       <FeatureHighlights />
       <ProofSection />
-      <CaseStudies />
       <Portfolio />
       <HowItWorksPreview />
       <FinalCTA />
